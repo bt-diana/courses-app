@@ -12,7 +12,7 @@ const Courses = () => {
       <>
         <div>Courses</div>
         <SearchBar />
-        <CoursesList />
+        <CoursesList courses={mockCurrentCoursesList} />
       </>
     );
   } else {
