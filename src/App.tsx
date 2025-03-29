@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import './App.css';
-import Courses from './components/Courses/Courses';
+import CurrentCourses from './components/CurrentCourses/CurrentCourses';
 import Header from './components/Header/Header';
 import CourseInfo from './components/CourseInfo/CourseInfo';
 import { Layout } from 'antd';
@@ -18,7 +18,7 @@ const App = () => {
         <Header />
         <Layout.Content>
           <div className="content">
-            {page === PAGES.courses && <Courses />}
+            {page === PAGES.courses && <CurrentCourses />}
             {page === PAGES.courseInfo && <CourseInfo />}
           </div>
         </Layout.Content>
