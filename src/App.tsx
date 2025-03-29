@@ -15,9 +15,7 @@ const App = () => {
   return (
     <>
       <Layout>
-        <Layout.Header>
-          <Header />
-        </Layout.Header>
+        <Header />
         <Layout.Content>
           {page === PAGES.courses && <Courses />}
           {page === PAGES.courseInfo && <CourseInfo />}
