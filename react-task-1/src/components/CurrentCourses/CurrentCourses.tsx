@@ -1,10 +1,10 @@
 import { mockCurrentCoursesList } from '../../assets/data/mockCoursesList';
-import CoursesList from '../CoursesList/CoursesList';
+import Courses from '../Courses/Courses';
 import { Course } from '../../types';
 
-const CurrentCoursesList = () => {
+const CurrentCourses = () => {
   const сurrentCoursesList: Course[] = mockCurrentCoursesList;
-  return <CoursesList courses={сurrentCoursesList}/>;
+  return <Courses courses={сurrentCoursesList} />;
 };
 
-export default CurrentCoursesList;
+export default CurrentCourses;

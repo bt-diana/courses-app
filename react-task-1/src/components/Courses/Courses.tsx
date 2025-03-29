@@ -1,18 +1,19 @@
-import CoursesList from '../CoursesList/CoursesList';
-import SearchBar from '../SearchBar/SearchBar';
 import './Courses.css';
-import {
-  mockCurrentCoursesList,
-  mockedAuthorsList,
-} from '../../assets/data/mockCoursesList';
+import SearchBar from '../SearchBar/SearchBar';
+import CoursesList from '../CoursesList/CoursesList';
+import { Course } from '../../types';
 
-const Courses = () => {
-  if (mockCurrentCoursesList?.length) {
+interface CoursesProps {
+  courses: Course[];
+}
+
+const Courses = ({ courses }: CoursesProps) => {
+  if (courses?.length) {
     return (
       <>
         <div>Courses</div>
         <SearchBar />
-        <CoursesList courses={mockCurrentCoursesList} />
+        <CoursesList courses={courses} />
       </>
     );
   } else {
