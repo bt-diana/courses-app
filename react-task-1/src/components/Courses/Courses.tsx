@@ -1,7 +1,9 @@
 import './Courses.css';
 import SearchBar from '../SearchBar/SearchBar';
 import CoursesList from '../CoursesList/CoursesList';
+import AddNewCourseButton from '../AddNewCourseButton/AddNewCourseButton';
 import { Course } from '../../types';
+import { Button } from 'antd';
 
 interface CoursesProps {
   courses: Course[];
@@ -10,17 +12,21 @@ interface CoursesProps {
 const Courses = ({ courses }: CoursesProps) => {
   if (courses?.length) {
     return (
-      <>
-        <div>Courses</div>
+      <div>
         <SearchBar />
+        <AddNewCourseButton />
         <CoursesList courses={courses} />
-      </>
+      </div>
     );
   } else {
     return (
-      <>
-        <div>Courses(Empty)</div>
-      </>
+      <div>
+        <div>Your list is empty</div>
+        <div>
+          Please use &apos;Add New Course&apos; button to add your first course
+        </div>
+        <AddNewCourseButton />
+      </div>
     );
   }
 };
