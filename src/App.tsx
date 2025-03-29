@@ -17,8 +17,10 @@ const App = () => {
       <Layout>
         <Header />
         <Layout.Content>
-          {page === PAGES.courses && <Courses />}
-          {page === PAGES.courseInfo && <CourseInfo />}
+          <div className="content">
+            {page === PAGES.courses && <Courses />}
+            {page === PAGES.courseInfo && <CourseInfo />}
+          </div>
         </Layout.Content>
       </Layout>
     </>
