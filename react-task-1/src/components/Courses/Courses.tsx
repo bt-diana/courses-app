@@ -12,20 +12,24 @@ interface CoursesProps {
 const Courses = ({ courses }: CoursesProps) => {
   if (courses?.length) {
     return (
-      <div>
-        <SearchBar />
-        <AddNewCourseButton />
+      <div className="courses">
+        <div className="courses-options">
+          <SearchBar />
+          <AddNewCourseButton />
+        </div>
         <CoursesList courses={courses} />
       </div>
     );
   } else {
     return (
-      <div>
-        <div>Your list is empty</div>
-        <div>
-          Please use &apos;Add New Course&apos; button to add your first course
+      <div className="courses">
+        <div className="courses-empty">
+          <div>Your list is empty</div>
+          <div>
+            Please use &apos;Add New Course&apos; button to add your first course
+          </div>
+          <AddNewCourseButton />
         </div>
-        <AddNewCourseButton />
       </div>
     );
   }
