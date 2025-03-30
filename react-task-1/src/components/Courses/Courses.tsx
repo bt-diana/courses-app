@@ -26,7 +26,8 @@ const Courses = ({ courses }: CoursesProps) => {
         <div className="courses-empty">
           <div>Your list is empty</div>
           <div>
-            Please use &apos;Add New Course&apos; button to add your first course
+            Please use &apos;Add New Course&apos; button to add your first
+            course
           </div>
           <AddNewCourseButton />
         </div>
