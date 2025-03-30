@@ -6,9 +6,10 @@ import { Course } from '../../types';
 interface CoursesProps {
   courses: Course[];
   deleteCourse: (id: string) => void;
+  restoreCourses: () => void;
 }
 
-const Courses = ({ courses, deleteCourse }: CoursesProps) => {
+const Courses = ({ courses, deleteCourse, restoreCourses }: CoursesProps) => {
   if (courses?.length) {
     return (
       <div className="courses">
@@ -28,7 +29,7 @@ const Courses = ({ courses, deleteCourse }: CoursesProps) => {
             Please use &apos;Add New Course&apos; button to add your first
             course
           </div>
-          <AddNewCourseButton />
+          <AddNewCourseButton restoreCourses={restoreCourses} />
         </div>
       </div>
     );

@@ -1,8 +1,20 @@
 import './AddNewCourseButton.css';
 import { Button } from 'antd';
 
-const AddNewCourseButton = () => {
-  return <Button>Add New Course</Button>;
+interface AddNewCourseButtonProps {
+  restoreCourses?: () => void;
+}
+
+const AddNewCourseButton = ({ restoreCourses }: AddNewCourseButtonProps) => {
+  return (
+    <Button
+      onClick={() => {
+        restoreCourses?.();
+      }}
+    >
+      Add New Course
+    </Button>
+  );
 };
 
 export default AddNewCourseButton;
