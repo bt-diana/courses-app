@@ -10,7 +10,7 @@ enum PAGES {
 }
 
 const App = () => {
-  const [page, setPage] = useState(PAGES.courses);
+  const [page /*, setPage*/] = useState(PAGES.courses);
 
   return (
     <>

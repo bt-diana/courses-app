@@ -3,8 +3,6 @@ import SearchBar from '../SearchBar/SearchBar';
 import CoursesList from '../CoursesList/CoursesList';
 import AddNewCourseButton from '../AddNewCourseButton/AddNewCourseButton';
 import { Course } from '../../types';
-import { Button } from 'antd';
-
 interface CoursesProps {
   courses: Course[];
 }
