@@ -1,1 +1,1 @@
-npm run lint && npm run format
+cd react-task-1 && npm run lint:fix && npm run format:fix
