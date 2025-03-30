@@ -11,7 +11,7 @@
     "lint:fix": "eslint --fix .",
     "format": "prettier .",
     "format:fix": "prettier --write .",
-    "prepare": "husky && chmod ug+x .husky/*",
+    "prepare": "cd .. && husky ./react-task-1/.husky",
     "test": "jest"
   },
   "dependencies": {
@@ -36,6 +36,7 @@
     "eslint-plugin-react-hooks": "^5.1.0",
     "eslint-plugin-react-refresh": "^0.4.19",
     "globals": "^15.15.0",
+    "husky": "^9.1.7",
     "jest": "^29.7.0",
     "ts-jest": "^29.3.0",
     "typescript": "~5.7.2",
