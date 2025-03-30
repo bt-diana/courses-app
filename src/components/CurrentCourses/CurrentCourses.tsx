@@ -50,6 +50,13 @@ const CurrentCourses = () => {
         );
         setCurrentCoursesList(getMockCurrentCourses());
       }}
+      restoreCourses={() => {
+        localStorage.setItem(
+          'mockCurrentCoursesListIds',
+          JSON.stringify(mockCurrentCoursesList.map(({ id }) => id))
+        );
+        setCurrentCoursesList(getMockCurrentCourses());
+      }}
     />
   );
 };
