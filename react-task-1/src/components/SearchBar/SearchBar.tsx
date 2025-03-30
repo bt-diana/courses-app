@@ -1,10 +1,16 @@
 import './SearchBar.css';
+import { Input } from 'antd';
+import type { GetProps } from 'antd';
+
+type SearchProps = GetProps<typeof Input.Search>;
+
+const { Search } = Input;
+
+const onSearch: SearchProps['onSearch'] = (value) => console.log(value);
 
 const SearchBar = () => {
   return (
-    <>
-      <div>SearchBar</div>
-    </>
+    <Search placeholder="input search text" onSearch={onSearch} enterButton />
   );
 };
 
