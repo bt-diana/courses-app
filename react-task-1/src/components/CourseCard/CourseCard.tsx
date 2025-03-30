@@ -1,12 +1,43 @@
 import './CourseCard.css';
 import { Course } from '../../types';
 import { Card } from 'antd';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+
 interface CourseCardProps {
   courseData: Course;
 }
 
 const CourseCard = ({ courseData }: CourseCardProps) => {
-  return <Card title={courseData.title}>{courseData.description}</Card>;
+  return (
+    <Card
+      title={courseData.title}
+      actions={[
+        'Show course',
+        <EditOutlined key="edit" />,
+        <DeleteOutlined key="delete" />,
+      ]}
+    >
+      <div className="course-card-content">
+        <div className="course-card-description">{courseData.description}</div>
+        <div className="course-card-params">
+          <div key="authors" className="course-card-param">
+            <span className="param-title">Authors:&#32;</span>
+            <span className="param-value">{courseData.authors.join(', ')}</span>
+          </div>
+          <div key="duration" className="course-card-param">
+            <span className="param-title">Duration:&#32;</span>
+            <span className="param-value">{courseData.duration}</span>
+          </div>
+          <div key="creationDate" className="course-card-param">
+            <span className="param-title">Created:&#32;</span>
+            <span className="param-value">
+              {courseData.creationDate.split('/').join('.')}
+            </span>
+          </div>
+        </div>
+      </div>
+    </Card>
+  );
 };
 
 export default CourseCard;
