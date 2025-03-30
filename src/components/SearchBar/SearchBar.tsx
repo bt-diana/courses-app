@@ -9,9 +9,7 @@ const { Search } = Input;
 const onSearch: SearchProps['onSearch'] = (value) => console.log(value);
 
 const SearchBar = () => {
-  return (
-    <Search placeholder="input search text" onSearch={onSearch} enterButton />
-  );
+  return <Search placeholder="Input text" onSearch={onSearch} enterButton />;
 };
 
 export default SearchBar;
