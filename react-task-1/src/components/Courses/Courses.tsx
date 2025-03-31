@@ -3,6 +3,7 @@ import SearchBar from '../SearchBar/SearchBar';
 import CoursesList from '../CoursesList/CoursesList';
 import AddNewCourseButton from '../AddNewCourseButton/AddNewCourseButton';
 import { Course } from '../../types';
+import { useState } from 'react';
 interface CoursesProps {
   courses: Course[];
   openCourse: (course: Course) => void;
@@ -16,15 +17,25 @@ const Courses = ({
   deleteCourse,
   restoreCourses,
 }: CoursesProps) => {
+  const [searchValue, setSearchValue] = useState<string>('');
+
   if (courses?.length) {
     return (
       <div className="courses">
         <div className="courses-options">
-          <SearchBar />
+          <SearchBar
+            searchCourse={(value) => {
+              setSearchValue(value.toLowerCase());
+            }}
+          />
           <AddNewCourseButton />
         </div>
         <CoursesList
-          courses={courses}
+          courses={courses.filter(
+            ({ title, description }) =>
+              title.toLowerCase().includes(searchValue) ||
+              description.toLowerCase().includes(searchValue)
+          )}
           openCourse={openCourse}
           deleteCourse={deleteCourse}
         />
