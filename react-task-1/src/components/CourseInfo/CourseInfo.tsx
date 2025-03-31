@@ -1,15 +1,20 @@
 import { Card, Typography } from 'antd';
 import { Course } from '../../types';
+import { ArrowLeftOutlined } from '@ant-design/icons';
 import './CourseInfo.css';
 
 interface CourseInfoProps {
   courseData: Course;
+  closeCourse: () => void;
 }
 
-const CourseInfo = ({ courseData }: CourseInfoProps) => {
+const CourseInfo = ({ courseData, closeCourse }: CourseInfoProps) => {
   return (
     <>
-      <Typography.Title>{courseData.title}</Typography.Title>
+      <div className="title">
+        <ArrowLeftOutlined className="back" onClick={closeCourse} />
+        <Typography.Title level={2}>{courseData.title}</Typography.Title>
+      </div>
       <Card className="card-info">
         <div className="card-info-content">
           <div className="card-info-description">
