@@ -1,0 +1,16 @@
+.card-info-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+
+.description-title, .info-param-title {
+    font-weight: bold;
+}
+
+.card-info-params {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    gap: 10px;
+}

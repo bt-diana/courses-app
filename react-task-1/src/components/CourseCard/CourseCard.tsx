@@ -5,15 +5,27 @@ import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 
 interface CourseCardProps {
   courseData: Course;
+  openCourse: (course: Course) => void;
   deleteCourse: (id: string) => void;
 }
 
-const CourseCard = ({ courseData, deleteCourse }: CourseCardProps) => {
+const CourseCard = ({
+  courseData,
+  openCourse,
+  deleteCourse,
+}: CourseCardProps) => {
   return (
     <Card
       title={courseData.title}
       actions={[
-        'Show course',
+        <div
+          key="show"
+          onClick={() => {
+            openCourse(courseData);
+          }}
+        >
+          Show course
+        </div>,
         <EditOutlined key="edit" />,
         <DeleteOutlined
           key="delete"
