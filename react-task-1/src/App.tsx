@@ -13,17 +13,15 @@ const App = () => {
   const [page /*, setPage*/] = useState(PAGES.courses);
 
   return (
-    <>
-      <Layout>
-        <Header />
-        <Layout.Content>
-          <div className="content">
-            {page === PAGES.courses && <CurrentCourses />}
-            {page === PAGES.courseInfo && <CourseInfo />}
-          </div>
-        </Layout.Content>
-      </Layout>
-    </>
+    <Layout className="layout">
+      <Header />
+      <Layout.Content className="main">
+        <div className="content">
+          {page === PAGES.courses && <CurrentCourses />}
+          {page === PAGES.courseInfo && <CourseInfo />}
+        </div>
+      </Layout.Content>
+    </Layout>
   );
 };
 
