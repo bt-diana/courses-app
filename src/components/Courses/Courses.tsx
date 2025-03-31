@@ -5,11 +5,17 @@ import AddNewCourseButton from '../AddNewCourseButton/AddNewCourseButton';
 import { Course } from '../../types';
 interface CoursesProps {
   courses: Course[];
+  openCourse: (course: Course) => void;
   deleteCourse: (id: string) => void;
   restoreCourses: () => void;
 }
 
-const Courses = ({ courses, deleteCourse, restoreCourses }: CoursesProps) => {
+const Courses = ({
+  courses,
+  openCourse,
+  deleteCourse,
+  restoreCourses,
+}: CoursesProps) => {
   if (courses?.length) {
     return (
       <div className="courses">
@@ -17,7 +23,11 @@ const Courses = ({ courses, deleteCourse, restoreCourses }: CoursesProps) => {
           <SearchBar />
           <AddNewCourseButton />
         </div>
-        <CoursesList courses={courses} deleteCourse={deleteCourse} />
+        <CoursesList
+          courses={courses}
+          openCourse={openCourse}
+          deleteCourse={deleteCourse}
+        />
       </div>
     );
   } else {

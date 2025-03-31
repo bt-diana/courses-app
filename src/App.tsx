@@ -4,21 +4,24 @@ import CurrentCourses from './components/CurrentCourses/CurrentCourses';
 import Header from './components/Header/Header';
 import CourseInfo from './components/CourseInfo/CourseInfo';
 import { Layout } from 'antd';
-enum PAGES {
-  courses,
-  courseInfo,
-}
+import { Course } from './types';
 
 const App = () => {
-  const [page /*, setPage*/] = useState(PAGES.courses);
+  const [course, setCourse] = useState<Course | null>(null);
 
   return (
     <Layout className="layout">
       <Header />
       <Layout.Content className="main">
         <div className="content">
-          {page === PAGES.courses && <CurrentCourses />}
-          {page === PAGES.courseInfo && <CourseInfo />}
+          {course === null && (
+            <CurrentCourses
+              openCourse={(course: Course) => {
+                setCourse(course);
+              }}
+            />
+          )}
+          {course !== null && <CourseInfo courseData={course} />}
         </div>
       </Layout.Content>
     </Layout>

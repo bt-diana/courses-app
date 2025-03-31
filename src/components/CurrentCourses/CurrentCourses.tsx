@@ -39,7 +39,11 @@ const setMockedCurrentCourses = (mockedNewCourseList: Course[]) => {
   );
 };
 
-const CurrentCourses = () => {
+interface CurrentCoursesProps {
+  openCourse: (course: Course) => void;
+}
+
+const CurrentCourses = ({ openCourse }: CurrentCoursesProps) => {
   const [сurrentCoursesList, setCurrentCoursesList]: [
     Course[],
     React.Dispatch<React.SetStateAction<Course[]>>,
@@ -48,6 +52,7 @@ const CurrentCourses = () => {
   return (
     <Courses
       courses={сurrentCoursesList}
+      openCourse={openCourse}
       deleteCourse={(idToDelete: string) => {
         const newCourseList = сurrentCoursesList.filter(
           ({ id }) => id !== idToDelete
