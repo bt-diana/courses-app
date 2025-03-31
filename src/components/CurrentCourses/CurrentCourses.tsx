@@ -34,7 +34,7 @@ const CurrentCourses = () => {
   const [сurrentCoursesList, setCurrentCoursesList]: [
     Course[],
     React.Dispatch<React.SetStateAction<Course[]>>,
-  ] = useState(getMockCurrentCourses());
+  ] = useState(getMockCurrentCourses);
 
   return (
     <Courses
@@ -48,14 +48,14 @@ const CurrentCourses = () => {
               .map(({ id }) => id)
           )
         );
-        setCurrentCoursesList(getMockCurrentCourses());
+        setCurrentCoursesList(getMockCurrentCourses);
       }}
       restoreCourses={() => {
         localStorage.setItem(
           'mockCurrentCoursesListIds',
           JSON.stringify(mockCurrentCoursesList.map(({ id }) => id))
         );
-        setCurrentCoursesList(getMockCurrentCourses());
+        setCurrentCoursesList(getMockCurrentCourses);
       }}
     />
   );
