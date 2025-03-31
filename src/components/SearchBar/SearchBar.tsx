@@ -6,9 +6,14 @@ type SearchProps = GetProps<typeof Input.Search>;
 
 const { Search } = Input;
 
-const onSearch: SearchProps['onSearch'] = (value) => console.log(value);
+interface SearchBarProps {
+  searchCourse: (value: string) => void;
+}
 
-const SearchBar = () => {
+const SearchBar = ({ searchCourse }: SearchBarProps) => {
+  const onSearch: SearchProps['onSearch'] = (value: string) =>
+    searchCourse(value);
+
   return <Search placeholder="Input text" onSearch={onSearch} enterButton />;
 };
 
