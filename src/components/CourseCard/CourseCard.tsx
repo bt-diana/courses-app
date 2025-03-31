@@ -44,7 +44,10 @@ const CourseCard = ({
           </div>
           <div key="duration" className="course-card-param">
             <span className="param-title">Duration:&#32;</span>
-            <span className="param-value">{courseData.duration}</span>
+            <span className="param-value">
+              {Math.floor(courseData.duration / 60)}:
+              {Math.floor(courseData.duration % 60)}&#32;hours
+            </span>
           </div>
           <div key="creationDate" className="course-card-param">
             <span className="param-title">Created:&#32;</span>
