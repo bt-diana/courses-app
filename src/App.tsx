@@ -21,7 +21,14 @@ const App = () => {
               }}
             />
           )}
-          {course !== null && <CourseInfo courseData={course} />}
+          {course !== null && (
+            <CourseInfo
+              courseData={course}
+              closeCourse={() => {
+                setCourse(null);
+              }}
+            />
+          )}
         </div>
       </Layout.Content>
     </Layout>
