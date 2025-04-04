@@ -7,16 +7,10 @@ import { useState } from 'react';
 interface CoursesProps {
   courses: Course[];
   openCourse: (course: Course) => void;
-  deleteCourse: (id: string) => void;
   restoreCourses: () => void;
 }
 
-const Courses = ({
-  courses,
-  openCourse,
-  deleteCourse,
-  restoreCourses,
-}: CoursesProps) => {
+const Courses = ({ courses, openCourse, restoreCourses }: CoursesProps) => {
   const [searchValue, setSearchValue] = useState<string>('');
 
   if (courses?.length) {
@@ -37,7 +31,6 @@ const Courses = ({
               description.toLowerCase().includes(searchValue)
           )}
           openCourse={openCourse}
-          deleteCourse={deleteCourse}
         />
       </div>
     );

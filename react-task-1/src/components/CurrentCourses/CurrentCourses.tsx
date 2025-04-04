@@ -5,6 +5,7 @@ import {
 import Courses from '../Courses/Courses';
 import { Course } from '../../types';
 import { useState } from 'react';
+import DeleteCourse from '../../contexts/deleteCourse';
 
 const mockedCurrentCoursesList = mockedCoursesList.map((course: Course) => ({
   ...course,
@@ -50,21 +51,24 @@ const CurrentCourses = ({ openCourse }: CurrentCoursesProps) => {
   ] = useState(getMockedCurrentCourses);
 
   return (
-    <Courses
-      courses={сurrentCoursesList}
-      openCourse={openCourse}
-      deleteCourse={(idToDelete: string) => {
+    <DeleteCourse
+      value={(idToDelete: string) => {
         const newCourseList = сurrentCoursesList.filter(
           ({ id }) => id !== idToDelete
         );
         setMockedCurrentCourses(newCourseList);
         setCurrentCoursesList(newCourseList);
       }}
-      restoreCourses={() => {
-        setMockedCurrentCourses(mockedCurrentCoursesList);
-        setCurrentCoursesList(mockedCurrentCoursesList);
-      }}
-    />
+    >
+      <Courses
+        courses={сurrentCoursesList}
+        openCourse={openCourse}
+        restoreCourses={() => {
+          setMockedCurrentCourses(mockedCurrentCoursesList);
+          setCurrentCoursesList(mockedCurrentCoursesList);
+        }}
+      />
+    </DeleteCourse>
   );
 };
 
