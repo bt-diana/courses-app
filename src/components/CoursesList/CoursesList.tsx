@@ -5,14 +5,9 @@ import { Course } from '../../types';
 interface CoursesListProps {
   courses: Course[];
   openCourse: (course: Course) => void;
-  deleteCourse: (id: string) => void;
 }
 
-const CoursesList = ({
-  courses,
-  openCourse,
-  deleteCourse,
-}: CoursesListProps) => {
+const CoursesList = ({ courses, openCourse }: CoursesListProps) => {
   return (
     <div className="courses-list">
       {courses.map((course) => (
@@ -20,7 +15,6 @@ const CoursesList = ({
           key={course.id}
           courseData={course}
           openCourse={openCourse}
-          deleteCourse={deleteCourse}
         />
       ))}
     </div>

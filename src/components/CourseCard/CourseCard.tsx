@@ -2,18 +2,17 @@ import './CourseCard.css';
 import { Course } from '../../types';
 import { Card } from 'antd';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
+import DeleteCourse from '../../contexts/deleteCourse';
+import { useContext } from 'react';
 
 interface CourseCardProps {
   courseData: Course;
   openCourse: (course: Course) => void;
-  deleteCourse: (id: string) => void;
 }
 
-const CourseCard = ({
-  courseData,
-  openCourse,
-  deleteCourse,
-}: CourseCardProps) => {
+const CourseCard = ({ courseData, openCourse }: CourseCardProps) => {
+  const deleteCourse = useContext(DeleteCourse);
+
   return (
     <Card
       title={courseData.title}
