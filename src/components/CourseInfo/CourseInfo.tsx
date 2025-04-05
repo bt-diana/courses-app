@@ -30,21 +30,16 @@ const CourseInfo = ({ courseData, closeCourse }: CourseInfoProps) => {
             </div>
             <div key="authors" className="card-info-param">
               <span className="info-param-title">Authors:&#32;</span>
-              <span className="info-param-value">
-                {courseData.authors.join(', ')}
-              </span>
+              <span className="info-param-value">{courseData.authors}</span>
             </div>
             <div key="duration" className="card-info-param">
               <span className="info-param-title">Duration:&#32;</span>
-              <span className="info-param-value">
-                {Math.floor(courseData.duration / 60)}:
-                {Math.floor(courseData.duration % 60)}&#32;hours
-              </span>
+              <span className="info-param-value">{courseData.duration}</span>
             </div>
             <div key="creationDate" className="card-info-param">
               <span className="info-param-title">Created:&#32;</span>
               <span className="info-param-value">
-                {courseData.creationDate.split('/').join('.')}
+                {courseData.creationDate}
               </span>
             </div>
           </div>
