@@ -12,7 +12,9 @@ const CourseInfo = ({ courseData, closeCourse }: CourseInfoProps) => {
   return (
     <>
       <div className="title">
-        <ArrowLeftOutlined className="back" onClick={closeCourse} />
+        <button className="back" aria-label="back-button" onClick={closeCourse}>
+          <ArrowLeftOutlined />
+        </button>
         <Typography.Title level={2}>{courseData.title}</Typography.Title>
       </div>
       <Card className="card-info">
