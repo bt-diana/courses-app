@@ -2,3 +2,16 @@ body {
     margin: unset;
     padding: unset;
 }
+
+button {
+    display: inline-block;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: unset;
+    padding: unset;
+    text-decoration: none;
+    border: unset;
+    background: unset;
+    font: unset;
+}
