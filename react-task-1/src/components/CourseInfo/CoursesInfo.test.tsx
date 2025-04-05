@@ -1,5 +1,5 @@
 import '@testing-library/jest-dom';
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { Course } from '../../types';
 import CourseInfo from './CourseInfo';
 
@@ -56,5 +56,15 @@ describe('CourseInfo', () => {
     const mockCourseData = { ...courseDataTemplate, authors };
     render(<CourseInfo courseData={mockCourseData} closeCourse={jest.fn()} />);
     expect(screen.getByText(authorsFormatted)).toBeInTheDocument();
+  });
+
+  test('should call closeCourse function on back button click', () => {
+    const mockCloseCourse = jest.fn();
+    const mockCourseData = { ...courseDataTemplate };
+    render(
+      <CourseInfo courseData={mockCourseData} closeCourse={mockCloseCourse} />
+    );
+    fireEvent.click(screen.getByRole('button', { name: /back-button/i }));
+    expect(mockCloseCourse).toHaveBeenCalledTimes(1);
   });
 });
