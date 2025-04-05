@@ -1,0 +1,20 @@
+.course-card-content {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+}
+
+.course-card-param {
+    display: grid;
+    grid-template-columns: 30% 70%;
+}
+
+
+.param-title {
+    font-weight: bold;
+}
+
+.param-value {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
