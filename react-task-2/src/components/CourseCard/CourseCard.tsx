@@ -4,27 +4,22 @@ import { Card } from 'antd';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import DeleteCourse from '../../contexts/deleteCourse';
 import { useContext } from 'react';
+import { Link } from 'react-router-dom';
 
 interface CourseCardProps {
   courseData: Course;
-  openCourse: (course: Course) => void;
 }
 
-const CourseCard = ({ courseData, openCourse }: CourseCardProps) => {
+const CourseCard = ({ courseData }: CourseCardProps) => {
   const deleteCourse = useContext(DeleteCourse);
 
   return (
     <Card
       title={courseData.title}
       actions={[
-        <div
-          key="show"
-          onClick={() => {
-            openCourse(courseData);
-          }}
-        >
-          Show course
-        </div>,
+        <Link key="show" to={`/courses/${courseData.id}`}>
+          <span>Show course</span>
+        </Link>,
         <EditOutlined key="edit" />,
         <DeleteOutlined
           key="delete"

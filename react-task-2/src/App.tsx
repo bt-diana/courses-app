@@ -1,37 +1,27 @@
-import { useState } from 'react';
 import './App.css';
 import CurrentCourses from './components/CurrentCourses/CurrentCourses';
-import Header from './components/Header/Header';
 import CourseInfo from './components/CourseInfo/CourseInfo';
-import { Layout } from 'antd';
-import { Course } from './types';
+import LoginForm from './components/LoginForm/LoginForm';
+import Header from './components/Header/Header';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Layout, { Content } from 'antd/es/layout/layout';
 
 const App = () => {
-  const [course, setCourse] = useState<Course | null>(null);
-
   return (
-    <Layout className="layout">
-      <Header />
-      <Layout.Content className="main">
-        <div className="content">
-          {course === null && (
-            <CurrentCourses
-              openCourse={(course: Course) => {
-                setCourse(course);
-              }}
-            />
-          )}
-          {course !== null && (
-            <CourseInfo
-              courseData={course}
-              closeCourse={() => {
-                setCourse(null);
-              }}
-            />
-          )}
-        </div>
-      </Layout.Content>
-    </Layout>
+    <Router>
+      <Layout className="layout">
+        <Header />
+        <Content className="main">
+          <div className="content">
+            <Routes>
+              <Route path="/login" element={<LoginForm />} />
+              <Route path="/courses" element={<CurrentCourses />} />
+              <Route path="/courses/:id" element={<CourseInfo />} />
+            </Routes>
+          </div>
+        </Content>
+      </Layout>
+    </Router>
   );
 };
 

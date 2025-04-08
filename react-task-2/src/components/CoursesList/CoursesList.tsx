@@ -4,18 +4,13 @@ import { Course } from '../../types';
 
 interface CoursesListProps {
   courses: Course[];
-  openCourse: (course: Course) => void;
 }
 
-const CoursesList = ({ courses, openCourse }: CoursesListProps) => {
+const CoursesList = ({ courses }: CoursesListProps) => {
   return (
     <div className="courses-list">
       {courses.map((course) => (
-        <CourseCard
-          key={course.id}
-          courseData={course}
-          openCourse={openCourse}
-        />
+        <CourseCard key={course.id} courseData={course} />
       ))}
     </div>
   );
