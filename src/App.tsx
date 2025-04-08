@@ -1,6 +1,6 @@
 import './App.css';
 import CurrentCourses from './components/CurrentCourses/CurrentCourses';
-import CourseInfo from './components/CourseInfo/CourseInfo';
+import CurrentCourse from './components/CurrentCourse/CurrentCourse';
 import LoginForm from './components/LoginForm/LoginForm';
 import Header from './components/Header/Header';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -16,7 +16,7 @@ const App = () => {
             <Routes>
               <Route path="/login" element={<LoginForm />} />
               <Route path="/courses" element={<CurrentCourses />} />
-              <Route path="/courses/:id" element={<CourseInfo />} />
+              <Route path="/courses/:id" element={<CurrentCourse />} />
             </Routes>
           </div>
         </Content>
