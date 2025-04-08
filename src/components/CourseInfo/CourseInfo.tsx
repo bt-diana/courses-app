@@ -1,20 +1,27 @@
+import './CourseInfo.css';
 import { Card, Typography } from 'antd';
 import { Course } from '../../types';
 import { ArrowLeftOutlined } from '@ant-design/icons';
-import './CourseInfo.css';
+import { Link } from 'react-router-dom';
 
-interface CourseInfoProps {
-  courseData: Course;
-  closeCourse: () => void;
-}
+const CourseInfo = () => {
+  const courseData: Course = {
+    id: 'de5aaa59-90f5-4dbc-b8a9-aaf205c551ba',
+    title: 'JavaScript',
+    description: `Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged.`,
+    creationDate: '08.03.2021',
+    duration: '2:40 hours',
+    authors: 'Vasiliy Dobkin, Nicolas Kim',
+  };
 
-const CourseInfo = ({ courseData, closeCourse }: CourseInfoProps) => {
   return (
     <>
       <div className="title">
-        <button className="back" aria-label="back-button" onClick={closeCourse}>
-          <ArrowLeftOutlined />
-        </button>
+        <Link to="/courses">
+          <button className="back" aria-label="back-button">
+            <ArrowLeftOutlined />
+          </button>
+        </Link>
         <Typography.Title level={2}>{courseData.title}</Typography.Title>
       </div>
       <Card className="card-info">

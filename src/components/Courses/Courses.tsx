@@ -6,11 +6,10 @@ import { Course } from '../../types';
 import { useState } from 'react';
 interface CoursesProps {
   courses: Course[];
-  openCourse: (course: Course) => void;
   restoreCourses: () => void;
 }
 
-const Courses = ({ courses, openCourse, restoreCourses }: CoursesProps) => {
+const Courses = ({ courses, restoreCourses }: CoursesProps) => {
   const [searchValue, setSearchValue] = useState<string>('');
 
   if (courses?.length) {
@@ -30,7 +29,6 @@ const Courses = ({ courses, openCourse, restoreCourses }: CoursesProps) => {
               title.toLowerCase().includes(searchValue) ||
               description.toLowerCase().includes(searchValue)
           )}
-          openCourse={openCourse}
         />
       </div>
     );

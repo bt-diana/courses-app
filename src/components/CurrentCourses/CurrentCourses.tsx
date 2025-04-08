@@ -43,11 +43,7 @@ const setMockedCurrentCourses = (mockedNewCourseList: Course[]) => {
   );
 };
 
-interface CurrentCoursesProps {
-  openCourse: (course: Course) => void;
-}
-
-const CurrentCourses = ({ openCourse }: CurrentCoursesProps) => {
+const CurrentCourses = () => {
   const [сurrentCoursesList, setCurrentCoursesList]: [
     Course[],
     React.Dispatch<React.SetStateAction<Course[]>>,
@@ -65,7 +61,6 @@ const CurrentCourses = ({ openCourse }: CurrentCoursesProps) => {
     >
       <Courses
         courses={сurrentCoursesList}
-        openCourse={openCourse}
         restoreCourses={() => {
           setMockedCurrentCourses(mockedCurrentCoursesList);
           setCurrentCoursesList(mockedCurrentCoursesList);
