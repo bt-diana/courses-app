@@ -11,7 +11,7 @@
     "lint:fix": "eslint --fix .",
     "format": "prettier .",
     "format:fix": "prettier --write .",
-    "prepare": "cd .. && husky ./react-task-1/.husky",
+    "prepare": "cd .. && husky ./react-task-2/.husky",
     "test": "jest"
   },
   "dependencies": {
