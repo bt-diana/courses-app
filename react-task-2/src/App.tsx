@@ -93,11 +93,18 @@ const App = () => {
     console.log('Failed:', errorInfo);
   };
 
+  const logout = () => {
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('refreshToken');
+    setUser(undefined);
+    setAuthenticated(false);
+  };
+
   return (
     <Router>
       <CurrentUser value={user}>
         <Layout className="layout">
-          <Header />
+          <Header logout={logout} />
           <Content className="main">
             <div className="content">
               <Routes>

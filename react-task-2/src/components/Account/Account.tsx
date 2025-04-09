@@ -1,9 +1,21 @@
-import { mockUser } from '../../assets/data/mockUser';
+import { useContext } from 'react';
+import CurrentUser from '../../contexts/currentUser';
 import UserSection from '../UserSection/UserSection';
 
-const Account = () => {
-  const user = mockUser;
-  return <UserSection loggedin fullname={user.name} />;
+interface AccountProps {
+  logout: () => void;
+}
+
+const Account = ({ logout }: AccountProps) => {
+  const user = useContext(CurrentUser);
+  return user ? (
+    <UserSection
+      logout={logout}
+      fullname={user.firstName + ' ' + user.lastName}
+    />
+  ) : (
+    <></>
+  );
 };
 
 export default Account;

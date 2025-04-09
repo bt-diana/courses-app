@@ -2,15 +2,15 @@ import './UserSection.css';
 import { Button } from 'antd';
 
 interface UserSectionProps {
-  loggedin: boolean;
   fullname?: string;
+  logout: () => void;
 }
 
-const UserSection = ({ loggedin, fullname }: UserSectionProps) => {
+const UserSection = ({ fullname, logout }: UserSectionProps) => {
   return (
     <div className="user-section">
-      {loggedin && <div>{fullname}</div>}
-      <Button>{loggedin ? 'Logout' : 'Login'}</Button>
+      <div>{fullname}</div>
+      <Button onClick={logout}>Logout</Button>
     </div>
   );
 };
