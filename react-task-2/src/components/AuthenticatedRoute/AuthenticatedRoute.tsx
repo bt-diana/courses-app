@@ -1,8 +1,11 @@
 import { Outlet, Navigate } from 'react-router-dom';
+import { User } from '../../types';
+import { useContext } from 'react';
+import CurrentUser from '../../contexts/currentUser';
 
 const AuthenticatedRoute = () => {
-  const userToken = localStorage.getItem('userToken');
-  return userToken ? <Outlet /> : <Navigate replace to="/login" />;
+  const user = useContext(CurrentUser);
+  return user ? <Outlet /> : <Navigate replace to="/login" />;
 };
 
 export default AuthenticatedRoute;

@@ -7,19 +7,14 @@ type FieldType = {
   password?: string;
 };
 
-const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
-  console.log('Success:', values);
-};
+interface LoginFormProps {
+  onFinish: FormProps<FieldType>['onFinish'];
+  onFinishFailed: FormProps<FieldType>['onFinishFailed'];
+}
 
-const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (errorInfo) => {
-  console.log('Failed:', errorInfo);
-};
-
-const LoginForm = () => {
+const LoginForm = ({ onFinish, onFinishFailed }: LoginFormProps) => {
   return (
-    <Card
-      className="login-card"
-    >
+    <Card className="login-card">
       <Form
         className="login-form"
         name="basic"
