@@ -1,7 +1,13 @@
+.login-container {
+    display: flex;
+    align-items: center;
+    height: calc(100vh - 64px - 60px);
+    justify-content: center;
+}
+
 .login-card {
     width: 500px;
     padding: 12px 48px;
-    margin: auto;
 }
 
 .login-form {
