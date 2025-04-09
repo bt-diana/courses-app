@@ -4,6 +4,7 @@ import CoursesList from '../CoursesList/CoursesList';
 import AddNewCourseButton from '../AddNewCourseButton/AddNewCourseButton';
 import { Course } from '../../types';
 import { useState } from 'react';
+import EmptyCoursesList from '../EmptyCoursesList/EmptyCoursesList';
 interface CoursesProps {
   courses: Course[];
   restoreCourses: () => void;
@@ -34,15 +35,8 @@ const Courses = ({ courses, restoreCourses }: CoursesProps) => {
     );
   } else {
     return (
-      <div className="courses">
-        <div className="courses-empty">
-          <div>Your list is empty</div>
-          <div>
-            Please use &apos;Add New Course&apos; button to add your first
-            course
-          </div>
-          <AddNewCourseButton restoreCourses={restoreCourses} />
-        </div>
+      <div className="courses-empty">
+        <EmptyCoursesList restoreCourses={restoreCourses} />
       </div>
     );
   }
