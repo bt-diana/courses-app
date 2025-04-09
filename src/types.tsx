@@ -6,3 +6,8 @@ export type Course = {
   duration: string;
   authors: string;
 };
+
+export type User = {
+  firstName: string;
+  lastName: string;
+};
