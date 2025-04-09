@@ -1,5 +1,4 @@
 import { Outlet, Navigate } from 'react-router-dom';
-import { User } from '../../types';
 import { useContext } from 'react';
 import CurrentUser from '../../contexts/currentUser';
 

@@ -1,7 +1,6 @@
 import './App.css';
 import CurrentCourses from './components/CurrentCourses/CurrentCourses';
 import CurrentCourse from './components/CurrentCourse/CurrentCourse';
-import Authentication from './components/Authentication/Authentication';
 import Header from './components/Header/Header';
 import AuthenticatedRoute from './components/AuthenticatedRoute/AuthenticatedRoute';
 import {
@@ -16,6 +15,7 @@ import { User } from './types';
 import CurrentUser from './contexts/currentUser';
 import LoginForm from './components/LoginForm/LoginForm';
 import type { FormProps } from 'antd';
+import Loading from './components/Loading/Loading';
 
 type FieldType = {
   username?: string;
@@ -23,24 +23,39 @@ type FieldType = {
 };
 
 const App = () => {
+  const [authenticated, setAuthenticated] = useState<boolean | null>(
+    !!localStorage.getItem('accessToken') && null
+  );
   const [user, setUser] = useState<User>();
 
-  const accessToken = localStorage.getItem('accessToken');
-  if (!user && accessToken) {
+  if (authenticated == null) {
+    const accessToken = localStorage.getItem('accessToken');
     fetch('https://dummyjson.com/auth/me', {
       method: 'GET',
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
     })
-      .then((res) => res.json())
       .then((res) => {
-        console.log('got user!');
+        if (res.ok) {
+          return res.json();
+        } else {
+          throw Error(res.statusText);
+        }
+      })
+      .then((res) => {
         setUser({ firstName: res.firstName, lastName: res.lastName });
+        setAuthenticated(true);
+      })
+      .catch(() => {
+        setAuthenticated(false);
       });
   }
 
-  const authenticateUser = (username: string, password: string) => {
+  const onFinish: FormProps<FieldType>['onFinish'] = ({
+    username,
+    password,
+  }) => {
     fetch('https://dummyjson.com/auth/login', {
       method: 'POST',
       headers: {
@@ -51,7 +66,13 @@ const App = () => {
         password,
       }),
     })
-      .then((res) => res.json())
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          throw Error(res.statusText);
+        }
+      })
       .then((res) => {
         localStorage.setItem('accessToken', res.accessToken);
         localStorage.setItem('refreshToken', res.refreshToken);
@@ -59,11 +80,11 @@ const App = () => {
       })
       .then((res) => {
         setUser({ firstName: res.firstName, lastName: res.lastName });
+        setAuthenticated(true);
+      })
+      .catch(() => {
+        setAuthenticated(false);
       });
-  };
-
-  const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
-    authenticateUser(values.username!, values.password!);
   };
 
   const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (
@@ -84,13 +105,15 @@ const App = () => {
                 <Route
                   path="/login"
                   element={
-                    user ? (
+                    authenticated ? (
                       <Navigate replace to="/courses" />
-                    ) : (
+                    ) : authenticated === false ? (
                       <LoginForm
                         onFinish={onFinish}
                         onFinishFailed={onFinishFailed}
                       />
+                    ) : (
+                      <Loading />
                     )
                   }
                 />
