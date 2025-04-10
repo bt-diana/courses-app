@@ -14,7 +14,6 @@ import { useState } from 'react';
 import { User } from './types';
 import CurrentUser from './contexts/currentUser';
 import LoginForm from './components/LoginForm/LoginForm';
-import type { FormProps } from 'antd';
 import Loading from './components/Loading/Loading';
 
 type FieldType = {
@@ -52,11 +51,8 @@ const App = () => {
       });
   }
 
-  const onFinish: FormProps<FieldType>['onFinish'] = ({
-    username,
-    password,
-  }) => {
-    fetch('https://dummyjson.com/auth/login', {
+  const requestOnFinish = ({ username, password }: FieldType) => {
+    return fetch('https://dummyjson.com/auth/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -70,7 +66,7 @@ const App = () => {
         if (res.ok) {
           return res.json();
         } else {
-          throw Error(res.statusText);
+          throw Error(String(res.status));
         }
       })
       .then((res) => {
@@ -81,16 +77,14 @@ const App = () => {
       .then((res) => {
         setUser({ firstName: res.firstName, lastName: res.lastName });
         setAuthenticated(true);
+        return '';
       })
-      .catch(() => {
+      .catch((error) => {
         setAuthenticated(false);
+        return error.message == 400
+          ? 'Wrong username or password.'
+          : 'Something went wrong. Try reloading the page';
       });
-  };
-
-  const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (
-    errorInfo
-  ) => {
-    console.log('Failed:', errorInfo);
   };
 
   const logout = () => {
@@ -115,10 +109,7 @@ const App = () => {
                     authenticated ? (
                       <Navigate replace to="/courses" />
                     ) : authenticated === false ? (
-                      <LoginForm
-                        onFinish={onFinish}
-                        onFinishFailed={onFinishFailed}
-                      />
+                      <LoginForm requestOnFinish={requestOnFinish} />
                     ) : (
                       <Loading />
                     )
