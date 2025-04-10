@@ -1,6 +1,7 @@
 import './LoginForm.css';
 import { Form, Input, Button, Typography, Card } from 'antd';
 import type { FormProps } from 'antd';
+import { useState } from 'react';
 
 type FieldType = {
   username?: string;
@@ -8,11 +9,25 @@ type FieldType = {
 };
 
 interface LoginFormProps {
-  onFinish: FormProps<FieldType>['onFinish'];
-  onFinishFailed: FormProps<FieldType>['onFinishFailed'];
+  requestOnFinish: (values: FieldType) => Promise<string>;
 }
 
-const LoginForm = ({ onFinish, onFinishFailed }: LoginFormProps) => {
+const LoginForm = ({ requestOnFinish }: LoginFormProps) => {
+  const [errorMessage, setErrorMessage] = useState<string>();
+
+  const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
+    requestOnFinish(values).then((errorMessage: string) => {
+      if (errorMessage) setErrorMessage(errorMessage);
+    });
+  };
+  const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = () => {
+    setErrorMessage('Something went wrong. Try reloading the page');
+  };
+
+  const onFocus = () => {
+    setErrorMessage(undefined);
+  };
+
   return (
     <div className="login-container">
       <Card className="login-card">
@@ -23,6 +38,7 @@ const LoginForm = ({ onFinish, onFinishFailed }: LoginFormProps) => {
           onFinishFailed={onFinishFailed}
           autoComplete="off"
           layout="vertical"
+          onFocus={onFocus}
         >
           <Typography.Title level={2}>Login</Typography.Title>
           <Form.Item<FieldType>
@@ -41,6 +57,12 @@ const LoginForm = ({ onFinish, onFinishFailed }: LoginFormProps) => {
             rules={[{ required: true, message: 'Please input your password!' }]}
           >
             <Input.Password />
+          </Form.Item>
+
+          <Form.Item label={null}>
+            {errorMessage && (
+              <Typography.Text type="danger">{errorMessage}</Typography.Text>
+            )}
           </Form.Item>
 
           <Form.Item label={null}>
