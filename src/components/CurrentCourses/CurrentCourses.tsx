@@ -34,8 +34,7 @@ const CurrentCourses = () => {
             }
           })
           .then((authors) => {
-            const normalizedCourses = normalizeCourses(courses, authors);
-            setCurrentCourses(normalizedCourses);
+            setCurrentCourses(normalizeCourses(courses, authors));
           });
       })
       .catch((error) => {
