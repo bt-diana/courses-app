@@ -99,28 +99,26 @@ const App = () => {
       <CurrentUser value={user}>
         <Layout className="layout">
           <Header logout={logout} />
-          <Content className="main">
-            <div className="content">
-              <Routes>
-                <Route path="/" element={<Navigate replace to="/courses" />} />
-                <Route
-                  path="/login"
-                  element={
-                    authenticated ? (
-                      <Navigate replace to="/courses" />
-                    ) : authenticated === false ? (
-                      <LoginForm requestOnFinish={requestOnFinish} />
-                    ) : (
-                      <Loading />
-                    )
-                  }
-                />
-                <Route element={<AuthenticatedRoute />}>
-                  <Route path="/courses" element={<CurrentCourses />} />
-                  <Route path="/courses/:id" element={<CurrentCourse />} />
-                </Route>
-              </Routes>
-            </div>
+          <Content className="content">
+            <Routes>
+              <Route path="/" element={<Navigate replace to="/courses" />} />
+              <Route
+                path="/login"
+                element={
+                  authenticated ? (
+                    <Navigate replace to="/courses" />
+                  ) : authenticated === false ? (
+                    <LoginForm requestOnFinish={requestOnFinish} />
+                  ) : (
+                    <Loading />
+                  )
+                }
+              />
+              <Route element={<AuthenticatedRoute />}>
+                <Route path="/courses" element={<CurrentCourses />} />
+                <Route path="/courses/:id" element={<CurrentCourse />} />
+              </Route>
+            </Routes>
           </Content>
         </Layout>
       </CurrentUser>
