@@ -1,5 +1,5 @@
 import { createContext } from 'react';
 
-const DeleteCourse = createContext<(id: string) => void>(() => {});
+const DeleteCourse = createContext<(idToDelete: string) => void>(() => {});
 
 export default DeleteCourse;
