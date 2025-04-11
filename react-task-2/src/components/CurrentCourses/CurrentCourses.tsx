@@ -3,6 +3,7 @@ import { Course } from '../../types';
 import { useEffect, useState } from 'react';
 import Loading from '../Loading/Loading';
 import normalizeCourses from '../../helpers/normalizeCourses';
+import DeleteCourse from '../../contexts/deleteCourse';
 
 const apiSecret = import.meta.env.VITE_API_SECRET;
 
@@ -45,12 +46,33 @@ const CurrentCourses = () => {
       });
   }, []);
 
-  // const deleteCourse = () => {};
+  const deleteCourse = (idToDelete: string) => {
+    setIsLoading(true);
+    fetch(`https://${apiSecret}.mockapi.io/courses/course/${idToDelete}`, {
+      method: 'DELETE',
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw Error();
+        }
+      })
+      .then(() => {
+        setCurrentCourses(сurrentCourses.filter(({ id }) => id !== idToDelete));
+      })
+      .catch((error) => {
+        console.error(error);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
 
   return isLoading ? (
     <Loading />
   ) : (
-    <Courses courses={сurrentCourses} /*deleteCourse={deleteCourse}*/ />
+    <DeleteCourse value={deleteCourse}>
+      <Courses courses={сurrentCourses} />
+    </DeleteCourse>
   );
 };
 
