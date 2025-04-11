@@ -1,72 +1,56 @@
-import {
-  mockedCoursesList,
-  mockedAuthorsList,
-} from '../../assets/data/mockCoursesList';
 import Courses from '../Courses/Courses';
 import { Course } from '../../types';
-import { useState } from 'react';
-import DeleteCourse from '../../contexts/deleteCourse';
+import { useEffect, useState } from 'react';
+import Loading from '../Loading/Loading';
+import normalizeCourses from '../../helpers/normalizeCourses';
 
-const mockedCurrentCoursesList: Course[] = mockedCoursesList.map((course) => ({
-  ...course,
-  creationDate: course.creationDate.split('/').join('.'),
-  duration: `${Math.floor(course.duration / 60)}:${Math.floor(course.duration % 60)} hours`,
-  authors: mockedAuthorsList
-    .filter(({ id }) => course.authors.includes(id))
-    .map(({ name }) => name)
-    .join(', '),
-}));
-
-const getMockedCurrentCourses = () => {
-  if (localStorage.getItem('mockedCurrentCoursesListIds') === null) {
-    localStorage.setItem(
-      'mockedCurrentCoursesListIds',
-      JSON.stringify(mockedCurrentCoursesList.map(({ id }) => id))
-    );
-
-    return mockedCurrentCoursesList;
-  }
-
-  const mockedCurrentCoursesListIds: string[] = JSON.parse(
-    localStorage.getItem('mockedCurrentCoursesListIds')!
-  );
-
-  return mockedCurrentCoursesList.filter(({ id }) =>
-    mockedCurrentCoursesListIds.includes(id)
-  );
-};
-
-const setMockedCurrentCourses = (mockedNewCourseList: Course[]) => {
-  localStorage.setItem(
-    'mockedCurrentCoursesListIds',
-    JSON.stringify(mockedNewCourseList.map(({ id }) => id))
-  );
-};
+const apiSecret = import.meta.env.VITE_API_SECRET;
 
 const CurrentCourses = () => {
-  const [сurrentCoursesList, setCurrentCoursesList]: [
-    Course[],
-    React.Dispatch<React.SetStateAction<Course[]>>,
-  ] = useState(getMockedCurrentCourses);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [сurrentCourses, setCurrentCourses] = useState<Course[]>([]);
 
-  return (
-    <DeleteCourse
-      value={(idToDelete: string) => {
-        const newCourseList = сurrentCoursesList.filter(
-          ({ id }) => id !== idToDelete
-        );
-        setMockedCurrentCourses(newCourseList);
-        setCurrentCoursesList(newCourseList);
-      }}
-    >
-      <Courses
-        courses={сurrentCoursesList}
-        restoreCourses={() => {
-          setMockedCurrentCourses(mockedCurrentCoursesList);
-          setCurrentCoursesList(mockedCurrentCoursesList);
-        }}
-      />
-    </DeleteCourse>
+  useEffect(() => {
+    fetch(`https://${apiSecret}.mockapi.io/courses/course`, {
+      method: 'GET',
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          throw Error();
+        }
+      })
+      .then((courses) => {
+        return fetch(`https://${apiSecret}.mockapi.io/courses/authors`, {
+          method: 'GET',
+        })
+          .then((res) => {
+            if (res.ok) {
+              return res.json();
+            } else {
+              throw Error();
+            }
+          })
+          .then((authors) => {
+            const normalizedCourses = normalizeCourses(courses, authors);
+            setCurrentCourses(normalizedCourses);
+          });
+      })
+      .catch((error) => {
+        console.error(error);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, []);
+
+  // const deleteCourse = () => {};
+
+  return isLoading ? (
+    <Loading />
+  ) : (
+    <Courses courses={сurrentCourses} /*deleteCourse={deleteCourse}*/ />
   );
 };
 
