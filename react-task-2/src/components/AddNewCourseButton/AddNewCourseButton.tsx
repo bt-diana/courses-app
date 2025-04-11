@@ -1,20 +1,14 @@
 import './AddNewCourseButton.css';
 import { Button } from 'antd';
+import { useNavigate } from 'react-router-dom';
 
-interface AddNewCourseButtonProps {
-  restoreCourses?: () => void;
-}
+const AddNewCourseButton = () => {
+  const navigate = useNavigate();
+  const navigateToCorseAdd = () => {
+    navigate('/courses/add');
+  };
 
-const AddNewCourseButton = ({ restoreCourses }: AddNewCourseButtonProps) => {
-  return (
-    <Button
-      onClick={() => {
-        restoreCourses?.();
-      }}
-    >
-      Add New Course
-    </Button>
-  );
+  return <Button onClick={navigateToCorseAdd}>Add New Course</Button>;
 };
 
 export default AddNewCourseButton;

@@ -2,11 +2,7 @@ import AddNewCourseButton from '../AddNewCourseButton/AddNewCourseButton';
 import './EmptyCoursesList.css';
 import { Empty, Typography } from 'antd';
 
-interface EmptyCoursesListProps {
-  restoreCourses: () => void;
-}
-
-const EmptyCoursesList = ({ restoreCourses }: EmptyCoursesListProps) => {
+const EmptyCoursesList = () => {
   return (
     <Empty
       image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
@@ -21,7 +17,7 @@ const EmptyCoursesList = ({ restoreCourses }: EmptyCoursesListProps) => {
         </>
       }
     >
-      <AddNewCourseButton restoreCourses={restoreCourses} />
+      <AddNewCourseButton />
     </Empty>
   );
 };

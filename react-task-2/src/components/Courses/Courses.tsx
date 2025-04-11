@@ -7,10 +7,9 @@ import { useState } from 'react';
 import EmptyCoursesList from '../EmptyCoursesList/EmptyCoursesList';
 interface CoursesProps {
   courses: Course[];
-  restoreCourses: () => void;
 }
 
-const Courses = ({ courses, restoreCourses }: CoursesProps) => {
+const Courses = ({ courses }: CoursesProps) => {
   const [searchValue, setSearchValue] = useState<string>('');
 
   if (courses?.length) {
@@ -36,7 +35,7 @@ const Courses = ({ courses, restoreCourses }: CoursesProps) => {
   } else {
     return (
       <div className="courses-empty">
-        <EmptyCoursesList restoreCourses={restoreCourses} />
+        <EmptyCoursesList />
       </div>
     );
   }
