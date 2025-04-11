@@ -1,13 +1,16 @@
 import { Course } from '../../types';
-import { useEffect, useState } from 'react';
+import { JSX, useEffect, useState } from 'react';
 import Loading from '../Loading/Loading';
-import CourseInfo from '../CourseInfo/CourseInfo';
 import { useParams } from 'react-router-dom';
 import normalizeCourse from '../../helpers/normalizeCourse';
 
 const apiSecret = import.meta.env.VITE_API_SECRET;
 
-const CurrentCourses = () => {
+interface CurrentCourseProps {
+  render: (props: { courseData: Course }) => JSX.Element;
+}
+
+const CurrentCourse = ({ render }: CurrentCourseProps) => {
   const { id } = useParams();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [courseData, setCourseData] = useState<Course>();
@@ -46,7 +49,7 @@ const CurrentCourses = () => {
       });
   }, []);
 
-  return isLoading ? <Loading /> : <CourseInfo courseData={courseData!} />;
+  return isLoading ? <Loading /> : render({ courseData: courseData! });
 };
 
-export default CurrentCourses;
+export default CurrentCourse;
