@@ -1,18 +1,11 @@
 import { Course, CourseResource, AuthorResource } from '../types';
+import normalizeCourse from './normalizeCourse';
 
 const normalizeCourses = (
   courses: CourseResource[],
   authors: AuthorResource[]
 ): Course[] => {
-  return courses.map((course) => ({
-    ...course,
-    creationDate: course.creationDate.split('/').join('.'),
-    duration: `${Math.floor(course.duration / 60)}:${Math.floor(course.duration % 60)} hours`,
-    authors: authors
-      .filter(({ id }) => course.authors.includes(id))
-      .map(({ name }) => name)
-      .join(', '),
-  }));
+  return courses.map((course) => normalizeCourse(course, authors));
 };
 
 export default normalizeCourses;
