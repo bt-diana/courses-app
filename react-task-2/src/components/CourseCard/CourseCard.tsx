@@ -4,13 +4,14 @@ import { Card } from 'antd';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import DeleteCourse from '../../contexts/deleteCourse';
 import { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 interface CourseCardProps {
   courseData: Course;
 }
 
 const CourseCard = ({ courseData }: CourseCardProps) => {
+  const navigate = useNavigate();
   const deleteCourse = useContext(DeleteCourse);
 
   return (
@@ -20,7 +21,12 @@ const CourseCard = ({ courseData }: CourseCardProps) => {
         <Link key="show" to={`/courses/${courseData.id}`}>
           <span>Show course</span>
         </Link>,
-        <EditOutlined key="edit" />,
+        <EditOutlined
+          key="edit"
+          onClick={() => {
+            navigate(`/courses/${courseData.id}/edit`);
+          }}
+        />,
         <DeleteOutlined
           key="delete"
           onClick={() => {

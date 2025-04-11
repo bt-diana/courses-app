@@ -16,7 +16,7 @@ import CurrentUser from './contexts/currentUser';
 import LoginForm from './components/LoginForm/LoginForm';
 import Loading from './components/Loading/Loading';
 import CourseInfo from './components/CourseInfo/CourseInfo';
-import CourseEdit from './components/CourseEdit/CourseEdit';
+import CourseAddEdit from './components/CourseAddEdit/CourseAddEdit';
 
 type FieldType = {
   username?: string;
@@ -121,6 +121,11 @@ const App = () => {
                 <Route
                   path="/courses/:id"
                   element={<CurrentCourse render={CourseInfo} />}
+                />
+                <Route path="/courses/add" element={<CourseAddEdit />} />
+                <Route
+                  path="/courses/:id/edit"
+                  element={<CurrentCourse render={CourseAddEdit} />}
                 />
               </Route>
             </Routes>
