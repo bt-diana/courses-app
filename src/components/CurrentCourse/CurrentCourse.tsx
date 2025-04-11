@@ -1,28 +1,52 @@
-import {
-  mockedCoursesList,
-  mockedAuthorsList,
-} from '../../assets/data/mockCoursesList';
-import CourseInfo from '../CourseInfo/CourseInfo';
 import { Course } from '../../types';
+import { useEffect, useState } from 'react';
+import Loading from '../Loading/Loading';
+import CourseInfo from '../CourseInfo/CourseInfo';
 import { useParams } from 'react-router-dom';
+import normalizeCourse from '../../helpers/normalizeCourse';
 
-const mockedCurrentCoursesList: Course[] = mockedCoursesList.map((course) => ({
-  ...course,
-  creationDate: course.creationDate.split('/').join('.'),
-  duration: `${Math.floor(course.duration / 60)}:${Math.floor(course.duration % 60)} hours`,
-  authors: mockedAuthorsList
-    .filter(({ id }) => course.authors.includes(id))
-    .map(({ name }) => name)
-    .join(', '),
-}));
+const apiSecret = import.meta.env.VITE_API_SECRET;
 
-const CurrentCourse = () => {
+const CurrentCourses = () => {
   const { id } = useParams();
-  const courseData: Course = mockedCurrentCoursesList.filter(
-    (course) => course.id === id
-  )[0];
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [courseData, setCourseData] = useState<Course>();
 
-  return <CourseInfo courseData={courseData} />;
+  useEffect(() => {
+    fetch(`https://${apiSecret}.mockapi.io/courses/course/${id}`, {
+      method: 'GET',
+    })
+      .then((res) => {
+        if (res.ok) {
+          return res.json();
+        } else {
+          throw Error();
+        }
+      })
+      .then((course) => {
+        return fetch(`https://${apiSecret}.mockapi.io/courses/authors`, {
+          method: 'GET',
+        })
+          .then((res) => {
+            if (res.ok) {
+              return res.json();
+            } else {
+              throw Error();
+            }
+          })
+          .then((authors) => {
+            setCourseData(normalizeCourse(course, authors));
+          });
+      })
+      .catch((error) => {
+        console.error(error);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, []);
+
+  return isLoading ? <Loading /> : <CourseInfo courseData={courseData!} />;
 };
 
-export default CurrentCourse;
+export default CurrentCourses;
