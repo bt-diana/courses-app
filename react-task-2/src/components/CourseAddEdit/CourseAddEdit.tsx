@@ -5,14 +5,18 @@ import {
   Form,
   FormProps,
   Input,
+  InputNumber,
   Space,
   Typography,
 } from 'antd';
 import { Course } from '../../types';
+import { useState } from 'react';
+import normalizeDuration from '../../helpers/normalizeDuration';
 
 type FieldType = {
   title?: string;
   description?: string;
+  duration?: number;
 };
 
 const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
@@ -37,6 +41,7 @@ interface CourseInfoProps {
 }
 
 const CourseAddEdit = ({ courseData }: CourseInfoProps) => {
+  const [duration, setDuration] = useState<number | null>(null);
   return (
     <>
       <div className="title">
@@ -84,6 +89,23 @@ const CourseAddEdit = ({ courseData }: CourseInfoProps) => {
             ]}
           >
             <Input.TextArea showCount maxLength={1000} />
+          </Form.Item>
+
+          <Form.Item<FieldType>
+            className="edit-form-field"
+            label="Duration"
+            name="duration"
+            rules={[{ required: true, message: 'Duration is required' }]}
+          >
+            <InputNumber
+              type="number"
+              min={0}
+              value={duration}
+              onChange={(value) => {
+                setDuration(value);
+              }}
+              addonAfter={normalizeDuration(duration ?? 0)}
+            />
           </Form.Item>
 
           <Form.Item>
