@@ -14,11 +14,17 @@ interface LoginFormProps {
 
 const LoginForm = ({ requestOnFinish }: LoginFormProps) => {
   const [errorMessage, setErrorMessage] = useState<string>();
+  const [isLoading, setIsLoading] = useState<boolean>();
 
   const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
-    requestOnFinish(values).catch((error) => {
-      setErrorMessage(error.message);
-    });
+    setIsLoading(true);
+    requestOnFinish(values)
+      .catch((error) => {
+        setErrorMessage(error.message);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
   };
 
   const onFocus = () => {
@@ -62,7 +68,12 @@ const LoginForm = ({ requestOnFinish }: LoginFormProps) => {
           </Form.Item>
 
           <Form.Item label={null}>
-            <Button type="primary" htmlType="submit">
+            <Button
+              type="primary"
+              htmlType="submit"
+              loading={isLoading}
+              iconPosition="end"
+            >
               Submit
             </Button>
           </Form.Item>
