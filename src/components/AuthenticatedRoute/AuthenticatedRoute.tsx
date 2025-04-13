@@ -1,10 +1,32 @@
 import { Outlet, Navigate } from 'react-router-dom';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import SetCurrentUser from '../../contexts/setCurrentUser';
+import getUser from '../../api/getUser';
+import Loading from '../Loading/Loading';
 import CurrentUser from '../../contexts/currentUser';
 
 const AuthenticatedRoute = () => {
   const user = useContext(CurrentUser);
-  return user ? <Outlet /> : <Navigate replace to="/login" />;
+  const setUser = useContext(SetCurrentUser);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    getUser()
+      .then(({ firstName, lastName }) => {
+        setUser({ firstName, lastName });
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }, []);
+
+  return isLoading ? (
+    <Loading />
+  ) : user ? (
+    <Outlet />
+  ) : (
+    <Navigate replace to="/login" />
+  );
 };
 
 export default AuthenticatedRoute;
