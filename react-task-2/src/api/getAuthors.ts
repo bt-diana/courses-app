@@ -13,9 +13,6 @@ const getAuthors = () =>
     })
     .then((authors) => {
       return authors;
-    })
-    .catch((error) => {
-      console.error(error);
     });
 
 export default getAuthors;

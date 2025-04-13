@@ -13,9 +13,6 @@ const getCourses = () =>
     })
     .then((courses) => {
       return courses;
-    })
-    .catch((error) => {
-      console.error(error);
     });
 
 export default getCourses;

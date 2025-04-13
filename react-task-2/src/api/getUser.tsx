@@ -16,9 +16,6 @@ const getUser = () =>
     })
     .then(({ firstName, lastName }) => {
       return { firstName, lastName };
-    })
-    .catch((error) => {
-      console.log(error);
     });
 
 export default getUser;
