@@ -4,24 +4,21 @@ import type { FormProps } from 'antd';
 import { useState } from 'react';
 
 type FieldType = {
-  username?: string;
-  password?: string;
+  username: string;
+  password: string;
 };
 
 interface LoginFormProps {
-  requestOnFinish: (values: FieldType) => Promise<string>;
+  requestOnFinish: ({ username, password }: FieldType) => Promise<void>;
 }
 
 const LoginForm = ({ requestOnFinish }: LoginFormProps) => {
   const [errorMessage, setErrorMessage] = useState<string>();
 
   const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
-    requestOnFinish(values).then((errorMessage: string) => {
-      if (errorMessage) setErrorMessage(errorMessage);
+    requestOnFinish(values).catch((error) => {
+      setErrorMessage(error.message);
     });
-  };
-  const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = () => {
-    setErrorMessage('Something went wrong. Try reloading the page');
   };
 
   const onFocus = () => {
@@ -35,7 +32,6 @@ const LoginForm = ({ requestOnFinish }: LoginFormProps) => {
           className="login-form"
           name="basic"
           onFinish={onFinish}
-          onFinishFailed={onFinishFailed}
           autoComplete="off"
           layout="vertical"
           onFocus={onFocus}
