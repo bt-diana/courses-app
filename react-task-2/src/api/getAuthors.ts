@@ -8,7 +8,7 @@ const getAuthors = () =>
       if (res.ok) {
         return res.json();
       } else {
-        throw Error();
+        throw Error(`${res.status}: ${res.statusText}`);
       }
     })
     .then((authors) => {
