@@ -23,9 +23,6 @@ const authenticateUser = (username: string, password: string) => {
     })
     .then(({ firstName, lastName }) => {
       return { firstName, lastName };
-    })
-    .catch((error) => {
-      console.log(error);
     });
 };
 
