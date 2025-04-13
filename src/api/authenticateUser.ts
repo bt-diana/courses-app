@@ -1,3 +1,5 @@
+import setToken from './setToken';
+
 const authenticateUser = (username: string, password: string) => {
   return fetch('https://dummyjson.com/auth/login', {
     method: 'POST',
@@ -17,8 +19,7 @@ const authenticateUser = (username: string, password: string) => {
       }
     })
     .then((res) => {
-      localStorage.setItem('accessToken', res.accessToken);
-      localStorage.setItem('refreshToken', res.refreshToken);
+      setToken(res.accessToken);
       return res;
     })
     .then(({ firstName, lastName }) => {

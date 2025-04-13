@@ -17,38 +17,34 @@ import CourseEditPage from './pages/CourseEditPage';
 import { User } from './types';
 import { useState } from 'react';
 import CurrentUser from './contexts/currentUser';
+import SetCurrentUser from './contexts/setCurrentUser';
 
 const App = () => {
-  const [user, setUser] = useState<User>();
-  const logout = () => {
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
-    setUser(undefined);
-  };
+  const [user, setUser] = useState<User | null>(null);
 
   return (
     <Router>
       <CurrentUser value={user}>
-        <Layout className="layout">
-          <Header logout={logout} />
-          <Content className="content">
-            <Routes>
-              <Route path="/" element={<Navigate replace to="/courses" />} />
-              <Route
-                path="/login"
-                element={
-                  user ? <Navigate to="/" /> : <LoginPage setUser={setUser} />
-                }
-              />
-              {/* <Route element={<AuthenticatedRoute />}>
+        <SetCurrentUser value={setUser}>
+          <Layout className="layout">
+            <Header />
+            <Content className="content">
+              <Routes>
+                <Route path="/" element={<Navigate replace to="/courses" />} />
+                <Route
+                  path="/login"
+                  element={user ? <Navigate to="/" /> : <LoginPage />}
+                />
+                {/* <Route element={<AuthenticatedRoute />}>
               <Route path="/courses" element={<CoursesPage />} />
               <Route path="/courses/:id" element={<CourseInfo />} />
               <Route path="/courses/add" element={<CourseAddPage />} />
               <Route path="/courses/:id/edit" element={<CourseEditPage />} />
             </Route> */}
-            </Routes>
-          </Content>
-        </Layout>
+              </Routes>
+            </Content>
+          </Layout>
+        </SetCurrentUser>
       </CurrentUser>
     </Router>
   );

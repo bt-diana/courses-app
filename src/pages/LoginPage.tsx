@@ -1,12 +1,12 @@
+import { useContext } from 'react';
 import authenticateUser from '../api/authenticateUser';
 import LoginForm from '../components/LoginForm/LoginForm';
 import { User } from '../types';
+import SetCurrentUser from '../contexts/setCurrentUser';
 
-interface LoginPageProps {
-  setUser: (newUser: User) => void;
-}
+const LoginPage = () => {
+  const setUser = useContext(SetCurrentUser);
 
-const LoginPage = ({ setUser }: LoginPageProps) => {
   const requestOnFinish = ({
     username,
     password,
