@@ -1,7 +1,6 @@
 import { useContext } from 'react';
 import authenticateUser from '../api/authenticateUser';
 import LoginForm from '../components/LoginForm/LoginForm';
-import { User } from '../types';
 import SetCurrentUser from '../contexts/setCurrentUser';
 
 const LoginPage = () => {
