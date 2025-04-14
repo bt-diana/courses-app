@@ -88,6 +88,11 @@ const CourseAddEdit = ({
     }
   };
 
+  const onCourseAuthorsChange = (newAuthors: string[]) => {
+    setCourseAuthors(newAuthors);
+    if (authorsError && newAuthors.length > 1) setAuthorsError(false);
+  };
+
   return (
     <>
       <div className="title">
@@ -159,7 +164,7 @@ const CourseAddEdit = ({
           <Form.Item>
             <AuthorsAddEdit
               courseAuthors={courseAuthors}
-              setCourseAuthors={setCourseAuthors}
+              setCourseAuthors={onCourseAuthorsChange}
               authorsResource={authorsResource}
               error={authorsError}
             />
