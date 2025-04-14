@@ -172,7 +172,11 @@ const CourseAddEdit = ({
 
         <Form.Item className="edit-card-options">
           <Space>
-            <Button htmlType="button" disabled={isDisabled}>
+            <Button
+              htmlType="button"
+              disabled={isDisabled}
+              onClick={navigateToCorses}
+            >
               Cancel
             </Button>
             <Button type="primary" htmlType="submit" loading={isDisabled}>
