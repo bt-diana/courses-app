@@ -17,9 +17,7 @@ describe('Courses', () => {
     const mockCurrentCoursesList: Course[] = Array.from({ length: 3 }, () => ({
       ...courseDataTemplate,
     }));
-    render(
-      <Courses courses={mockCurrentCoursesList} restoreCourses={jest.fn()} />
-    );
+    render(<Courses courses={mockCurrentCoursesList} />);
     expect(
       screen.getByRole('button', { name: 'Add New Course' })
     ).toBeInTheDocument();
@@ -27,9 +25,7 @@ describe('Courses', () => {
 
   test('should render empty course list placeholder if no courses available', () => {
     const mockCurrentCoursesList: Course[] = [];
-    render(
-      <Courses courses={mockCurrentCoursesList} restoreCourses={jest.fn()} />
-    );
+    render(<Courses courses={mockCurrentCoursesList} />);
     expect(screen.getByText('Your list is empty')).toBeInTheDocument();
     expect(
       screen.getByText(
@@ -40,9 +36,7 @@ describe('Courses', () => {
 
   test("should render 'add new course' button if no courses available", () => {
     const mockCurrentCoursesList: Course[] = [];
-    render(
-      <Courses courses={mockCurrentCoursesList} restoreCourses={jest.fn()} />
-    );
+    render(<Courses courses={mockCurrentCoursesList} />);
     expect(
       screen.getByRole('button', { name: 'Add New Course' })
     ).toBeInTheDocument();
@@ -54,9 +48,7 @@ describe('Search bar on Courses page', () => {
     const mockCurrentCoursesList: Course[] = Array.from({ length: 3 }, () => ({
       ...courseDataTemplate,
     }));
-    render(
-      <Courses courses={mockCurrentCoursesList} restoreCourses={jest.fn()} />
-    );
+    render(<Courses courses={mockCurrentCoursesList} />);
     expect(screen.getByPlaceholderText('Input text')).toBeInTheDocument();
   });
 
@@ -75,9 +67,7 @@ describe('Search bar on Courses page', () => {
         description: coursesDescriptions[i],
       })
     );
-    render(
-      <Courses courses={mockCurrentCoursesList} restoreCourses={jest.fn()} />
-    );
+    render(<Courses courses={mockCurrentCoursesList} />);
     fireEvent.change(screen.getByPlaceholderText('Input text'), {
       target: { value: 'java' },
     });
@@ -101,9 +91,7 @@ describe('Each CourseCard in CourseList on Courses page', () => {
         title: coursesTitles[i],
       })
     );
-    render(
-      <Courses courses={mockCurrentCoursesList} restoreCourses={jest.fn()} />
-    );
+    render(<Courses courses={mockCurrentCoursesList} />);
     coursesTitles.forEach((title) => {
       expect(screen.getByText(title)).toBeInTheDocument();
     });
@@ -119,9 +107,7 @@ describe('Each CourseCard in CourseList on Courses page', () => {
         description,
       })
     );
-    render(
-      <Courses courses={mockCurrentCoursesList} restoreCourses={jest.fn()} />
-    );
+    render(<Courses courses={mockCurrentCoursesList} />);
     expect(screen.getAllByText(description).length).toBe(coursesAmount);
   });
 
@@ -134,9 +120,7 @@ describe('Each CourseCard in CourseList on Courses page', () => {
         creationDate: coursesDates[i],
       })
     );
-    render(
-      <Courses courses={mockCurrentCoursesList} restoreCourses={jest.fn()} />
-    );
+    render(<Courses courses={mockCurrentCoursesList} />);
     coursesDates.forEach((date) => {
       expect(screen.getByText(date)).toBeInTheDocument();
     });
@@ -151,9 +135,7 @@ describe('Each CourseCard in CourseList on Courses page', () => {
         duration: coursesDurations[i],
       })
     );
-    render(
-      <Courses courses={mockCurrentCoursesList} restoreCourses={jest.fn()} />
-    );
+    render(<Courses courses={mockCurrentCoursesList} />);
     coursesDurations.forEach((duration) => {
       expect(screen.getByText(duration)).toBeInTheDocument();
     });
@@ -169,9 +151,7 @@ describe('Each CourseCard in CourseList on Courses page', () => {
         authors,
       })
     );
-    render(
-      <Courses courses={mockCurrentCoursesList} restoreCourses={jest.fn()} />
-    );
+    render(<Courses courses={mockCurrentCoursesList} />);
     expect(screen.getAllByText(authors).length).toBe(coursesAmount);
   });
 
@@ -180,9 +160,7 @@ describe('Each CourseCard in CourseList on Courses page', () => {
       ...courseDataTemplate,
     }));
     const mockOpenCourse = jest.fn();
-    render(
-      <Courses courses={mockCurrentCoursesList} restoreCourses={jest.fn()} />
-    );
+    render(<Courses courses={mockCurrentCoursesList} />);
     fireEvent.click(screen.getByText('Show course'));
     expect(mockOpenCourse).toHaveBeenCalledTimes(1);
   });
