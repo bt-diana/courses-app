@@ -1,12 +1,12 @@
-import { Button, Card, Form, Input } from 'antd';
+'use client';
+
+import { Button, Card, Form, FormProps, Input } from 'antd';
 import './AuthorsAddEdit.css';
 import { AuthorResource } from '../../types';
 import { PlusOutlined, DeleteOutlined, CloseOutlined } from '@ant-design/icons';
 import { useState } from 'react';
-
-type FieldType = {
-  name?: string;
-};
+import postAuthor from '../../api/postAuthor';
+import CreateAuthor from '../CreateAuthor/CreateAuthor';
 
 interface AuthorsAddEditProps {
   initialCourseAuthors?: string[];
@@ -17,15 +17,22 @@ const AuthorsAddEdit = ({
   initialCourseAuthors = [],
   authorsResource,
 }: AuthorsAddEditProps) => {
-  const authors: Record<string, string> = authorsResource.reduce(
-    (acc, { id, name }) => ({
-      ...acc,
-      [id]: name,
-    }),
-    {}
+  const [authors, setAuthors] = useState<Record<string, string>>(
+    authorsResource.reduce(
+      (acc, { id, name }) => ({
+        ...acc,
+        [id]: name,
+      }),
+      {}
+    )
   );
   const [courseAuthors, setCourseAuthors] =
     useState<string[]>(initialCourseAuthors);
+
+  const createAuthor = (name: string) =>
+    postAuthor(name).then(({ id, name }) => {
+      setAuthors({ ...authors, [id]: name });
+    });
 
   return (
     <div className="authors-container">
@@ -37,7 +44,6 @@ const AuthorsAddEdit = ({
               <div className="author-options">
                 <Button
                   onClick={() => {
-                    console.log('click');
                     setCourseAuthors([...courseAuthors, id]);
                   }}
                 >
@@ -50,25 +56,7 @@ const AuthorsAddEdit = ({
             </div>
           )
         )}
-        <Form className="create-author-form">
-          <Form.Item<FieldType>
-            className="create-author-form-field"
-            name="name"
-            rules={[
-              { required: true, message: 'Name is required' },
-              {
-                type: 'string',
-                min: 2,
-                message: 'Name must be at least 2 characters',
-              },
-            ]}
-          >
-            <Input placeholder="Author's name" />
-          </Form.Item>
-          <Button type="primary" htmlType="submit">
-            Create author
-          </Button>
-        </Form>
+        <CreateAuthor createAuthor={createAuthor} />
       </Card>
       <Card title="Course Authors" className="course-authors">
         {courseAuthors.map((id) => (
