@@ -1,7 +1,7 @@
-const accessToken = localStorage.getItem('accessToken');
+const getUser = () => {
+  const accessToken = localStorage.getItem('accessToken');
 
-const getUser = () =>
-  fetch('https://dummyjson.com/auth/me', {
+  return fetch('https://dummyjson.com/auth/me', {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${accessToken}`,
@@ -17,5 +17,6 @@ const getUser = () =>
     .then(({ firstName, lastName }) => {
       return { firstName, lastName };
     });
+};
 
 export default getUser;
