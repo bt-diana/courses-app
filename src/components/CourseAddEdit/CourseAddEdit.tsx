@@ -96,6 +96,7 @@ const CourseAddEdit = ({
         </Typography.Title>
       </div>
       <Form
+        initialValues={courseResource}
         disabled={isDisabled}
         {...formItemLayout}
         className="edit-form"
@@ -119,7 +120,7 @@ const CourseAddEdit = ({
               },
             ]}
           >
-            <Input defaultValue={courseResource?.title} />
+            <Input />
           </Form.Item>
 
           <Form.Item<FieldType>
@@ -135,11 +136,7 @@ const CourseAddEdit = ({
               },
             ]}
           >
-            <Input.TextArea
-              defaultValue={courseResource?.description}
-              showCount
-              maxLength={1000}
-            />
+            <Input.TextArea showCount maxLength={1000} />
           </Form.Item>
 
           <Form.Item<FieldType>
@@ -149,7 +146,6 @@ const CourseAddEdit = ({
             rules={[{ required: true, message: 'Duration is required' }]}
           >
             <InputNumber
-              defaultValue={courseResource?.duration}
               type="number"
               min={0}
               value={duration}
