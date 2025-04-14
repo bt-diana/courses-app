@@ -16,6 +16,7 @@ import AuthorsAddEdit from '../AuthorsAddEdit/AuthorsAddEdit';
 import postCourse from '../../api/postCourse';
 import currentDate from '../../helpers/currentDate';
 import { useNavigate } from 'react-router-dom';
+import putCourse from '../../api/putCourse';
 
 type FieldType = {
   title: string;
@@ -42,7 +43,9 @@ const CourseAddEdit = ({
   courseResource,
   authorsResource,
 }: CourseInfoProps) => {
-  const [duration, setDuration] = useState<number | null>(null);
+  const [duration, setDuration] = useState<number | null>(
+    courseResource?.duration ?? null
+  );
   const [courseAuthors, setCourseAuthors] = useState<string[]>(
     courseResource?.authors ?? []
   );
@@ -59,11 +62,17 @@ const CourseAddEdit = ({
       setAuthorsError(true);
     } else {
       setIsDisabled(true);
-      postCourse({
+
+      const course = {
         ...values,
         authors: courseAuthors,
-        creationDate: currentDate(),
-      })
+        creationDate: courseResource?.creationDate ?? currentDate(),
+      };
+
+      (() =>
+        courseResource
+          ? putCourse(courseResource.id, course)
+          : postCourse(course))()
         .then(() => {
           navigateToCorses();
         })
@@ -110,7 +119,7 @@ const CourseAddEdit = ({
               },
             ]}
           >
-            <Input />
+            <Input defaultValue={courseResource?.title} />
           </Form.Item>
 
           <Form.Item<FieldType>
@@ -126,7 +135,11 @@ const CourseAddEdit = ({
               },
             ]}
           >
-            <Input.TextArea showCount maxLength={1000} />
+            <Input.TextArea
+              defaultValue={courseResource?.description}
+              showCount
+              maxLength={1000}
+            />
           </Form.Item>
 
           <Form.Item<FieldType>
@@ -136,6 +149,7 @@ const CourseAddEdit = ({
             rules={[{ required: true, message: 'Duration is required' }]}
           >
             <InputNumber
+              defaultValue={courseResource?.duration}
               type="number"
               min={0}
               value={duration}
