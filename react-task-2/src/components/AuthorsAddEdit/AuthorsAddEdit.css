@@ -1,4 +1,4 @@
-.authors-container {
+.authors-container, .create-author-form {
     display: flex;
     gap: 20px;
 }
@@ -10,4 +10,14 @@
 .author-container {
     display: flex;
     justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.author-options {
+    display: flex;
+    gap: 8px;
+}
+
+.create-author-form-field {
+    margin: unset;
 }
