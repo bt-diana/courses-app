@@ -1,8 +1,6 @@
 import { AuthorResource } from '../types';
 import { useEffect, useState } from 'react';
 import Loading from '../components/Loading/Loading';
-import { useParams } from 'react-router-dom';
-import normalizeCourse from '../helpers/normalizeCourse';
 import getAuthors from '../api/getAuthors';
 import CourseAddEdit from '../components/CourseAddEdit/CourseAddEdit';
 
