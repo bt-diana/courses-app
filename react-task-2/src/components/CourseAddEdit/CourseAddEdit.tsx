@@ -9,21 +9,18 @@ import {
   Space,
   Typography,
 } from 'antd';
-import { Course } from '../../types';
+import { AuthorResource, CourseResource } from '../../types';
 import { useState } from 'react';
 import normalizeDuration from '../../helpers/normalizeDuration';
+import AuthorsAddEdit from '../AuthorsAddEdit/AuthorsAddEdit';
+import postCourse from '../../api/postCourse';
+import currentDate from '../../helpers/currentDate';
+import { useNavigate } from 'react-router-dom';
 
 type FieldType = {
-  title?: string;
-  description?: string;
-  duration?: number;
-};
-
-const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
-  console.log(values);
-};
-const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = (error) => {
-  console.log(error);
+  title: string;
+  description: string;
+  duration: number;
 };
 
 const formItemLayout = {
@@ -37,28 +34,69 @@ const formItemLayout = {
 };
 
 interface CourseInfoProps {
-  courseData?: Course;
+  courseResource?: CourseResource;
+  authorsResource: AuthorResource[];
 }
 
-const CourseAddEdit = ({ courseData }: CourseInfoProps) => {
+const CourseAddEdit = ({
+  courseResource,
+  authorsResource,
+}: CourseInfoProps) => {
   const [duration, setDuration] = useState<number | null>(null);
+  const [courseAuthors, setCourseAuthors] = useState<string[]>(
+    courseResource?.authors ?? []
+  );
+  const [authorsError, setAuthorsError] = useState<boolean>(false);
+  const [isDisabled, setIsDisabled] = useState<boolean>(false);
+  const navigate = useNavigate();
+
+  const navigateToCorses = () => {
+    navigate('/courses');
+  };
+
+  const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
+    if (courseAuthors.length < 2) {
+      setAuthorsError(true);
+    } else {
+      setIsDisabled(true);
+      postCourse({
+        ...values,
+        authors: courseAuthors,
+        creationDate: currentDate(),
+      })
+        .then(() => {
+          navigateToCorses();
+        })
+        .catch(() => {
+          setIsDisabled(false);
+        });
+    }
+  };
+
+  const onFinishFailed: FormProps<FieldType>['onFinishFailed'] = () => {
+    if (courseAuthors.length < 2) {
+      setAuthorsError(true);
+    }
+  };
+
   return (
     <>
       <div className="title">
         <Typography.Title level={2}>
-          {courseData ? `Edit course` : 'Create new course'}
+          {courseResource ? `Edit course` : 'Create new course'}
         </Typography.Title>
       </div>
-      <Card className="edit-card">
-        <Form
-          {...formItemLayout}
-          className="edit-form"
-          name="basic"
-          onFinish={onFinish}
-          onFinishFailed={onFinishFailed}
-          autoComplete="off"
-          scrollToFirstError
-        >
+      <Form
+        disabled={isDisabled}
+        {...formItemLayout}
+        className="edit-form"
+        name="basic"
+        onFinish={onFinish}
+        onFinishFailed={onFinishFailed}
+        autoComplete="off"
+        scrollToFirstError
+      >
+        <Card className="edit-card">
           <Form.Item<FieldType>
             className="edit-form-field"
             label="Title"
@@ -109,15 +147,26 @@ const CourseAddEdit = ({ courseData }: CourseInfoProps) => {
           </Form.Item>
 
           <Form.Item>
-            <Space>
-              <Button htmlType="button">Cancel</Button>
-              <Button type="primary" htmlType="submit">
-                {courseData ? 'Edit' : 'Create'}
-              </Button>
-            </Space>
+            <AuthorsAddEdit
+              courseAuthors={courseAuthors}
+              setCourseAuthors={setCourseAuthors}
+              authorsResource={authorsResource}
+              error={authorsError}
+            />
           </Form.Item>
-        </Form>
-      </Card>
+        </Card>
+
+        <Form.Item className="edit-card-options">
+          <Space>
+            <Button htmlType="button" disabled={isDisabled}>
+              Cancel
+            </Button>
+            <Button type="primary" htmlType="submit" loading={isDisabled}>
+              {courseResource ? 'Edit course' : 'Create course'}
+            </Button>
+          </Space>
+        </Form.Item>
+      </Form>
     </>
   );
 };

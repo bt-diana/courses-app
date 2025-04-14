@@ -1,6 +1,6 @@
 'use client';
 
-import { Button, Card, Form, FormProps, Input } from 'antd';
+import { Button, Card, Typography } from 'antd';
 import './AuthorsAddEdit.css';
 import { AuthorResource } from '../../types';
 import { PlusOutlined, DeleteOutlined, CloseOutlined } from '@ant-design/icons';
@@ -9,13 +9,17 @@ import postAuthor from '../../api/postAuthor';
 import CreateAuthor from '../CreateAuthor/CreateAuthor';
 
 interface AuthorsAddEditProps {
-  initialCourseAuthors?: string[];
+  courseAuthors: string[];
+  setCourseAuthors: (authors: string[]) => void;
   authorsResource: AuthorResource[];
+  error: boolean;
 }
 
 const AuthorsAddEdit = ({
-  initialCourseAuthors = [],
+  courseAuthors,
+  setCourseAuthors,
   authorsResource,
+  error,
 }: AuthorsAddEditProps) => {
   const [authors, setAuthors] = useState<Record<string, string>>(
     authorsResource.reduce(
@@ -26,8 +30,6 @@ const AuthorsAddEdit = ({
       {}
     )
   );
-  const [courseAuthors, setCourseAuthors] =
-    useState<string[]>(initialCourseAuthors);
 
   const createAuthor = (name: string) =>
     postAuthor(name).then(({ id, name }) => {
@@ -75,6 +77,11 @@ const AuthorsAddEdit = ({
             </div>
           </div>
         ))}
+        {error && (
+          <Typography.Text type="danger">
+            Course chould include at least 2 authors
+          </Typography.Text>
+        )}
       </Card>
     </div>
   );

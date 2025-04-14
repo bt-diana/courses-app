@@ -1,0 +1,10 @@
+.edit-card {
+    height: calc(100vh - 64px - 60px - 38px - 24.9px - 15px - 32px - 15px);
+    overflow: auto;
+    margin-bottom: 15px;
+}
+
+.edit-card-options {
+    display: flex;
+    justify-content: flex-end;
+}
