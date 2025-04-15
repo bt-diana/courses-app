@@ -1,7 +1,7 @@
-const apiSecret = import.meta.env.VITE_API_SECRET;
+const API_URL = import.meta.env.VITE_API_URL;
 
 const getCourses = () =>
-  fetch(`https://${apiSecret}.mockapi.io/courses/course`, {
+  fetch(`${API_URL}/course`, {
     method: 'GET',
   })
     .then((res) => {
