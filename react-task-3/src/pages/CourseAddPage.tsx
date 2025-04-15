@@ -8,16 +8,19 @@ import {
   getAuthorsStatus,
   getAuthorsError,
 } from '../store';
-import { fetchAuthors } from '../store/authorsSlice';
+import { clearCourseAuthors, fetchAuthors } from '../store/authorsSlice';
 import { isFailed, isLoading, isIdle } from '../helpers/status';
 import Error from '../components/Error/Error';
 
 const CourseAddPage = () => {
   const dispatch = useDispatch<AppDispatch>();
 
-  const authors = useSelector(getAuthors);
   const authorsStatus = useSelector(getAuthorsStatus);
   const authorsError = useSelector(getAuthorsError);
+
+  useEffect(() => {
+    dispatch(clearCourseAuthors());
+  }, []);
 
   useEffect(() => {
     if (isIdle(authorsStatus)) {
@@ -30,7 +33,7 @@ const CourseAddPage = () => {
   ) : isLoading(authorsStatus) ? (
     <Loading />
   ) : (
-    <CourseAddEdit authorsResource={authors} />
+    <CourseAddEdit />
   );
 };
 

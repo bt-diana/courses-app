@@ -43,6 +43,12 @@ const authorsSlice = createSlice({
   name: 'authors',
   initialState,
   reducers: {
+    setCourseAuthors: (state, action: Action & { payload: string[] }) => {
+      state.courseAuthors = action.payload;
+    },
+    clearCourseAuthors: (state) => {
+      state.courseAuthors = [];
+    },
     addCourseAuthor: (state, action: Action & { payload: string }) => {
       state.courseAuthors.push(action.payload);
     },
@@ -81,5 +87,10 @@ const authorsSlice = createSlice({
 });
 
 export { fetchAuthors, addAuthor };
-export const { addCourseAuthor, removeCourseAuthor } = authorsSlice.actions;
+export const {
+  setCourseAuthors,
+  addCourseAuthor,
+  removeCourseAuthor,
+  clearCourseAuthors,
+} = authorsSlice.actions;
 export default authorsSlice.reducer;
