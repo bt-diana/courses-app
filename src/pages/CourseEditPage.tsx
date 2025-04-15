@@ -11,7 +11,7 @@ import {
   getAuthorsStatus,
   getAuthorsError,
 } from '../store';
-import { fetchAuthors } from '../store/authorsSlice';
+import { fetchAuthors, setCourseAuthors } from '../store/authorsSlice';
 import { isFailed, isLoading, isIdle } from '../helpers/status';
 import Error from '../components/Error/Error';
 
@@ -22,9 +22,14 @@ const CourseEditPage = () => {
 
   const dispatch = useDispatch<AppDispatch>();
 
-  const authors = useSelector(getAuthors);
   const authorsStatus = useSelector(getAuthorsStatus);
   const authorsError = useSelector(getAuthorsError);
+
+  useEffect(() => {
+    if (courseResource) {
+      dispatch(setCourseAuthors(courseResource.authors));
+    }
+  }, [courseResource]);
 
   useEffect(() => {
     getCourse(id!)
@@ -47,7 +52,7 @@ const CourseEditPage = () => {
   ) : courseIsLoading || courseResource == null || isLoading(authorsStatus) ? (
     <Loading />
   ) : (
-    <CourseAddEdit courseResource={courseResource} authorsResource={authors} />
+    <CourseAddEdit courseResource={courseResource} />
   );
 };
 
