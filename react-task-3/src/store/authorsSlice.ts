@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk, Action } from '@reduxjs/toolkit';
 import { AuthorResource } from '../types';
 import { DataState, Status } from '../types';
 import getAuthors from '../api/getAuthors';
@@ -28,7 +28,16 @@ const initialState: AuthorsState = {
 const authorsSlice = createSlice({
   name: 'authors',
   initialState,
-  reducers: {},
+  reducers: {
+    addCourseAuthor: (state, action: Action & { payload: string }) => {
+      state.courseAuthors.push(action.payload);
+    },
+    removeCourseAuthor: (state, action: Action & { payload: string }) => {
+      state.courseAuthors = state.courseAuthors.filter(
+        (courseId) => courseId !== action.payload
+      );
+    },
+  },
   extraReducers(builder) {
     builder
       .addCase(fetchAuthors.pending, (state) => {
@@ -46,4 +55,5 @@ const authorsSlice = createSlice({
 });
 
 export { fetchAuthors };
+export const { addCourseAuthor, removeCourseAuthor } = authorsSlice.actions;
 export default authorsSlice.reducer;
