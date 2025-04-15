@@ -5,7 +5,7 @@ import getAuthors from '../api/getAuthors';
 
 type AuthorsState = {
   authors: AuthorResource[];
-  courseAuthors: AuthorResource[];
+  courseAuthors: string[];
 } & DataState;
 
 const fetchAuthors = createAsyncThunk('authors/fetchAuthors', async () => {
