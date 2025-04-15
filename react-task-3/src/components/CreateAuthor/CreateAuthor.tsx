@@ -1,14 +1,27 @@
 import { Button, Input, Typography } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, getAuthorsStatus } from '../../store';
+import { addAuthor } from '../../store/authorsSlice';
+import { isLoading, isSucceeded } from '../../helpers/status';
 
-interface CreateAuthorProps {
-  createAuthor: (name: string) => Promise<void>;
-}
+const CreateAuthor = () => {
+  const dispatch = useDispatch<AppDispatch>();
 
-const CreateAuthor = ({ createAuthor }: CreateAuthorProps) => {
+  const authorsStatus = useSelector(getAuthorsStatus);
+
   const [name, setName] = useState<string>();
   const [error, setError] = useState<boolean>();
-  const [isLoading, setIsLoading] = useState<boolean>();
+
+  const createAuthor = (name: string) => {
+    dispatch(addAuthor(name));
+  };
+
+  useEffect(() => {
+    if (isSucceeded(authorsStatus)) {
+      setName(undefined);
+    }
+  }, [authorsStatus]);
 
   return (
     <div className="create-author-form">
@@ -34,16 +47,12 @@ const CreateAuthor = ({ createAuthor }: CreateAuthorProps) => {
         type="primary"
         onClick={() => {
           if (name?.trim()) {
-            setIsLoading(true);
-            createAuthor(name.trim()).then(() => {
-              setIsLoading(false);
-              setName(undefined);
-            });
+            createAuthor(name.trim());
           } else {
             setError(true);
           }
         }}
-        loading={isLoading}
+        loading={isLoading(authorsStatus)}
       >
         Create author
       </Button>
