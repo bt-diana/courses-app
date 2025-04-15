@@ -2,7 +2,6 @@ import Courses from '../components/Courses/Courses';
 import { useEffect } from 'react';
 import Loading from '../components/Loading/Loading';
 import normalizeCourses from '../helpers/normalizeCourses';
-import DeleteCourse from '../contexts/deleteCurrentCourse';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   AppDispatch,
@@ -41,27 +40,12 @@ const CoursesPage = () => {
     }
   }, [authorsStatus, dispatch]);
 
-  const deleteCurrentCourse = (idToDelete: string) => {
-    // setIsLoading(true);
-    // deleteCourse(idToDelete)
-    //   .then(() => {
-    //     setCurrentCourses(
-    //       сurrentCourses?.filter(({ id }) => id !== idToDelete)
-    //     );
-    //   })
-    //   .finally(() => {
-    //     setIsLoading(false);
-    //   });
-  };
-
   return [coursesStatus, authorsStatus].some(isFailed) ? (
     <Error message={coursesError ?? authorsError!} />
   ) : [coursesStatus, authorsStatus].some(isLoading) ? (
     <Loading />
   ) : (
-    <DeleteCourse value={deleteCurrentCourse}>
-      <Courses courses={normalizeCourses(courses, authors)} />
-    </DeleteCourse>
+    <Courses courses={normalizeCourses(courses, authors)} />
   );
 };
 
