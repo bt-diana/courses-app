@@ -3,15 +3,17 @@ import './Error.css';
 import { Flex, Typography } from 'antd';
 
 interface ErrorProps {
-  message: string;
+  message?: string;
 }
 
 const Error = ({ message }: ErrorProps) => {
   return (
-    <Flex gap="middle" className='error-container' vertical>
+    <Flex gap="middle" className="error-container" vertical>
       <Flex gap="middle" className="error">
-        <Typography.Title level={2}><ExclamationCircleOutlined /> An error has occcured!</Typography.Title>
-        <Typography.Text>{message}</Typography.Text>
+        <Typography.Title level={2}>
+          <ExclamationCircleOutlined /> An error has occcured!
+        </Typography.Title>
+        {message && <Typography.Text>{message}</Typography.Text>}
         <Typography.Text>Try reloading the page.</Typography.Text>
       </Flex>
     </Flex>
