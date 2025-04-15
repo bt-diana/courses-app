@@ -1,5 +1,4 @@
-export type DataState<T> = {
-  data: T;
+export type DataState = {
   status: Status;
   error: string | null;
 };

@@ -5,7 +5,9 @@ import getCourses from '../api/getCourses';
 import postCourse from '../api/postCourse';
 import putCourse from '../api/putCourse';
 
-type CoursesState = DataState<CourseResource[]>;
+type CoursesState = {
+  courses: CourseResource[];
+} & DataState;
 
 const fetchCourses = createAsyncThunk('courses/fetchCourses', async () => {
   try {
@@ -44,7 +46,7 @@ const editCourse = createAsyncThunk(
 );
 
 const initialState: CoursesState = {
-  data: [],
+  courses: [],
   status: Status.idle,
   error: null,
 };
@@ -60,7 +62,7 @@ const coursesSlice = createSlice({
       })
       .addCase(fetchCourses.fulfilled, (state, action) => {
         state.status = Status.succeeded;
-        state.data = action.payload;
+        state.courses = action.payload;
       })
       .addCase(fetchCourses.rejected, (state, action) => {
         state.status = Status.failed;
@@ -72,7 +74,7 @@ const coursesSlice = createSlice({
       })
       .addCase(addCourse.fulfilled, (state, action) => {
         state.status = Status.succeeded;
-        state.data.push(action.payload);
+        state.courses.push(action.payload);
       })
       .addCase(addCourse.rejected, (state, action) => {
         state.status = Status.failed;
@@ -84,7 +86,7 @@ const coursesSlice = createSlice({
       })
       .addCase(editCourse.fulfilled, (state, action) => {
         state.status = Status.succeeded;
-        state.data = state.data.map((course) =>
+        state.courses = state.courses.map((course) =>
           course.id === action.payload.id ? action.payload : course
         );
       })
