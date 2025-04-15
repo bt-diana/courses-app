@@ -11,7 +11,6 @@ import {
   getAuthorsStatus,
   getAuthorsError,
 } from '../store';
-import { Status } from '../types';
 import { fetchAuthors } from '../store/authorsSlice';
 import { isFailed, isLoading, isIdle } from '../helpers/status';
 import Error from '../components/Error/Error';
@@ -43,15 +42,12 @@ const CourseEditPage = () => {
     }
   }, [authorsStatus, dispatch]);
 
-  return courseIsLoading ||
-    courseResource == null ||
-    isLoading(authorsStatus) ? (
+  return isFailed(authorsStatus) ? (
+    <Error message={authorsError!} />
+  ) : courseIsLoading || courseResource == null || isLoading(authorsStatus) ? (
     <Loading />
   ) : (
-    <CourseAddEdit
-      courseResource={courseResource}
-      authorsResource={authorsResource}
-    />
+    <CourseAddEdit courseResource={courseResource} authorsResource={authors} />
   );
 };
 
