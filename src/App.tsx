@@ -30,10 +30,7 @@ const App = () => {
             <Content className="content">
               <Routes>
                 <Route path="/" element={<Navigate replace to="/courses" />} />
-                <Route
-                  path="/login"
-                  element={user ? <Navigate to="/" /> : <LoginPage />}
-                />
+                <Route path="/login" element={<LoginPage />} />
                 <Route element={<AuthenticatedRoute />}>
                   <Route path="/courses" element={<CoursesPage />} />
                   <Route path="/courses/:id" element={<CourseInfoPage />} />
