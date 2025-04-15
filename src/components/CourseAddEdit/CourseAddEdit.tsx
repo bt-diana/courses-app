@@ -9,7 +9,7 @@ import {
   Space,
   Typography,
 } from 'antd';
-import { AuthorResource, CourseResource } from '../../types';
+import { CourseResource } from '../../types';
 import { useEffect, useState } from 'react';
 import normalizeDuration from '../../helpers/normalizeDuration';
 import AuthorsAddEdit from '../AuthorsAddEdit/AuthorsAddEdit';
@@ -19,7 +19,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, getCourseAuthors, getCoursesStatus } from '../../store';
 import { addCourse, editCourse } from '../../store/coursesSlice';
 import { isLoading } from '../../helpers/status';
-import { addCourseAuthor } from '../../store/authorsSlice';
 
 type FieldType = {
   title: string;

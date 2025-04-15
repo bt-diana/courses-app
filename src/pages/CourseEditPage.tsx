@@ -5,12 +5,7 @@ import { useParams } from 'react-router-dom';
 import getCourse from '../api/getCourse';
 import CourseAddEdit from '../components/CourseAddEdit/CourseAddEdit';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  AppDispatch,
-  getAuthors,
-  getAuthorsStatus,
-  getAuthorsError,
-} from '../store';
+import { AppDispatch, getAuthorsStatus, getAuthorsError } from '../store';
 import { fetchAuthors, setCourseAuthors } from '../store/authorsSlice';
 import { isFailed, isLoading, isIdle } from '../helpers/status';
 import Error from '../components/Error/Error';
