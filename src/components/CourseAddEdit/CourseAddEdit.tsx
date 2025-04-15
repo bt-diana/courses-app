@@ -10,13 +10,15 @@ import {
   Typography,
 } from 'antd';
 import { AuthorResource, CourseResource } from '../../types';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import normalizeDuration from '../../helpers/normalizeDuration';
 import AuthorsAddEdit from '../AuthorsAddEdit/AuthorsAddEdit';
-import postCourse from '../../api/postCourse';
 import currentDate from '../../helpers/currentDate';
 import { useNavigate } from 'react-router-dom';
-import putCourse from '../../api/putCourse';
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, getCoursesStatus } from '../../store';
+import { addCourse, editCourse } from '../../store/coursesSlice';
+import { isLoading } from '../../helpers/status';
 
 type FieldType = {
   title: string;
@@ -43,6 +45,12 @@ const CourseAddEdit = ({
   courseResource,
   authorsResource,
 }: CourseInfoProps) => {
+  const dispatch = useDispatch<AppDispatch>();
+
+  const coursesStatus = useSelector(getCoursesStatus);
+
+  const [isSaving, setIsSaving] = useState<boolean>(false);
+
   const [duration, setDuration] = useState<number | null>(
     courseResource?.duration ?? null
   );
@@ -50,9 +58,8 @@ const CourseAddEdit = ({
     courseResource?.authors ?? []
   );
   const [authorsError, setAuthorsError] = useState<boolean>(false);
-  const [isDisabled, setIsDisabled] = useState<boolean>(false);
-  const navigate = useNavigate();
 
+  const navigate = useNavigate();
   const navigateToCorses = () => {
     navigate('/courses');
   };
@@ -61,24 +68,17 @@ const CourseAddEdit = ({
     if (courseAuthors.length < 2) {
       setAuthorsError(true);
     } else {
-      setIsDisabled(true);
-
-      const course = {
+      const courseData = {
         ...values,
         authors: courseAuthors,
         creationDate: courseResource?.creationDate ?? currentDate(),
       };
 
-      (() =>
+      dispatch(
         courseResource
-          ? putCourse(courseResource.id, course)
-          : postCourse(course))()
-        .then(() => {
-          navigateToCorses();
-        })
-        .catch(() => {
-          setIsDisabled(false);
-        });
+          ? editCourse({ id: courseResource.id, ...courseData })
+          : addCourse(courseData)
+      );
     }
   };
 
@@ -93,6 +93,14 @@ const CourseAddEdit = ({
     if (authorsError && newAuthors.length > 1) setAuthorsError(false);
   };
 
+  useEffect(() => {
+    if (isLoading(coursesStatus)) {
+      setIsSaving(true);
+    } else if (isSaving) {
+      navigateToCorses();
+    }
+  }, [coursesStatus]);
+
   return (
     <>
       <div className="title">
@@ -102,7 +110,7 @@ const CourseAddEdit = ({
       </div>
       <Form
         initialValues={courseResource}
-        disabled={isDisabled}
+        disabled={isSaving}
         {...formItemLayout}
         className="edit-form"
         name="basic"
@@ -175,12 +183,12 @@ const CourseAddEdit = ({
           <Space>
             <Button
               htmlType="button"
-              disabled={isDisabled}
+              disabled={isSaving}
               onClick={navigateToCorses}
             >
               Cancel
             </Button>
-            <Button type="primary" htmlType="submit" loading={isDisabled}>
+            <Button type="primary" htmlType="submit" loading={isSaving}>
               {courseResource ? 'Edit course' : 'Create course'}
             </Button>
           </Space>
