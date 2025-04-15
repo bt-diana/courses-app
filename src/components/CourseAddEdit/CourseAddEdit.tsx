@@ -16,9 +16,10 @@ import AuthorsAddEdit from '../AuthorsAddEdit/AuthorsAddEdit';
 import currentDate from '../../helpers/currentDate';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { AppDispatch, getCoursesStatus } from '../../store';
+import { AppDispatch, getCourseAuthors, getCoursesStatus } from '../../store';
 import { addCourse, editCourse } from '../../store/coursesSlice';
 import { isLoading } from '../../helpers/status';
+import { addCourseAuthor } from '../../store/authorsSlice';
 
 type FieldType = {
   title: string;
@@ -38,24 +39,18 @@ const formItemLayout = {
 
 interface CourseInfoProps {
   courseResource?: CourseResource;
-  authorsResource: AuthorResource[];
 }
 
-const CourseAddEdit = ({
-  courseResource,
-  authorsResource,
-}: CourseInfoProps) => {
+const CourseAddEdit = ({ courseResource }: CourseInfoProps) => {
   const dispatch = useDispatch<AppDispatch>();
 
   const coursesStatus = useSelector(getCoursesStatus);
+  const courseAuthors = useSelector(getCourseAuthors);
 
   const [isSaving, setIsSaving] = useState<boolean>(false);
 
   const [duration, setDuration] = useState<number | null>(
     courseResource?.duration ?? null
-  );
-  const [courseAuthors, setCourseAuthors] = useState<string[]>(
-    courseResource?.authors ?? []
   );
   const [authorsError, setAuthorsError] = useState<boolean>(false);
 
@@ -88,10 +83,11 @@ const CourseAddEdit = ({
     }
   };
 
-  const onCourseAuthorsChange = (newAuthors: string[]) => {
-    setCourseAuthors(newAuthors);
-    if (authorsError && newAuthors.length > 1) setAuthorsError(false);
-  };
+  useEffect(() => {
+    if (authorsError && courseAuthors.length > 1) {
+      setAuthorsError(false);
+    }
+  }, [courseAuthors]);
 
   useEffect(() => {
     if (isLoading(coursesStatus)) {
@@ -170,12 +166,7 @@ const CourseAddEdit = ({
           </Form.Item>
 
           <Form.Item>
-            <AuthorsAddEdit
-              courseAuthors={courseAuthors}
-              setCourseAuthors={onCourseAuthorsChange}
-              authorsResource={authorsResource}
-              error={authorsError}
-            />
+            <AuthorsAddEdit error={authorsError} />
           </Form.Item>
         </Card>
 
