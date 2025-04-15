@@ -43,8 +43,25 @@ const coursesSlice = createSlice({
   name: 'courses',
   initialState,
   reducers: {
-    addCourse: (state: CoursesState, action: CoursesAction<CourseResource>) => {
-      state.data.push(action.payload);
+    addCourse: (
+      state: CoursesState,
+      action: CoursesAction<Omit<CourseResource, 'id'>>
+    ) => {
+      const newCourse: CourseResource = {
+        id: 'test' + new Date().getTime(),
+        ...action.payload,
+      };
+
+      state.data.push(newCourse);
+    },
+    editCourse: (
+      state: CoursesState,
+      action: CoursesAction<CourseResource>
+    ) => {
+      const course = state.data.find(({ id }) => id === action.payload.id);
+      if (course) {
+        Object.assign(course, action.payload);
+      }
     },
     removeCourse: (state: CoursesState, action: CoursesAction<string>) => {
       state.data = state.data.filter(({ id }) => id !== action.payload);
@@ -52,5 +69,5 @@ const coursesSlice = createSlice({
   },
 });
 
-export const { addCourse, removeCourse } = coursesSlice.actions;
+export const { addCourse, editCourse, removeCourse } = coursesSlice.actions;
 export default coursesSlice.reducer;
