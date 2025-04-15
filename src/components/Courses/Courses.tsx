@@ -2,17 +2,14 @@ import './Courses.css';
 import SearchBar from '../SearchBar/SearchBar';
 import CoursesList from '../CoursesList/CoursesList';
 import AddNewCourseButton from '../AddNewCourseButton/AddNewCourseButton';
+import { Course } from '../../types';
 import { useState } from 'react';
 import EmptyCoursesList from '../EmptyCoursesList/EmptyCoursesList';
-import { useSelector } from 'react-redux';
-import normalizeCourses from '../../helpers/normalizeCourses';
+interface CoursesProps {
+  courses: Course[];
+}
 
-const Courses = () => {
-  const courses = normalizeCourses(
-    useSelector((state) => state.courses.data),
-    useSelector((state) => state.authors.data)
-  );
-
+const Courses = ({ courses }: CoursesProps) => {
   const [searchValue, setSearchValue] = useState<string>('');
 
   if (courses?.length) {
