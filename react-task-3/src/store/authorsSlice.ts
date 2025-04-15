@@ -3,7 +3,10 @@ import { AuthorResource } from '../types';
 import { DataState, Status } from '../types';
 import getAuthors from '../api/getAuthors';
 
-type AuthorsState = DataState<AuthorResource[]>;
+type AuthorsState = {
+  authors: AuthorResource[];
+  courseAuthors: AuthorResource[];
+} & DataState;
 
 const fetchAuthors = createAsyncThunk('authors/fetchAuthors', async () => {
   try {
@@ -16,7 +19,8 @@ const fetchAuthors = createAsyncThunk('authors/fetchAuthors', async () => {
 });
 
 const initialState: AuthorsState = {
-  data: [],
+  authors: [],
+  courseAuthors: [],
   status: Status.idle,
   error: null,
 };
@@ -32,7 +36,7 @@ const authorsSlice = createSlice({
       })
       .addCase(fetchAuthors.fulfilled, (state, action) => {
         state.status = Status.succeeded;
-        state.data = action.payload;
+        state.authors = action.payload;
       })
       .addCase(fetchAuthors.rejected, (state, action) => {
         state.status = Status.failed;
