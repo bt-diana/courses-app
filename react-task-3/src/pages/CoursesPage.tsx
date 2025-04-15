@@ -14,9 +14,8 @@ import {
   getAuthorsError,
 } from '../store';
 import { fetchCourses } from '../store/coursesSlice';
-import { Status } from '../types';
 import { fetchAuthors } from '../store/authorsSlice';
-import { isFailed, isLoading } from '../helpers/status';
+import { isFailed, isLoading, isIdle } from '../helpers/status';
 import Error from '../components/Error/Error';
 
 const CoursesPage = () => {
@@ -31,13 +30,13 @@ const CoursesPage = () => {
   const authorsError = useSelector(getAuthorsError);
 
   useEffect(() => {
-    if (coursesStatus === Status.idle) {
+    if (isIdle(coursesStatus)) {
       dispatch(fetchCourses());
     }
   }, [coursesStatus, dispatch]);
 
   useEffect(() => {
-    if (authorsStatus === Status.idle) {
+    if (isIdle(authorsStatus)) {
       dispatch(fetchAuthors());
     }
   }, [authorsStatus, dispatch]);
