@@ -17,8 +17,6 @@ import postCourse from '../../api/postCourse';
 import currentDate from '../../helpers/currentDate';
 import { useNavigate } from 'react-router-dom';
 import putCourse from '../../api/putCourse';
-import { addCourse, editCourse } from '../../store/coursesSlice';
-import { useDispatch } from 'react-redux';
 
 type FieldType = {
   title: string;
@@ -59,42 +57,28 @@ const CourseAddEdit = ({
     navigate('/courses');
   };
 
-  const dispatch = useDispatch();
-
   const onFinish: FormProps<FieldType>['onFinish'] = (values) => {
     if (courseAuthors.length < 2) {
       setAuthorsError(true);
     } else {
       setIsDisabled(true);
-      if (courseResource) {
-        const courseData: CourseResource = {
-          id: courseResource.id,
-          ...values,
-          authors: courseAuthors,
-          creationDate: courseResource.creationDate,
-        };
-  
-        dispatch(editCourse(courseData));
-      } else {
-        const courseData: Omit<CourseResource, 'id'> = {
-          ...values,
-          authors: courseAuthors,
-          creationDate: currentDate(),
-        };
-  
-        dispatch(addCourse(courseData));
-      }
-      navigateToCorses();
-      // (() =>
-      //   courseResource
-      //     ? putCourse(courseResource.id, course)
-      //     : postCourse(course))()
-      //   .then(() => {
-      //     navigateToCorses();
-      //   })
-      //   .catch(() => {
-      //     setIsDisabled(false);
-      //   });
+
+      const course = {
+        ...values,
+        authors: courseAuthors,
+        creationDate: courseResource?.creationDate ?? currentDate(),
+      };
+
+      (() =>
+        courseResource
+          ? putCourse(courseResource.id, course)
+          : postCourse(course))()
+        .then(() => {
+          navigateToCorses();
+        })
+        .catch(() => {
+          setIsDisabled(false);
+        });
     }
   };
 
