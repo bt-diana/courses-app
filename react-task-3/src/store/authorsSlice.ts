@@ -1,45 +1,45 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { AuthorResource } from '../types';
+import { DataState, Status } from '../types';
+import getAuthors from '../api/getAuthors';
 
-type AuthorsState = {
-  data: AuthorResource[];
-};
+type AuthorsState = DataState<AuthorResource[]>;
 
-type AuthorsAction<T> = {
-  type: string;
-  payload: T;
-};
+const fetchAuthors = createAsyncThunk('authors/fetchAuthors', async () => {
+  try {
+    const res = await getAuthors();
+    return res;
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Unknown Error';
+    return message;
+  }
+});
 
 const initialState: AuthorsState = {
-  data: [
-    {
-      id: '27cc3006-e93a-4748-8ca8-73d06aa93b6d',
-      name: 'Vasiliy Dobkin',
-    },
-    {
-      id: 'f762978b-61eb-4096-812b-ebde22838167',
-      name: 'Nicolas Kim',
-    },
-    {
-      id: 'df32994e-b23d-497c-9e4d-84e4dc02882f',
-      name: 'Anna Sidorenko',
-    },
-    {
-      id: '095a1817-d45b-4ed7-9cf7-b2417bcbf748',
-      name: 'Valentina Larina',
-    },
-  ],
+  data: [],
+  status: Status.idle,
+  error: null,
 };
 
 const authorsSlice = createSlice({
   name: 'authors',
   initialState,
-  reducers: {
-    addAuthor: (state: AuthorsState, action: AuthorsAction<AuthorResource>) => {
-      state.data.push(action.payload);
-    },
+  reducers: {},
+  extraReducers(builder) {
+    builder
+      .addCase(fetchAuthors.pending, (state) => {
+        state.status = Status.loading;
+      })
+      .addCase(fetchAuthors.fulfilled, (state, action) => {
+        state.status = Status.succeeded;
+        state.data = action.payload;
+      })
+      .addCase(fetchAuthors.rejected, (state, action) => {
+        state.status = Status.failed;
+        state.error = action.error.message ?? 'Unknown Error';
+      });
   },
 });
 
-export const { addAuthor } = authorsSlice.actions;
+export { fetchAuthors };
 export default authorsSlice.reducer;
