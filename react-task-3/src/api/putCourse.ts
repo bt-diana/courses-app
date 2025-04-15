@@ -1,9 +1,9 @@
 import { CourseResource } from '../types';
 
-const apiSecret = import.meta.env.VITE_API_SECRET;
+const API_URL = import.meta.env.VITE_API_URL;
 
 const putCourse = (id: string, course: Omit<CourseResource, 'id'>) =>
-  fetch(`https://${apiSecret}.mockapi.io/courses/course/${id}`, {
+  fetch(`${API_URL}/course/${id}`, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',

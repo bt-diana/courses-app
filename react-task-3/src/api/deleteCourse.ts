@@ -1,7 +1,7 @@
-const apiSecret = import.meta.env.VITE_API_SECRET;
+const API_URL = import.meta.env.VITE_API_URL;
 
 const deleteCourse = (idToDelete: string) =>
-  fetch(`https://${apiSecret}.mockapi.io/courses/course/${idToDelete}`, {
+  fetch(`${API_URL}/${idToDelete}`, {
     method: 'DELETE',
   }).then((res) => {
     if (!res.ok) {
