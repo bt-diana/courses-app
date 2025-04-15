@@ -2,7 +2,7 @@ enum Status {
   'idle',
   'loading',
   'succeeded',
-  'faild',
+  'failed',
 }
 
 export default Status;
