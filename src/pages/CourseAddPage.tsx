@@ -1,27 +1,36 @@
-import { AuthorResource } from '../types';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import Loading from '../components/Loading/Loading';
-import getAuthors from '../api/getAuthors';
 import CourseAddEdit from '../components/CourseAddEdit/CourseAddEdit';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  AppDispatch,
+  getAuthors,
+  getAuthorsStatus,
+  getAuthorsError,
+} from '../store';
+import { fetchAuthors } from '../store/authorsSlice';
+import { isFailed, isLoading, isIdle } from '../helpers/status';
+import Error from '../components/Error/Error';
 
 const CourseAddPage = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [authorsResource, setAuthorsResource] = useState<AuthorResource[]>();
+  const dispatch = useDispatch<AppDispatch>();
+
+  const authors = useSelector(getAuthors);
+  const authorsStatus = useSelector(getAuthorsStatus);
+  const authorsError = useSelector(getAuthorsError);
 
   useEffect(() => {
-    getAuthors()
-      .then((authors) => {
-        setAuthorsResource(authors);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
-  }, []);
+    if (isIdle(authorsStatus)) {
+      dispatch(fetchAuthors());
+    }
+  }, [authorsStatus, dispatch]);
 
-  return isLoading || authorsResource == null ? (
+  return isFailed(authorsStatus) ? (
+    <Error message={authorsError!} />
+  ) : isLoading(authorsStatus) ? (
     <Loading />
   ) : (
-    <CourseAddEdit authorsResource={authorsResource} />
+    <CourseAddEdit authorsResource={authors} />
   );
 };
 

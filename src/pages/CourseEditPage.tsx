@@ -1,31 +1,51 @@
-import { AuthorResource, CourseResource } from '../types';
+import { CourseResource } from '../types';
 import { useEffect, useState } from 'react';
 import Loading from '../components/Loading/Loading';
 import { useParams } from 'react-router-dom';
 import getCourse from '../api/getCourse';
-import getAuthors from '../api/getAuthors';
 import CourseAddEdit from '../components/CourseAddEdit/CourseAddEdit';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  AppDispatch,
+  getAuthors,
+  getAuthorsStatus,
+  getAuthorsError,
+} from '../store';
+import { Status } from '../types';
+import { fetchAuthors } from '../store/authorsSlice';
+import { isFailed, isLoading, isIdle } from '../helpers/status';
+import Error from '../components/Error/Error';
 
 const CourseEditPage = () => {
   const { id } = useParams();
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [courseIsLoading, setCourseIsLoading] = useState<boolean>(true);
   const [courseResource, setCourseResource] = useState<CourseResource>();
-  const [authorsResource, setAuthorsResource] = useState<AuthorResource[]>();
+
+  const dispatch = useDispatch<AppDispatch>();
+
+  const authors = useSelector(getAuthors);
+  const authorsStatus = useSelector(getAuthorsStatus);
+  const authorsError = useSelector(getAuthorsError);
 
   useEffect(() => {
     getCourse(id!)
       .then((course) => {
-        getAuthors().then((authors) => {
-          setCourseResource(course);
-          setAuthorsResource(authors);
-        });
+        setCourseResource(course);
       })
       .finally(() => {
-        setIsLoading(false);
+        setCourseIsLoading(false);
       });
   }, [id]);
 
-  return isLoading || courseResource == null || authorsResource == null ? (
+  useEffect(() => {
+    if (isIdle(authorsStatus)) {
+      dispatch(fetchAuthors());
+    }
+  }, [authorsStatus, dispatch]);
+
+  return courseIsLoading ||
+    courseResource == null ||
+    isLoading(authorsStatus) ? (
     <Loading />
   ) : (
     <CourseAddEdit
