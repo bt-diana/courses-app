@@ -2,12 +2,7 @@ import { useEffect } from 'react';
 import Loading from '../components/Loading/Loading';
 import CourseAddEdit from '../components/CourseAddEdit/CourseAddEdit';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  AppDispatch,
-  getAuthors,
-  getAuthorsStatus,
-  getAuthorsError,
-} from '../store';
+import { AppDispatch, getAuthorsStatus, getAuthorsError } from '../store';
 import { clearCourseAuthors, fetchAuthors } from '../store/authorsSlice';
 import { isFailed, isLoading, isIdle } from '../helpers/status';
 import Error from '../components/Error/Error';
