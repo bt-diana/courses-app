@@ -20,5 +20,7 @@ export const getCoursesStatus = (state: RootState) => state.courses.status;
 export const getCoursesError = (state: RootState) => state.courses.error;
 
 export const getAuthors = (state: RootState) => state.authors.authors;
+export const getCourseAuthors = (state: RootState) =>
+  state.authors.courseAuthors;
 export const getAuthorsStatus = (state: RootState) => state.authors.status;
 export const getAuthorsError = (state: RootState) => state.authors.error;
