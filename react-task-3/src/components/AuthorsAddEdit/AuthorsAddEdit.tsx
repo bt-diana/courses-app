@@ -4,49 +4,49 @@ import { Button, Card, Typography } from 'antd';
 import './AuthorsAddEdit.css';
 import { AuthorResource } from '../../types';
 import { PlusOutlined, DeleteOutlined, CloseOutlined } from '@ant-design/icons';
-import { useState } from 'react';
-import postAuthor from '../../api/postAuthor';
+import { useEffect, useState } from 'react';
 import CreateAuthor from '../CreateAuthor/CreateAuthor';
+import { AppDispatch, getAuthors, getCourseAuthors } from '../../store';
+import { useDispatch, useSelector } from 'react-redux';
+import { addCourseAuthor, removeCourseAuthor } from '../../store/authorsSlice';
 
 interface AuthorsAddEditProps {
-  courseAuthors: string[];
-  setCourseAuthors: (authors: string[]) => void;
-  authorsResource: AuthorResource[];
   error: boolean;
 }
 
-const AuthorsAddEdit = ({
-  courseAuthors,
-  setCourseAuthors,
-  authorsResource,
-  error,
-}: AuthorsAddEditProps) => {
-  const [authors, setAuthors] = useState<Record<string, string>>(
-    authorsResource.reduce(
+const AuthorsAddEdit = ({ error }: AuthorsAddEditProps) => {
+  const dispatch = useDispatch<AppDispatch>();
+
+  const authors = useSelector(getAuthors);
+  const courseAuthors = useSelector(getCourseAuthors);
+
+  const getAuthorsNames = (authors: AuthorResource[]) =>
+    authors.reduce(
       (acc, { id, name }) => ({
         ...acc,
         [id]: name,
       }),
       {}
-    )
+    );
+  const [authorsNames, setAuthorsNames] = useState<Record<string, string>>(
+    getAuthorsNames(authors)
   );
 
-  const createAuthor = (name: string) =>
-    postAuthor(name).then(({ id, name }) => {
-      setAuthors({ ...authors, [id]: name });
-    });
+  useEffect(() => {
+    setAuthorsNames(getAuthorsNames(authors));
+  }, [authors]);
 
   return (
     <div className="authors-container">
       <Card title="Authors List" className="authors-list">
-        {Object.entries(authors).map(([id, name]) =>
+        {authors.map(({ id, name }) =>
           courseAuthors.includes(id) ? null : (
             <div key={id} className="author-container">
               <div className="author-name">{name}</div>
               <div className="author-options">
                 <Button
                   onClick={() => {
-                    setCourseAuthors([...courseAuthors, id]);
+                    dispatch(addCourseAuthor(id));
                   }}
                 >
                   <PlusOutlined />
@@ -58,18 +58,16 @@ const AuthorsAddEdit = ({
             </div>
           )
         )}
-        <CreateAuthor createAuthor={createAuthor} />
+        <CreateAuthor />
       </Card>
       <Card title="Course Authors" className="course-authors">
         {courseAuthors.map((id) => (
           <div key={id} className="author-container">
-            <div className="author-name">{authors[id]}</div>
+            <div className="author-name">{authorsNames[id]}</div>
             <div className="author-options">
               <Button
                 onClick={() => {
-                  setCourseAuthors(
-                    courseAuthors.filter((authorId) => authorId !== id)
-                  );
+                  dispatch(removeCourseAuthor(id));
                 }}
               >
                 <CloseOutlined />
