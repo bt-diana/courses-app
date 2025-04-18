@@ -32,13 +32,13 @@ const Courses = ({ courses }: CoursesProps) => {
         />
       </div>
     );
-  } else {
-    return (
-      <div className="courses-empty">
-        <EmptyCoursesList />
-      </div>
-    );
   }
+
+  return (
+    <div className="courses-empty">
+      <EmptyCoursesList />
+    </div>
+  );
 };
 
 export default Courses;
