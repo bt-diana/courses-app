@@ -18,7 +18,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, getCourseAuthors, getCoursesStatus } from '../../store';
 import { addCourse, editCourse } from '../../store/coursesSlice';
-import { isLoading } from '../../helpers/status';
+import { isLoading, isSucceeded } from '../../helpers/status';
 
 type FieldType = {
   title: string;
@@ -86,15 +86,15 @@ const CourseAddEdit = ({ courseResource }: CourseAddEditProps) => {
     if (authorsError && courseAuthors.length > 1) {
       setAuthorsError(false);
     }
-  }, [courseAuthors]);
+  }, [courseAuthors, authorsError]);
 
   useEffect(() => {
     if (isLoading(coursesStatus)) {
       setIsSaving(true);
-    } else if (isSaving) {
+    } else if (isSaving && isSucceeded(coursesStatus)) {
       navigateToCorses();
     }
-  }, [coursesStatus]);
+  }, [coursesStatus, isSaving, navigateToCorses]);
 
   return (
     <>

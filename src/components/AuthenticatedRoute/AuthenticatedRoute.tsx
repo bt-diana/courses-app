@@ -24,7 +24,7 @@ const AuthenticatedRoute = () => {
     } else {
       setIsLoading(false);
     }
-  }, []);
+  }, [setUser]);
 
   if (isLoading) {
     return <Loading />;
