@@ -5,7 +5,6 @@ import { Empty, Typography } from 'antd';
 const EmptyCoursesList = () => {
   return (
     <Empty
-      image="https://gw.alipayobjects.com/zos/antfincdn/ZHrcdLPrvN/empty.svg"
       styles={{ image: { height: 60 } }}
       description={
         <>
