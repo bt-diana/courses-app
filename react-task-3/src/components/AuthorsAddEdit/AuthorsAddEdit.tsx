@@ -10,6 +10,15 @@ import { AppDispatch, getAuthors, getCourseAuthors } from '../../store';
 import { useDispatch, useSelector } from 'react-redux';
 import { addCourseAuthor, removeCourseAuthor } from '../../store/authorsSlice';
 
+const getAuthorsNames = (authors: AuthorResource[]) =>
+  authors.reduce(
+    (acc, { id, name }) => ({
+      ...acc,
+      [id]: name,
+    }),
+    {}
+  );
+
 interface AuthorsAddEditProps {
   error: boolean;
 }
@@ -19,15 +28,6 @@ const AuthorsAddEdit = ({ error }: AuthorsAddEditProps) => {
 
   const authors = useSelector(getAuthors);
   const courseAuthors = useSelector(getCourseAuthors);
-
-  const getAuthorsNames = (authors: AuthorResource[]) =>
-    authors.reduce(
-      (acc, { id, name }) => ({
-        ...acc,
-        [id]: name,
-      }),
-      {}
-    );
   const [authorsNames, setAuthorsNames] = useState<Record<string, string>>(
     getAuthorsNames(authors)
   );
