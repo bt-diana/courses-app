@@ -13,38 +13,28 @@ import CoursesPage from './pages/CoursesPage';
 import CourseInfoPage from './pages/CourseInfoPage';
 import CourseAddPage from './pages/CourseAddPage';
 import CourseEditPage from './pages/CourseEditPage';
-import { User } from './types';
-import { useState } from 'react';
-import CurrentUser from './contexts/currentUser';
-import SetCurrentUser from './contexts/setCurrentUser';
+import UserProvider from './components/UserProvider/UserProvider';
 
 const App = () => {
-  const [user, setUser] = useState<User | null>(null);
-
   return (
     <Router>
-      <CurrentUser value={user}>
-        <SetCurrentUser value={setUser}>
-          <Layout className="layout">
-            <Header />
-            <Content className="content">
-              <Routes>
-                <Route path="/" element={<Navigate replace to="/courses" />} />
-                <Route path="/login" element={<LoginPage />} />
-                <Route element={<AuthenticatedRoute />}>
-                  <Route path="/courses" element={<CoursesPage />} />
-                  <Route path="/courses/:id" element={<CourseInfoPage />} />
-                  <Route path="/courses/add" element={<CourseAddPage />} />
-                  <Route
-                    path="/courses/:id/edit"
-                    element={<CourseEditPage />}
-                  />
-                </Route>
-              </Routes>
-            </Content>
-          </Layout>
-        </SetCurrentUser>
-      </CurrentUser>
+      <UserProvider>
+        <Layout className="layout">
+          <Header />
+          <Content className="content">
+            <Routes>
+              <Route path="/" element={<Navigate replace to="/courses" />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route element={<AuthenticatedRoute />}>
+                <Route path="/courses" element={<CoursesPage />} />
+                <Route path="/courses/:id" element={<CourseInfoPage />} />
+                <Route path="/courses/add" element={<CourseAddPage />} />
+                <Route path="/courses/:id/edit" element={<CourseEditPage />} />
+              </Route>
+            </Routes>
+          </Content>
+        </Layout>
+      </UserProvider>
     </Router>
   );
 };
