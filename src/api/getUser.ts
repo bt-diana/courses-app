@@ -1,6 +1,4 @@
-const getUser = () => {
-  const accessToken = localStorage.getItem('accessToken');
-
+const getUser = (accessToken: string) => {
   return fetch('https://dummyjson.com/auth/me', {
     method: 'GET',
     headers: {

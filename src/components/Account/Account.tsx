@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import CurrentUser from '../../contexts/currentUser';
 import UserSection from '../UserSection/UserSection';
 import SetCurrentUser from '../../contexts/setCurrentUser';
-import removeToken from '../../api/removeToken';
+import { removeToken } from '../../helpers/token';
 
 const Account = () => {
   const user = useContext(CurrentUser);

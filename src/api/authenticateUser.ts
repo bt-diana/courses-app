@@ -1,5 +1,3 @@
-import setToken from './setToken';
-
 const authenticateUser = (username: string, password: string) => {
   return fetch('https://dummyjson.com/auth/login', {
     method: 'POST',
@@ -10,21 +8,13 @@ const authenticateUser = (username: string, password: string) => {
       username,
       password,
     }),
-  })
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      } else {
-        throw Error(`${res.status}: ${res.statusText}`);
-      }
-    })
-    .then((res) => {
-      setToken(res.accessToken);
-      return res;
-    })
-    .then(({ firstName, lastName }) => {
-      return { firstName, lastName };
-    });
+  }).then((res) => {
+    if (res.ok) {
+      return res.json();
+    } else {
+      throw Error(`${res.status}: ${res.statusText}`);
+    }
+  });
 };
 
 export default authenticateUser;

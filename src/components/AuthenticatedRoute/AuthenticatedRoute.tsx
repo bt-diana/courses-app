@@ -4,6 +4,7 @@ import SetCurrentUser from '../../contexts/setCurrentUser';
 import getUser from '../../api/getUser';
 import Loading from '../Loading/Loading';
 import CurrentUser from '../../contexts/currentUser';
+import { getToken } from '../../helpers/token';
 
 const AuthenticatedRoute = () => {
   const user = useContext(CurrentUser);
@@ -11,13 +12,18 @@ const AuthenticatedRoute = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    getUser()
-      .then(({ firstName, lastName }) => {
-        setUser({ firstName, lastName });
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+    const token = getToken();
+    if (token) {
+      getUser(token)
+        .then(({ firstName, lastName }) => {
+          setUser({ firstName, lastName });
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    } else {
+      setIsLoading(false);
+    }
   }, []);
 
   return isLoading ? (
