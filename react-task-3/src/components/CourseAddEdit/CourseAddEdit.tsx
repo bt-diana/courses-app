@@ -36,11 +36,11 @@ const formItemLayout = {
   },
 };
 
-interface CourseInfoProps {
+interface CourseAddEditProps {
   courseResource?: CourseResource;
 }
 
-const CourseAddEdit = ({ courseResource }: CourseInfoProps) => {
+const CourseAddEdit = ({ courseResource }: CourseAddEditProps) => {
   const dispatch = useDispatch<AppDispatch>();
 
   const coursesStatus = useSelector(getCoursesStatus);
