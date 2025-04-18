@@ -1,26 +1,30 @@
 import { useContext, useEffect, useState } from 'react';
-import authenticateUser from '../api/authenticateUser';
+import { authenticateUser } from '../api/user';
 import LoginForm from '../components/LoginForm/LoginForm';
 import SetCurrentUser from '../contexts/setCurrentUser';
-import getUser from '../api/getUser';
+import { getUser } from '../api/user';
 import CurrentUser from '../contexts/currentUser';
 import Loading from '../components/Loading/Loading';
 import { Navigate } from 'react-router-dom';
-import { setToken } from '../helpers/token';
-
+import { getToken, setToken } from '../helpers/token';
 const LoginPage = () => {
   const user = useContext(CurrentUser);
   const setUser = useContext(SetCurrentUser);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    getUser()
-      .then(({ firstName, lastName }) => {
-        setUser({ firstName, lastName });
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+    const token = getToken();
+    if (token) {
+      getUser(token)
+        .then(({ firstName, lastName }) => {
+          setUser({ firstName, lastName });
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    } else {
+      setIsLoading(false);
+    }
   }, []);
 
   const requestOnFinish = ({

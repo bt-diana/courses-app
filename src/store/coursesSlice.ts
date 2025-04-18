@@ -1,9 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { CourseResource } from '../types';
 import { DataState, Status } from '../types';
-import getCourses from '../api/getCourses';
-import postCourse from '../api/postCourse';
-import putCourse from '../api/putCourse';
+import { getCourses, postCourse, putCourse } from '../api/courses';
 
 type CoursesState = {
   courses: CourseResource[];
