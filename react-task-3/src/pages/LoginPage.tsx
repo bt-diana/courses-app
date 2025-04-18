@@ -6,6 +6,7 @@ import getUser from '../api/getUser';
 import CurrentUser from '../contexts/currentUser';
 import Loading from '../components/Loading/Loading';
 import { Navigate } from 'react-router-dom';
+import { setToken } from '../helpers/token';
 
 const LoginPage = () => {
   const user = useContext(CurrentUser);
@@ -30,6 +31,10 @@ const LoginPage = () => {
     password: string;
   }) => {
     return authenticateUser(username, password)
+      .then((res) => {
+        setToken(res.accessToken);
+        return res;
+      })
       .then((res) => {
         setUser({ firstName: res.firstName, lastName: res.lastName });
       })
