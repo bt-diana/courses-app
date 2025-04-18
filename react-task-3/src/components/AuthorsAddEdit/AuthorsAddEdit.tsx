@@ -32,6 +32,10 @@ const AuthorsAddEdit = ({ error }: AuthorsAddEditProps) => {
     getAuthorsNames(authors)
   );
 
+  const addAuthorHandler = (id: string) => () => dispatch(addCourseAuthor(id));
+  const removeAuthorHandler = (id: string) => () =>
+    dispatch(removeCourseAuthor(id));
+
   useEffect(() => {
     setAuthorsNames(getAuthorsNames(authors));
   }, [authors]);
@@ -44,11 +48,7 @@ const AuthorsAddEdit = ({ error }: AuthorsAddEditProps) => {
             <div key={id} className="author-container">
               <div className="author-name">{name}</div>
               <div className="author-options">
-                <Button
-                  onClick={() => {
-                    dispatch(addCourseAuthor(id));
-                  }}
-                >
+                <Button onClick={addAuthorHandler(id)}>
                   <PlusOutlined />
                 </Button>
                 <Button>
@@ -65,11 +65,7 @@ const AuthorsAddEdit = ({ error }: AuthorsAddEditProps) => {
           <div key={id} className="author-container">
             <div className="author-name">{authorsNames[id]}</div>
             <div className="author-options">
-              <Button
-                onClick={() => {
-                  dispatch(removeCourseAuthor(id));
-                }}
-              >
+              <Button onClick={removeAuthorHandler(id)}>
                 <CloseOutlined />
               </Button>
             </div>

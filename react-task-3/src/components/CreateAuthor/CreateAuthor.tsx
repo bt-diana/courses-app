@@ -1,5 +1,5 @@
 import { Button, Input, Typography } from 'antd';
-import { useEffect, useState } from 'react';
+import { ChangeEventHandler, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, getAuthorsStatus } from '../../store';
 import { addAuthor } from '../../store/authorsSlice';
@@ -17,6 +17,18 @@ const CreateAuthor = () => {
     dispatch(addAuthor(name));
   };
 
+  const handleInput: ChangeEventHandler<HTMLInputElement> = (e) => {
+    setName((e.target as HTMLInputElement).value);
+  };
+
+  const onFinish: React.MouseEventHandler<HTMLElement> = () => {
+    if (name?.trim()) {
+      createAuthor(name.trim());
+    } else {
+      setError(true);
+    }
+  };
+
   useEffect(() => {
     if (isSucceeded(authorsStatus)) {
       setName(undefined);
@@ -29,9 +41,7 @@ const CreateAuthor = () => {
         <Input
           placeholder="Author's name"
           value={name}
-          onChange={(e) => {
-            setName(e.target.value);
-          }}
+          onChange={handleInput}
           status={error ? 'error' : ''}
           onFocus={() => {
             setError(false);
@@ -45,13 +55,7 @@ const CreateAuthor = () => {
       </div>
       <Button
         type="primary"
-        onClick={() => {
-          if (name?.trim()) {
-            createAuthor(name.trim());
-          } else {
-            setError(true);
-          }
-        }}
+        onClick={onFinish}
         loading={isLoading(authorsStatus)}
       >
         Create author
