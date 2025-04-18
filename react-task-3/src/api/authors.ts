@@ -1,5 +1,16 @@
 const API_URL = import.meta.env.VITE_API_URL;
 
+const getAuthors = () =>
+  fetch(`${API_URL}/authors`, {
+    method: 'GET',
+  }).then((res) => {
+    if (res.ok) {
+      return res.json();
+    } else {
+      throw Error(`${res.status}: ${res.statusText}`);
+    }
+  });
+
 const postAuthor = (name: string) =>
   fetch(`${API_URL}/authors`, {
     method: 'POST',
@@ -16,4 +27,4 @@ const postAuthor = (name: string) =>
     return res.json();
   });
 
-export default postAuthor;
+export { postAuthor, getAuthors };

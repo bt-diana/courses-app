@@ -1,8 +1,7 @@
 import { createSlice, createAsyncThunk, Action } from '@reduxjs/toolkit';
 import { AuthorResource } from '../types';
 import { DataState, Status } from '../types';
-import getAuthors from '../api/getAuthors';
-import postAuthor from '../api/postAuthor';
+import { getAuthors, postAuthor } from '../api/authors';
 
 type AuthorsState = {
   authors: AuthorResource[];

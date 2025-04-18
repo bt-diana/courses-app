@@ -2,7 +2,7 @@ import { CourseResource } from '../types';
 import { useEffect, useState } from 'react';
 import Loading from '../components/Loading/Loading';
 import { useParams } from 'react-router-dom';
-import getCourse from '../api/getCourse';
+import { getCourse } from '../api/courses';
 import CourseAddEdit from '../components/CourseAddEdit/CourseAddEdit';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, getAuthorsStatus, getAuthorsError } from '../store';

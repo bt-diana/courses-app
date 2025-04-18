@@ -3,8 +3,8 @@ import { useEffect, useState } from 'react';
 import Loading from '../components/Loading/Loading';
 import { useParams } from 'react-router-dom';
 import normalizeCourse from '../helpers/normalizeCourse';
-import getCourse from '../api/getCourse';
-import getAuthors from '../api/getAuthors';
+import { getCourse } from '../api/courses';
+import { getAuthors } from '../api/authors';
 import CourseInfo from '../components/CourseInfo/CourseInfo';
 
 const CourseInfoPage = () => {
