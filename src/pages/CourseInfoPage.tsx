@@ -24,11 +24,11 @@ const CourseInfoPage = () => {
       });
   }, [id]);
 
-  return isLoading || courseData == null ? (
-    <Loading />
-  ) : (
-    <CourseInfo courseData={courseData} />
-  );
+  if (isLoading || courseData == null) {
+    return <Loading />;
+  }
+
+  return <CourseInfo courseData={courseData} />;
 };
 
 export default CourseInfoPage;

@@ -40,13 +40,15 @@ const CoursesPage = () => {
     }
   }, [authorsStatus, dispatch]);
 
-  return [coursesStatus, authorsStatus].some(isFailed) ? (
-    <Error message={coursesError ?? authorsError!} />
-  ) : [coursesStatus, authorsStatus].some(isLoading) ? (
-    <Loading />
-  ) : (
-    <Courses courses={normalizeCourses(courses, authors)} />
-  );
+  if ([coursesStatus, authorsStatus].some(isFailed)) {
+    return <Error message={coursesError ?? authorsError!} />;
+  }
+
+  if ([coursesStatus, authorsStatus].some(isLoading)) {
+    return <Loading />;
+  }
+
+  return <Courses courses={normalizeCourses(courses, authors)} />;
 };
 
 export default CoursesPage;
