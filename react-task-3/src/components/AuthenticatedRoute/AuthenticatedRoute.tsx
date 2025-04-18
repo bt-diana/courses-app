@@ -1,7 +1,7 @@
 import { Outlet, Navigate } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
 import SetCurrentUser from '../../contexts/setCurrentUser';
-import getUser from '../../api/getUser';
+import { getUser } from '../../api/user';
 import Loading from '../Loading/Loading';
 import CurrentUser from '../../contexts/currentUser';
 import { getToken } from '../../helpers/token';
