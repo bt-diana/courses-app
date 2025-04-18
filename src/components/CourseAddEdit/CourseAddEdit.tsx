@@ -157,9 +157,7 @@ const CourseAddEdit = ({ courseResource }: CourseAddEditProps) => {
               type="number"
               min={0}
               value={duration}
-              onChange={(value) => {
-                setDuration(value);
-              }}
+              onChange={setDuration}
               addonAfter={normalizeDuration(duration ?? 0)}
             />
           </Form.Item>

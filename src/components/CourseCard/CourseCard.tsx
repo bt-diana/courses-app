@@ -14,6 +14,13 @@ const CourseCard = ({ courseData }: CourseCardProps) => {
   const navigate = useNavigate();
   const deleteCourse = useContext(DeleteCurrentCourse);
 
+  const navigateToEditCourse = () => {
+    navigate(`/courses/${courseData.id}/edit`);
+  };
+  const onDeleteCourse = () => {
+    deleteCourse(courseData.id);
+  };
+
   return (
     <Card
       title={courseData.title}
@@ -21,18 +28,8 @@ const CourseCard = ({ courseData }: CourseCardProps) => {
         <Link key="show" to={`/courses/${courseData.id}`}>
           <span>Show course</span>
         </Link>,
-        <EditOutlined
-          key="edit"
-          onClick={() => {
-            navigate(`/courses/${courseData.id}/edit`);
-          }}
-        />,
-        <DeleteOutlined
-          key="delete"
-          onClick={() => {
-            deleteCourse(courseData.id);
-          }}
-        />,
+        <EditOutlined key="edit" onClick={navigateToEditCourse} />,
+        <DeleteOutlined key="delete" onClick={onDeleteCourse} />,
       ]}
     >
       <div className="course-card-content">
