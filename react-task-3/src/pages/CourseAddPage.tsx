@@ -23,13 +23,15 @@ const CourseAddPage = () => {
     }
   }, [authorsStatus, dispatch]);
 
-  return isFailed(authorsStatus) ? (
-    <Error message={authorsError!} />
-  ) : isLoading(authorsStatus) ? (
-    <Loading />
-  ) : (
-    <CourseAddEdit />
-  );
+  if (isFailed(authorsStatus)) {
+    return <Error message={authorsError!} />;
+  }
+
+  if (isLoading(authorsStatus)) {
+    return <Loading />;
+  }
+
+  return <CourseAddEdit />;
 };
 
 export default CourseAddPage;

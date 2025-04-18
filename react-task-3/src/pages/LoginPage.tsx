@@ -51,13 +51,15 @@ const LoginPage = () => {
       });
   };
 
-  return isLoading ? (
-    <Loading />
-  ) : user ? (
-    <Navigate to="/" />
-  ) : (
-    <LoginForm requestOnFinish={requestOnFinish} />
-  );
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  if (user) {
+    return <Navigate to="/" />;
+  }
+
+  return <LoginForm requestOnFinish={requestOnFinish} />;
 };
 
 export default LoginPage;

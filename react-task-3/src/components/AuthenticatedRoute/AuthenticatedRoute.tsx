@@ -26,13 +26,15 @@ const AuthenticatedRoute = () => {
     }
   }, []);
 
-  return isLoading ? (
-    <Loading />
-  ) : user ? (
-    <Outlet />
-  ) : (
-    <Navigate replace to="/login" />
-  );
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  if (!user) {
+    return <Navigate replace to="/login" />;
+  }
+
+  return <Outlet />;
 };
 
 export default AuthenticatedRoute;

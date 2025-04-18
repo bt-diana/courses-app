@@ -13,13 +13,11 @@ const Account = () => {
     setUser(null);
   };
 
-  return user ? (
+  return (
     <UserSection
       logout={logout}
-      fullname={user.firstName + ' ' + user.lastName}
+      fullname={user!.firstName + ' ' + user!.lastName}
     />
-  ) : (
-    <></>
   );
 };
 

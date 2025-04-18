@@ -42,13 +42,15 @@ const CourseEditPage = () => {
     }
   }, [authorsStatus, dispatch]);
 
-  return isFailed(authorsStatus) ? (
-    <Error message={authorsError!} />
-  ) : courseIsLoading || courseResource == null || isLoading(authorsStatus) ? (
-    <Loading />
-  ) : (
-    <CourseAddEdit courseResource={courseResource} />
-  );
+  if (isFailed(authorsStatus)) {
+    return <Error message={authorsError!} />;
+  }
+
+  if (courseIsLoading || courseResource == null || isLoading(authorsStatus)) {
+    return <Loading />;
+  }
+
+  return <CourseAddEdit courseResource={courseResource} />;
 };
 
 export default CourseEditPage;
