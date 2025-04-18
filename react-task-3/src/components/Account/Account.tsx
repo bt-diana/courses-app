@@ -13,12 +13,14 @@ const Account = () => {
     setUser(null);
   };
 
-  return (
-    <UserSection
-      logout={logout}
-      fullname={user!.firstName + ' ' + user!.lastName}
-    />
-  );
+  if (user) {
+    return (
+      <UserSection
+        logout={logout}
+        fullname={user.firstName + ' ' + user.lastName}
+      />
+    );
+  }
 };
 
 export default Account;
