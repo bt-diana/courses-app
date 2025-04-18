@@ -15,7 +15,7 @@ const CourseAddPage = () => {
 
   useEffect(() => {
     dispatch(clearCourseAuthors());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     if (isIdle(authorsStatus)) {

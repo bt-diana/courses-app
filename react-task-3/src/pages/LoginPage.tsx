@@ -25,7 +25,7 @@ const LoginPage = () => {
     } else {
       setIsLoading(false);
     }
-  }, []);
+  }, [setUser]);
 
   const requestOnFinish = ({
     username,

@@ -24,7 +24,7 @@ const CourseEditPage = () => {
     if (courseResource) {
       dispatch(setCourseAuthors(courseResource.authors));
     }
-  }, [courseResource]);
+  }, [courseResource, dispatch]);
 
   useEffect(() => {
     getCourse(id!)
