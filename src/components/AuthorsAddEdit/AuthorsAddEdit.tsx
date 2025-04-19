@@ -28,7 +28,7 @@ const AuthorsAddEdit = ({ error }: AuthorsAddEditProps) => {
 
   const authors = useSelector(getAuthors);
   const courseAuthors = useSelector(getCourseAuthors);
-  const [authorsNames, setAuthorsNames] = useState<Record<string, string>>(
+  const [authorsNames, setAuthorsNames] = useState<Record<string, string>>(() =>
     getAuthorsNames(authors)
   );
 
