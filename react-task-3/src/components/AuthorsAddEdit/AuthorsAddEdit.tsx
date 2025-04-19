@@ -4,13 +4,13 @@ import { Button, Card, Typography } from 'antd';
 import './AuthorsAddEdit.css';
 import { AuthorResource } from '../../types';
 import { PlusOutlined, DeleteOutlined, CloseOutlined } from '@ant-design/icons';
-import { useEffect, useState } from 'react';
+import { useMemo } from 'react';
 import CreateAuthor from '../CreateAuthor/CreateAuthor';
 import { AppDispatch, getAuthors, getCourseAuthors } from '../../store';
 import { useDispatch, useSelector } from 'react-redux';
 import { addCourseAuthor, removeCourseAuthor } from '../../store/authorsSlice';
 
-const getAuthorsNames = (authors: AuthorResource[]) =>
+const getAuthorsNames = (authors: AuthorResource[]): Record<string, string> =>
   authors.reduce(
     (acc, { id, name }) => ({
       ...acc,
@@ -28,17 +28,15 @@ const AuthorsAddEdit = ({ error }: AuthorsAddEditProps) => {
 
   const authors = useSelector(getAuthors);
   const courseAuthors = useSelector(getCourseAuthors);
-  const [authorsNames, setAuthorsNames] = useState<Record<string, string>>(() =>
-    getAuthorsNames(authors)
+
+  const authorsNames: Record<string, string> = useMemo(
+    () => getAuthorsNames(authors),
+    [authors]
   );
 
   const addAuthorHandler = (id: string) => () => dispatch(addCourseAuthor(id));
   const removeAuthorHandler = (id: string) => () =>
     dispatch(removeCourseAuthor(id));
-
-  useEffect(() => {
-    setAuthorsNames(getAuthorsNames(authors));
-  }, [authors]);
 
   return (
     <div className="authors-container">
