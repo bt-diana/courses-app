@@ -11,9 +11,9 @@ const UserProvider = ({ children }: UserProviderProps) => {
   const [user, setUser] = useState<User | null>(null);
 
   return (
-    <CurrentUser value={user}>
-      <SetCurrentUser value={setUser}>{children}</SetCurrentUser>
-    </CurrentUser>
+    <SetCurrentUser value={setUser}>
+      <CurrentUser value={user}>{children}</CurrentUser>
+    </SetCurrentUser>
   );
 };
 
