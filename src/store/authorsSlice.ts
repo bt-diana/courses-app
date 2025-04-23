@@ -2,24 +2,31 @@ import { createSlice, createAsyncThunk, Action } from '@reduxjs/toolkit';
 import { AuthorResource } from '../types';
 import { DataState, Status } from '../types';
 import { deleteAuthor, getAuthors, postAuthor } from '../api/authors';
+import { UNKNOWN_ERROR_MESSAGE } from '../variables';
 
 type AuthorsState = {
   authors: AuthorResource[];
   courseAuthors: string[];
 } & DataState;
 
+enum authorsThunkType {
+  fetchAuthors = 'authors/fetchAuthors',
+  addAuthor = 'authors/addAuthor',
+  removeAuthor = 'authors/removeAuthor',
+}
+
 const fetchAuthors = createAsyncThunk(
-  'authors/fetchAuthors',
+  authorsThunkType.fetchAuthors,
   async () => await getAuthors()
 );
 
 const addAuthor = createAsyncThunk(
-  'authors/addAuthor',
+  authorsThunkType.addAuthor,
   async (name: string) => await postAuthor(name)
 );
 
 const removeAuthor = createAsyncThunk(
-  'courses/removeourse',
+  authorsThunkType.removeAuthor,
   async (id: string) => await deleteAuthor(id)
 );
 
@@ -60,7 +67,7 @@ const authorsSlice = createSlice({
       })
       .addCase(fetchAuthors.rejected, (state, action) => {
         state.status = Status.failed;
-        state.error = action.error.message ?? 'Unknown Error';
+        state.error = action.error.message ?? UNKNOWN_ERROR_MESSAGE;
       })
 
       .addCase(addAuthor.pending, (state) => {
@@ -72,7 +79,7 @@ const authorsSlice = createSlice({
       })
       .addCase(addAuthor.rejected, (state, action) => {
         state.status = Status.failed;
-        state.error = action.error.message ?? 'Unknown Error';
+        state.error = action.error.message ?? UNKNOWN_ERROR_MESSAGE;
       })
 
       .addCase(removeAuthor.pending, (state) => {
@@ -86,7 +93,7 @@ const authorsSlice = createSlice({
       })
       .addCase(removeAuthor.rejected, (state, action) => {
         state.status = Status.failed;
-        state.error = action.error.message ?? 'Unknown Error';
+        state.error = action.error.message ?? UNKNOWN_ERROR_MESSAGE;
       });
   },
 });
