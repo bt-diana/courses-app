@@ -7,7 +7,7 @@ import {
   postCourse,
   putCourse,
 } from '../api/courses';
-import { UNKNOWN_ERROR_MESSAGE } from '../variables';
+import { UNKNOWN_ERROR_MESSAGE } from '../constants';
 
 type CoursesState = {
   courses: CourseResource[];

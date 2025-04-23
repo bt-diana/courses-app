@@ -1,4 +1,4 @@
-import { API_AUTHORS_PATH } from '../variables';
+import { API_AUTHORS_PATH } from '../constants';
 import processResponse from '../helpers/processResponse';
 
 const API_URL = process.env.VITE_API_URL;
