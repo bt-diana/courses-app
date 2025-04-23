@@ -8,7 +8,7 @@ import { useMemo } from 'react';
 import CreateAuthor from '../CreateAuthor/CreateAuthor';
 import { AppDispatch, getAuthors, getCourseAuthors } from '../../store';
 import { useDispatch, useSelector } from 'react-redux';
-import { addCourseAuthor, removeCourseAuthor } from '../../store/authorsSlice';
+import { addCourseAuthor, removeAuthor, removeCourseAuthor } from '../../store/authorsSlice';
 
 const getAuthorsNames = (authors: AuthorResource[]): Record<string, string> =>
   authors.reduce(
@@ -37,6 +37,7 @@ const AuthorsAddEdit = ({ error }: AuthorsAddEditProps) => {
   const addAuthorHandler = (id: string) => () => dispatch(addCourseAuthor(id));
   const removeAuthorHandler = (id: string) => () =>
     dispatch(removeCourseAuthor(id));
+  const deleteAuthor = (id: string) => () => dispatch(removeAuthor(id));
 
   return (
     <div className="authors-container">
@@ -50,7 +51,7 @@ const AuthorsAddEdit = ({ error }: AuthorsAddEditProps) => {
                   <PlusOutlined />
                 </Button>
                 <Button>
-                  <DeleteOutlined />
+                  <DeleteOutlined onClick={deleteAuthor(id)} />
                 </Button>
               </div>
             </div>
