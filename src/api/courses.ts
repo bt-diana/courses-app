@@ -3,7 +3,7 @@ import { CourseResource } from '../types';
 const API_URL = import.meta.env.VITE_API_URL;
 
 const deleteCourse = (idToDelete: string) =>
-  fetch(`${API_URL}/${idToDelete}`, {
+  fetch(`${API_URL}/course/${idToDelete}`, {
     method: 'DELETE',
   }).then((res) => {
     if (!res.ok) {
