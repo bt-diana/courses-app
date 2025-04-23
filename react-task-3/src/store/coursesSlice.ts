@@ -1,46 +1,29 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { CourseResource } from '../types';
 import { DataState, Status } from '../types';
-import { getCourses, postCourse, putCourse } from '../api/courses';
+import {
+  deleteCourse,
+  getCourses,
+  postCourse,
+  putCourse,
+} from '../api/courses';
 
 type CoursesState = {
   courses: CourseResource[];
 } & DataState;
 
-const fetchCourses = createAsyncThunk('courses/fetchCourses', async () => {
-  try {
-    const res = await getCourses();
-    return res;
-  } catch (error) {
-    const message = error instanceof Error ? error.message : 'Unknown Error';
-    return message;
-  }
-});
+const fetchCourses = createAsyncThunk('courses/fetchCourses', async () =>
+  getCourses()
+);
 
 const addCourse = createAsyncThunk(
   'courses/addCourse',
-  async (courseData: Omit<CourseResource, 'id'>) => {
-    try {
-      const res = await postCourse(courseData);
-      return res;
-    } catch (error) {
-      const message = error instanceof Error ? error.message : 'Unknown Error';
-      return message;
-    }
-  }
+  async (courseData: Omit<CourseResource, 'id'>) => postCourse(courseData)
 );
 
 const editCourse = createAsyncThunk(
   'courses/editCourse',
-  async (course: CourseResource) => {
-    try {
-      const res = await putCourse(course.id, course);
-      return res;
-    } catch (error) {
-      const message = error instanceof Error ? error.message : 'Unknown Error';
-      return message;
-    }
-  }
+  async (course: CourseResource) => await putCourse(course.id, course)
 );
 
 const initialState: CoursesState = {
