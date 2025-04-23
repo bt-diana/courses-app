@@ -6,7 +6,9 @@ const deleteCourse = (idToDelete: string) =>
   fetch(`${API_URL}/course/${idToDelete}`, {
     method: 'DELETE',
   }).then((res) => {
-    if (!res.ok) {
+    if (res.ok) {
+      return res.json();
+    } else {
       throw Error(`${res.status}: ${res.statusText}`);
     }
   });
@@ -41,10 +43,11 @@ const postCourse = (course: Omit<CourseResource, 'id'>) =>
     },
     body: JSON.stringify(course),
   }).then((res) => {
-    if (!res.ok) {
+    if (res.ok) {
+      return res.json();
+    } else {
       throw Error(`${res.status}: ${res.statusText}`);
     }
-    return res.json();
   });
 
 const putCourse = (id: string, course: Omit<CourseResource, 'id'>) =>
