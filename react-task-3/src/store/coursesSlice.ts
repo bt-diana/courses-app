@@ -7,27 +7,35 @@ import {
   postCourse,
   putCourse,
 } from '../api/courses';
+import { UNKNOWN_ERROR_MESSAGE } from '../variables';
 
 type CoursesState = {
   courses: CourseResource[];
 } & DataState;
 
-const fetchCourses = createAsyncThunk('courses/fetchCourses', async () =>
+enum coursesThunkType {
+  fetchCourses = 'courses/fetchCourses',
+  addCourse = 'courses/addCourse',
+  editCourse = 'courses/editCourse',
+  removeCourse = 'courses/removeourse',
+}
+
+const fetchCourses = createAsyncThunk(coursesThunkType.fetchCourses, async () =>
   getCourses()
 );
 
 const addCourse = createAsyncThunk(
-  'courses/addCourse',
+  coursesThunkType.addCourse,
   async (courseData: Omit<CourseResource, 'id'>) => postCourse(courseData)
 );
 
 const editCourse = createAsyncThunk(
-  'courses/editCourse',
+  coursesThunkType.editCourse,
   async (course: CourseResource) => await putCourse(course.id, course)
 );
 
 const removeCourse = createAsyncThunk(
-  'courses/removeourse',
+  coursesThunkType.removeCourse,
   async (id: string) => await deleteCourse(id)
 );
 
@@ -52,7 +60,7 @@ const coursesSlice = createSlice({
       })
       .addCase(fetchCourses.rejected, (state, action) => {
         state.status = Status.failed;
-        state.error = action.error.message ?? 'Unknown Error';
+        state.error = action.error.message ?? UNKNOWN_ERROR_MESSAGE;
       })
 
       .addCase(addCourse.pending, (state) => {
@@ -64,7 +72,7 @@ const coursesSlice = createSlice({
       })
       .addCase(addCourse.rejected, (state, action) => {
         state.status = Status.failed;
-        state.error = action.error.message ?? 'Unknown Error';
+        state.error = action.error.message ?? UNKNOWN_ERROR_MESSAGE;
       })
 
       .addCase(editCourse.pending, (state) => {
@@ -78,7 +86,7 @@ const coursesSlice = createSlice({
       })
       .addCase(editCourse.rejected, (state, action) => {
         state.status = Status.failed;
-        state.error = action.error.message ?? 'Unknown Error';
+        state.error = action.error.message ?? UNKNOWN_ERROR_MESSAGE;
       })
 
       .addCase(removeCourse.pending, (state) => {
@@ -92,7 +100,7 @@ const coursesSlice = createSlice({
       })
       .addCase(removeCourse.rejected, (state, action) => {
         state.status = Status.failed;
-        state.error = action.error.message ?? 'Unknown Error';
+        state.error = action.error.message ?? UNKNOWN_ERROR_MESSAGE;
       });
   },
 });
