@@ -6,7 +6,7 @@ export default {
     '^.+\\.(ts|tsx|js|jsx)?$': [
       'ts-jest',
       {
-        tsconfig: '<rootDir>/tsconfig.app.json',
+        tsconfig: '<rootDir>/tsconfig.json',
       },
     ],
   },
