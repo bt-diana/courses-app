@@ -2,23 +2,25 @@ import './CourseCard.css';
 import { Course } from '../../types';
 import { Card } from 'antd';
 import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
-import DeleteCurrentCourse from '../../contexts/deleteCurrentCourse';
-import { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../store';
+import { removeCourse } from '../../store/coursesSlice';
 
 interface CourseCardProps {
   courseData: Course;
 }
 
 const CourseCard = ({ courseData }: CourseCardProps) => {
-  const navigate = useNavigate();
-  const deleteCourse = useContext(DeleteCurrentCourse);
+  const dispatch = useDispatch<AppDispatch>();
 
+  const navigate = useNavigate();
   const navigateToEditCourse = () => {
     navigate(`/courses/${courseData.id}/edit`);
   };
+
   const onDeleteCourse = () => {
-    deleteCourse(courseData.id);
+    dispatch(removeCourse(courseData.id));
   };
 
   return (
