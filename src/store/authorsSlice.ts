@@ -8,27 +8,14 @@ type AuthorsState = {
   courseAuthors: string[];
 } & DataState;
 
-const fetchAuthors = createAsyncThunk('authors/fetchAuthors', async () => {
-  try {
-    const res = await getAuthors();
-    return res;
-  } catch (error) {
-    const message = error instanceof Error ? error.message : 'Unknown Error';
-    return message;
-  }
-});
+const fetchAuthors = createAsyncThunk(
+  'authors/fetchAuthors',
+  async () => await getAuthors()
+);
 
 const addAuthor = createAsyncThunk(
   'authors/addAuthor',
-  async (name: string) => {
-    try {
-      const res = await postAuthor(name);
-      return res;
-    } catch (error) {
-      const message = error instanceof Error ? error.message : 'Unknown Error';
-      return message;
-    }
-  }
+  async (name: string) => await postAuthor(name)
 );
 
 const initialState: AuthorsState = {
