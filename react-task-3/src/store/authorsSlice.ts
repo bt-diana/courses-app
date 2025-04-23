@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk, Action } from '@reduxjs/toolkit';
 import { AuthorResource } from '../types';
 import { DataState, Status } from '../types';
-import { getAuthors, postAuthor } from '../api/authors';
+import { deleteAuthor, getAuthors, postAuthor } from '../api/authors';
 
 type AuthorsState = {
   authors: AuthorResource[];
@@ -16,6 +16,11 @@ const fetchAuthors = createAsyncThunk(
 const addAuthor = createAsyncThunk(
   'authors/addAuthor',
   async (name: string) => await postAuthor(name)
+);
+
+const removeAuthor = createAsyncThunk(
+  'courses/removeourse',
+  async (id: string) => await deleteAuthor(id)
 );
 
 const initialState: AuthorsState = {
@@ -68,11 +73,25 @@ const authorsSlice = createSlice({
       .addCase(addAuthor.rejected, (state, action) => {
         state.status = Status.failed;
         state.error = action.error.message ?? 'Unknown Error';
+      })
+
+      .addCase(removeAuthor.pending, (state) => {
+        state.status = Status.loading;
+      })
+      .addCase(removeAuthor.fulfilled, (state, action) => {
+        state.status = Status.succeeded;
+        state.authors = state.authors.filter(
+          ({ id }) => id !== action.payload.id
+        );
+      })
+      .addCase(removeAuthor.rejected, (state, action) => {
+        state.status = Status.failed;
+        state.error = action.error.message ?? 'Unknown Error';
       });
   },
 });
 
-export { fetchAuthors, addAuthor };
+export { fetchAuthors, addAuthor, removeAuthor };
 export const {
   setCourseAuthors,
   addCourseAuthor,

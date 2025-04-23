@@ -27,4 +27,15 @@ const postAuthor = (name: string) =>
     return res.json();
   });
 
-export { postAuthor, getAuthors };
+const deleteAuthor = (idToDelete: string) =>
+  fetch(`${API_URL}/authors/${idToDelete}`, {
+    method: 'DELETE',
+  }).then((res) => {
+    if (res.ok) {
+      return res.json();
+    } else {
+      throw Error(`${res.status}: ${res.statusText}`);
+    }
+  });
+
+export { postAuthor, getAuthors, deleteAuthor };
