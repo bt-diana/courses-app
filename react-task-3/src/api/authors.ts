@@ -1,7 +1,8 @@
+import { API_AUTHORS_PATH } from '../variables';
 const API_URL = import.meta.env.VITE_API_URL;
 
 const getAuthors = () =>
-  fetch(`${API_URL}/authors`, {
+  fetch(`${API_URL}/${API_AUTHORS_PATH}`, {
     method: 'GET',
   }).then((res) => {
     if (res.ok) {
@@ -12,7 +13,7 @@ const getAuthors = () =>
   });
 
 const postAuthor = (name: string) =>
-  fetch(`${API_URL}/authors`, {
+  fetch(`${API_URL}/${API_AUTHORS_PATH}`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -28,7 +29,7 @@ const postAuthor = (name: string) =>
   });
 
 const deleteAuthor = (idToDelete: string) =>
-  fetch(`${API_URL}/authors/${idToDelete}`, {
+  fetch(`${API_URL}/${API_AUTHORS_PATH}/${idToDelete}`, {
     method: 'DELETE',
   }).then((res) => {
     if (res.ok) {
