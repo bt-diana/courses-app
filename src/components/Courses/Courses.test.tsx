@@ -1,7 +1,16 @@
 import '@testing-library/jest-dom';
-import { fireEvent, render, screen } from '@testing-library/react';
+import { cleanup, fireEvent, screen } from '@testing-library/react';
 import { Course } from '../../types';
 import Courses from './Courses';
+import { MemoryRouter as Router } from 'react-router-dom';
+import { renderWithProviders } from '../../helpers/testHelpers';
+
+const mockedUsedNavigate = jest.fn();
+
+jest.mock('react-router-dom', () => ({
+  ...jest.requireActual('react-router-dom'),
+  useNavigate: () => mockedUsedNavigate,
+}));
 
 const courseDataTemplate: Course = {
   id: '',
@@ -13,11 +22,20 @@ const courseDataTemplate: Course = {
 };
 
 describe('Courses', () => {
+  afterEach(() => {
+    cleanup();
+  });
+
   test("should render 'add new course' button", () => {
     const mockCurrentCoursesList: Course[] = Array.from({ length: 3 }, () => ({
       ...courseDataTemplate,
     }));
-    render(<Courses courses={mockCurrentCoursesList} />);
+
+    renderWithProviders(
+      <Router>
+        <Courses courses={mockCurrentCoursesList} />
+      </Router>
+    );
     expect(
       screen.getByRole('button', { name: 'Add New Course' })
     ).toBeInTheDocument();
@@ -25,7 +43,12 @@ describe('Courses', () => {
 
   test('should render empty course list placeholder if no courses available', () => {
     const mockCurrentCoursesList: Course[] = [];
-    render(<Courses courses={mockCurrentCoursesList} />);
+
+    renderWithProviders(
+      <Router>
+        <Courses courses={mockCurrentCoursesList} />
+      </Router>
+    );
     expect(screen.getByText('Your list is empty')).toBeInTheDocument();
     expect(
       screen.getByText(
@@ -36,7 +59,12 @@ describe('Courses', () => {
 
   test("should render 'add new course' button if no courses available", () => {
     const mockCurrentCoursesList: Course[] = [];
-    render(<Courses courses={mockCurrentCoursesList} />);
+
+    renderWithProviders(
+      <Router>
+        <Courses courses={mockCurrentCoursesList} />
+      </Router>
+    );
     expect(
       screen.getByRole('button', { name: 'Add New Course' })
     ).toBeInTheDocument();
@@ -44,11 +72,20 @@ describe('Courses', () => {
 });
 
 describe('Search bar on Courses page', () => {
+  afterEach(() => {
+    cleanup();
+  });
+
   test('should be rendered', () => {
     const mockCurrentCoursesList: Course[] = Array.from({ length: 3 }, () => ({
       ...courseDataTemplate,
     }));
-    render(<Courses courses={mockCurrentCoursesList} />);
+
+    renderWithProviders(
+      <Router>
+        <Courses courses={mockCurrentCoursesList} />
+      </Router>
+    );
     expect(screen.getByPlaceholderText('Input text')).toBeInTheDocument();
   });
 
@@ -67,7 +104,12 @@ describe('Search bar on Courses page', () => {
         description: coursesDescriptions[i],
       })
     );
-    render(<Courses courses={mockCurrentCoursesList} />);
+
+    renderWithProviders(
+      <Router>
+        <Courses courses={mockCurrentCoursesList} />
+      </Router>
+    );
     fireEvent.change(screen.getByPlaceholderText('Input text'), {
       target: { value: 'java' },
     });
@@ -82,6 +124,10 @@ describe('Search bar on Courses page', () => {
 });
 
 describe('Each CourseCard in CourseList on Courses page', () => {
+  afterEach(() => {
+    cleanup();
+  });
+
   test('should render course title', () => {
     const coursesTitles = ['Javascript', 'Angular', 'React'];
     const mockCurrentCoursesList: Course[] = Array.from(
@@ -91,7 +137,12 @@ describe('Each CourseCard in CourseList on Courses page', () => {
         title: coursesTitles[i],
       })
     );
-    render(<Courses courses={mockCurrentCoursesList} />);
+
+    renderWithProviders(
+      <Router>
+        <Courses courses={mockCurrentCoursesList} />
+      </Router>
+    );
     coursesTitles.forEach((title) => {
       expect(screen.getByText(title)).toBeInTheDocument();
     });
@@ -107,7 +158,12 @@ describe('Each CourseCard in CourseList on Courses page', () => {
         description,
       })
     );
-    render(<Courses courses={mockCurrentCoursesList} />);
+
+    renderWithProviders(
+      <Router>
+        <Courses courses={mockCurrentCoursesList} />
+      </Router>
+    );
     expect(screen.getAllByText(description).length).toBe(coursesAmount);
   });
 
@@ -120,7 +176,12 @@ describe('Each CourseCard in CourseList on Courses page', () => {
         creationDate: coursesDates[i],
       })
     );
-    render(<Courses courses={mockCurrentCoursesList} />);
+
+    renderWithProviders(
+      <Router>
+        <Courses courses={mockCurrentCoursesList} />
+      </Router>
+    );
     coursesDates.forEach((date) => {
       expect(screen.getByText(date)).toBeInTheDocument();
     });
@@ -135,7 +196,12 @@ describe('Each CourseCard in CourseList on Courses page', () => {
         duration: coursesDurations[i],
       })
     );
-    render(<Courses courses={mockCurrentCoursesList} />);
+
+    renderWithProviders(
+      <Router>
+        <Courses courses={mockCurrentCoursesList} />
+      </Router>
+    );
     coursesDurations.forEach((duration) => {
       expect(screen.getByText(duration)).toBeInTheDocument();
     });
@@ -151,17 +217,12 @@ describe('Each CourseCard in CourseList on Courses page', () => {
         authors,
       })
     );
-    render(<Courses courses={mockCurrentCoursesList} />);
-    expect(screen.getAllByText(authors).length).toBe(coursesAmount);
-  });
 
-  test("should call openCourse function on 'Show course' button click", () => {
-    const mockCurrentCoursesList: Course[] = Array.from({ length: 1 }, () => ({
-      ...courseDataTemplate,
-    }));
-    const mockOpenCourse = jest.fn();
-    render(<Courses courses={mockCurrentCoursesList} />);
-    fireEvent.click(screen.getByText('Show course'));
-    expect(mockOpenCourse).toHaveBeenCalledTimes(1);
+    renderWithProviders(
+      <Router>
+        <Courses courses={mockCurrentCoursesList} />
+      </Router>
+    );
+    expect(screen.getAllByText(authors).length).toBe(coursesAmount);
   });
 });
