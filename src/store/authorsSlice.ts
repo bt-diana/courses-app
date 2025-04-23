@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk, Action } from '@reduxjs/toolkit';
 import { AuthorResource } from '../types';
 import { DataState, Status } from '../types';
 import { deleteAuthor, getAuthors, postAuthor } from '../api/authors';
-import { UNKNOWN_ERROR_MESSAGE } from '../variables';
+import { UNKNOWN_ERROR_MESSAGE } from '../constants';
 
 type AuthorsState = {
   authors: AuthorResource[];

@@ -1,4 +1,4 @@
-import { API_COURSES_PATH } from '../variables';
+import { API_COURSES_PATH } from '../constants';
 import { CourseResource } from '../types';
 import processResponse from '../helpers/processResponse';
 
