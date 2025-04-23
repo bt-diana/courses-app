@@ -1,16 +1,12 @@
 import { API_AUTHORS_PATH } from '../variables';
+import processResponse from '../helpers/processResponse';
+
 const API_URL = import.meta.env.VITE_API_URL;
 
 const getAuthors = () =>
   fetch(`${API_URL}/${API_AUTHORS_PATH}`, {
     method: 'GET',
-  }).then((res) => {
-    if (res.ok) {
-      return res.json();
-    } else {
-      throw Error(`${res.status}: ${res.statusText}`);
-    }
-  });
+  }).then((res) => processResponse(res));
 
 const postAuthor = (name: string) =>
   fetch(`${API_URL}/${API_AUTHORS_PATH}`, {
@@ -31,12 +27,6 @@ const postAuthor = (name: string) =>
 const deleteAuthor = (idToDelete: string) =>
   fetch(`${API_URL}/${API_AUTHORS_PATH}/${idToDelete}`, {
     method: 'DELETE',
-  }).then((res) => {
-    if (res.ok) {
-      return res.json();
-    } else {
-      throw Error(`${res.status}: ${res.statusText}`);
-    }
-  });
+  }).then((res) => processResponse(res));
 
 export { postAuthor, getAuthors, deleteAuthor };
