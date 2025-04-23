@@ -1,18 +1,23 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
 import coursesReducer from './coursesSlice';
 import authorsReducer from './authorsSlice';
 
-const store = configureStore({
-  reducer: {
-    coursesSlice: coursesReducer,
-    authorsSlice: authorsReducer,
-  },
+const rootReducer = combineReducers({
+  coursesSlice: coursesReducer,
+  authorsSlice: authorsReducer,
 });
 
-export default store;
+export function setupStore(preloadedState?: Partial<RootState>) {
+  return configureStore({
+    reducer: rootReducer,
+    preloadedState,
+  });
+}
 
-export type AppStore = typeof store;
-export type RootState = ReturnType<AppStore['getState']>;
+export default setupStore;
+
+export type AppStore = ReturnType<typeof setupStore>;
+export type RootState = ReturnType<typeof rootReducer>;
 export type AppDispatch = AppStore['dispatch'];
 
 export const getCourses = (state: RootState) => state.coursesSlice.courses;

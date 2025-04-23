@@ -2,7 +2,7 @@ import { API_COURSES_PATH } from '../variables';
 import { CourseResource } from '../types';
 import processResponse from '../helpers/processResponse';
 
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = process.env.VITE_API_URL;
 
 const deleteCourse = (idToDelete: string) =>
   fetch(`${API_URL}/${API_COURSES_PATH}/${idToDelete}`, {

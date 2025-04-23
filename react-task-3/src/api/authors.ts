@@ -1,7 +1,7 @@
 import { API_AUTHORS_PATH } from '../variables';
 import processResponse from '../helpers/processResponse';
 
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = process.env.VITE_API_URL;
 
 const getAuthors = () =>
   fetch(`${API_URL}/${API_AUTHORS_PATH}`, {
