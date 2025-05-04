@@ -1,1 +1,1 @@
-cd react-task-3 && npm run lint
+npm run lint
