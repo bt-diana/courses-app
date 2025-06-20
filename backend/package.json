@@ -2,6 +2,7 @@
   "name": "courses-app-backend",
   "version": "0.0.0",
   "description": "crud api for searching, creating, and editing courses",
+  "main": "./src/index.js",
   "type": "module",
   "repository": {
     "type": "git",
