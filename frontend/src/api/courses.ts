@@ -1,26 +1,26 @@
-import { API_COURSES_PATH } from '../constants';
 import { CourseResource } from '../types';
 import processResponse from '../helpers/processResponse';
 
-const API_URL = process.env.VITE_API_URL;
+const API_URL = process.env.VITE_API_URL!;
+const API_COURSES_PATH = process.env.VITE_API_COURSES_PATH!;
 
 const deleteCourse = (idToDelete: string) =>
-  fetch(`${API_URL}/${API_COURSES_PATH}/${idToDelete}`, {
+  fetch(API_URL + API_COURSES_PATH + '/' + idToDelete, {
     method: 'DELETE',
   }).then((res) => processResponse(res));
 
 const getCourse = (id: string) =>
-  fetch(`${API_URL}/${API_COURSES_PATH}/${id}`, {
+  fetch(API_URL + API_COURSES_PATH + '/' + id, {
     method: 'GET',
   }).then((res) => processResponse(res));
 
 const getCourses = () =>
-  fetch(`${API_URL}/${API_COURSES_PATH}`, {
+  fetch(API_URL + API_COURSES_PATH, {
     method: 'GET',
   }).then((res) => processResponse(res));
 
 const postCourse = (course: Omit<CourseResource, 'id'>) =>
-  fetch(`${API_URL}/${API_COURSES_PATH}`, {
+  fetch(API_URL + API_COURSES_PATH, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -29,7 +29,7 @@ const postCourse = (course: Omit<CourseResource, 'id'>) =>
   }).then((res) => processResponse(res));
 
 const putCourse = (id: string, course: Omit<CourseResource, 'id'>) =>
-  fetch(`${API_URL}/${API_COURSES_PATH}/${id}`, {
+  fetch(API_URL + API_COURSES_PATH + '/' + id, {
     method: 'PUT',
     headers: {
       'Content-Type': 'application/json',

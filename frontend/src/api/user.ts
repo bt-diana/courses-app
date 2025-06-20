@@ -1,5 +1,9 @@
+const AUTH_URL = process.env.VITE_AUTH_URL!;
+const AUTH_LOGIN_PATH = process.env.VITE_AUTH_LOGIN_PATH!;
+const AUTH_USER_PATH = process.env.VITE_AUTH_USER_PATH!;
+
 const authenticateUser = (username: string, password: string) => {
-  return fetch('https://dummyjson.com/auth/login', {
+  return fetch(AUTH_URL + AUTH_LOGIN_PATH, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -18,7 +22,7 @@ const authenticateUser = (username: string, password: string) => {
 };
 
 const getUser = (accessToken: string) => {
-  return fetch('https://dummyjson.com/auth/me', {
+  return fetch(AUTH_URL + AUTH_USER_PATH, {
     method: 'GET',
     headers: {
       Authorization: `Bearer ${accessToken}`,

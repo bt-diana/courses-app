@@ -1,15 +1,15 @@
-import { API_AUTHORS_PATH } from '../constants';
 import processResponse from '../helpers/processResponse';
 
-const API_URL = process.env.VITE_API_URL;
+const API_URL = process.env.VITE_API_URL!;
+const API_AUTHORS_PATH = process.env.VITE_API_AUTHORS_PATH!;
 
 const getAuthors = () =>
-  fetch(`${API_URL}/${API_AUTHORS_PATH}`, {
+  fetch(API_URL + API_AUTHORS_PATH, {
     method: 'GET',
   }).then((res) => processResponse(res));
 
 const postAuthor = (name: string) =>
-  fetch(`${API_URL}/${API_AUTHORS_PATH}`, {
+  fetch(API_URL + API_AUTHORS_PATH, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
