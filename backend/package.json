@@ -8,5 +8,8 @@
     "url": "git+https://github.com/bt-diana/courses-app.git"
   },
   "author": "Butiakova Diana <butyakova01@gmail.com> (https://github.com/bt-diana)",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^5.8.3"
+  }
 }
