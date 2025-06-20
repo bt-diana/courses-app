@@ -1,5 +1,5 @@
 {
-  "name": "courses-app",
+  "name": "courses-app-frontend",
   "description": "web application for searching, creating, and editing courses",
   "version": "0.0.0",
   "type": "module",
@@ -54,7 +54,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/bt-diana/courses-app.git"
+    "url": "https://github.com/bt-diana/courses-app-frontend.git"
   },
   "keywords": [
     "react.ts",
