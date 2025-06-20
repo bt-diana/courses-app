@@ -1,54 +1,70 @@
-# React + TypeScript + Vite
+# Courses Web-Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is a **web application for searching, creating, and editing courses**.
 
-Currently, two official plugins are available:
+The main goal of the project was to gain practical experience in building a **React application** with modern tools and libraries, such as **Ant Design**, **Redux Toolkit**, and **asynchronous API handling** via `createAsyncThunk`. Users are fetched from [dummy json](https://dummyjson.com/docs/auth). All other data is fetched from a [mock API](https://mockapi.io/).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+This web app was developed as part of a training project during the [RS EPAM Short Track Course](https://pr755.rs.school/courses/short-track) by The Rolling Scopes School.
 
-## Expanding the ESLint configuration
+[Demo](https://fanciful-wisp-7ee5e5.netlify.app/)  
+Login: `emilys`  
+Password: `emilyspass`
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Features
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-});
-```
+### Authentication
+- **Login Page:** Simple login form with credential check and token storage.
+- **Protected Routes:** Access to the application is restricted to logged-in users only.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+### Courses Page
+- **Course List with Search and Filter:** Browse all available courses.
+- **Add New Course:** A form to create a new course with validation and authors selection.
+- **Edit Course:** Edit existing course data with form state pre-filled.
+- **Delete Course:** Remove a course from the list.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x';
-import reactDom from 'eslint-plugin-react-dom';
+### Course Info Page
+- **Course Details:** View full information about a selected course, including description, duration, authors, and creation date.
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-});
-```
+## Getting Started
+
+To run the app locally:
+
+1. Clone the repository:
+  
+  ```bash
+  git clone https://github.com/bt-diana/courses-app.git
+  ```
+
+2. Navigate to the project directory:
+
+  ```bash
+  cd courses-app/frontend
+  ```
+
+3. Install dependencies:
+
+  ```bash
+  npm install
+  ```
+
+4. To builds the project and start a local web server run the following commands:
+
+  ```bash
+  npm run build
+  npm run preview
+  ```
+
+5. Open the app in your browser at http://localhost:5173
+
+## Technologies Used
+
+- React + TypeScript
+- Context API
+- Redux Toolkit
+- Ant Design (Antd)
+- Jest + React Testing Library
+- Vite
+
+## License
+
+This project is licensed under the MIT License.
