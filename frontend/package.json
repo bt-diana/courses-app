@@ -1,8 +1,9 @@
 {
-  "name": "rs-react-app",
-  "private": true,
+  "name": "courses-app",
+  "description": "web application for searching, creating, and editing courses",
   "version": "0.0.0",
   "type": "module",
+  
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
@@ -11,7 +12,7 @@
     "lint:fix": "eslint --fix .",
     "format": "prettier .",
     "format:fix": "prettier --write .",
-    "prepare": "cd .. && husky ./react-task-3/.husky",
+    "prepare": "husky ./.husky",
     "test": "jest"
   },
   "dependencies": {
@@ -50,5 +51,19 @@
     "typescript": "~5.7.2",
     "typescript-eslint": "^8.24.1",
     "vite": "^6.2.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bt-diana/courses-app.git"
+  },
+  "keywords": [
+    "react.ts",
+    "redux toolkit",
+    "antd",
+    "jest",
+    "testing library",
+    "vite"
+  ],
+  "author": "Butiakova Diana <butyakova01@gmail.com> (https://github.com/bt-diana)",
+  "license": "MIT"
 }
