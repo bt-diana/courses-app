@@ -1,0 +1,12 @@
+{
+  "name": "courses-app-backend",
+  "version": "0.0.0",
+  "description": "crud api for searching, creating, and editing courses",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bt-diana/courses-app.git"
+  },
+  "author": "Butiakova Diana <butyakova01@gmail.com> (https://github.com/bt-diana)",
+  "license": "MIT"
+}
