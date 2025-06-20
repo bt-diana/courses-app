@@ -4,6 +4,10 @@
   "description": "crud api for searching, creating, and editing courses",
   "main": "./src/index.js",
   "type": "module",
+  "scripts": {
+    "start:dev": "nodemon -I --exec node --loader ts-node/esm ./src/index.ts",
+    "start:prod": "npx tsc --project ./tsconfig.json && node ./dist/index.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/bt-diana/courses-app.git"
@@ -18,7 +22,9 @@
     "eslint-config-prettier": "^10.1.5",
     "eslint-plugin-prettier": "^5.5.0",
     "globals": "^16.2.0",
+    "nodemon": "^3.1.10",
     "prettier": "^3.5.3",
+    "ts-node": "^10.9.2",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.34.1"
   },
