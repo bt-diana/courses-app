@@ -5,7 +5,7 @@ import {
     readInstanceAll,
     readRelatedData,
 } from '../crud/read.js';
-import { createInstance } from '../crud/create.js';
+import { createInstance, createRelationData } from '../crud/create.js';
 import { updateInstance } from '../crud/update.js';
 import { deleteInstance } from '../crud/delete.js';
 
@@ -38,15 +38,19 @@ router.get('/:id', async (req, res) => {
 
 router.post('/', async (req, res) => {
     const course = await createInstance(Course, req.body);
-
     if (course) {
+        await createRelationData(Course, 'authors', course, req.body.authors);
+        course.authors = await readRelatedData(Course, 'authors', course);
+
         res.status(201);
         res.type('json');
         res.send(course);
     } else {
         res.status(400);
         res.type('text');
-        res.send('Wrong request body');
+        res.send(
+            'Request body does not contain required fields ro containg wrong data type',
+        );
     }
 });
 

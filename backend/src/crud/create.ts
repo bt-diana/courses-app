@@ -2,6 +2,18 @@ import { EntityTarget, ObjectLiteral } from 'typeorm';
 import AppDataSource from '../dataSource.js';
 import { readInstance } from './read.js';
 
+const createRelationData = <T extends ObjectLiteral>(
+    entity: EntityTarget<T>,
+    relation: string,
+    instance: T,
+    relationData: unknown,
+) => {
+    return AppDataSource.createQueryBuilder()
+        .relation(entity, relation)
+        .of(instance)
+        .add(relationData);
+};
+
 const createInstance = async <T extends ObjectLiteral>(
     entity: EntityTarget<T>,
     data: Omit<EntityTarget<T>, 'id'>,
@@ -20,4 +32,4 @@ const createInstance = async <T extends ObjectLiteral>(
     }
 };
 
-export { createInstance };
+export { createInstance, createRelationData };
