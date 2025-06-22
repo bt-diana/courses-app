@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.get('/', async (_, res) => {
     res.type('json');
-    res.send(await readInstanceAll());
+    res.send(await readInstanceAll(Author));
 });
 
 router.get('/:id', async (req, res) => {
