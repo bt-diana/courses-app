@@ -8,12 +8,8 @@ import {
   getCourses,
   getCoursesStatus,
   getCoursesError,
-  getAuthors,
-  getAuthorsStatus,
-  getAuthorsError,
 } from '../store';
 import { fetchCourses } from '../store/coursesSlice';
-import { fetchAuthors } from '../store/authorsSlice';
 import { isFailed, isLoading, isIdle } from '../helpers/status';
 import Error from '../components/Error/Error';
 
@@ -24,31 +20,21 @@ const CoursesPage = () => {
   const coursesStatus = useSelector(getCoursesStatus);
   const coursesError = useSelector(getCoursesError);
 
-  const authors = useSelector(getAuthors);
-  const authorsStatus = useSelector(getAuthorsStatus);
-  const authorsError = useSelector(getAuthorsError);
-
   useEffect(() => {
     if (isIdle(coursesStatus)) {
       dispatch(fetchCourses());
     }
   }, [coursesStatus, dispatch]);
 
-  useEffect(() => {
-    if (isIdle(authorsStatus)) {
-      dispatch(fetchAuthors());
-    }
-  }, [authorsStatus, dispatch]);
-
-  if ([coursesStatus, authorsStatus].some(isFailed)) {
-    return <Error message={coursesError ?? authorsError!} />;
+  if (isFailed(coursesStatus)) {
+    return <Error message={coursesError!} />;
   }
 
-  if ([coursesStatus, authorsStatus].some(isLoading)) {
+  if (isLoading(coursesStatus)) {
     return <Loading />;
   }
 
-  return <Courses courses={normalizeCourses(courses, authors)} />;
+  return <Courses courses={normalizeCourses(courses)} />;
 };
 
 export default CoursesPage;

@@ -4,7 +4,6 @@ import Loading from '../components/Loading/Loading';
 import { useParams } from 'react-router-dom';
 import normalizeCourse from '../helpers/normalizeCourse';
 import { getCourse } from '../api/courses';
-import { getAuthors } from '../api/authors';
 import CourseInfo from '../components/CourseInfo/CourseInfo';
 
 const CourseInfoPage = () => {
@@ -15,9 +14,7 @@ const CourseInfoPage = () => {
   useEffect(() => {
     getCourse(id!)
       .then((course) => {
-        getAuthors().then((authors) => {
-          setCourseData(normalizeCourse(course, authors));
-        });
+        setCourseData(normalizeCourse(course));
       })
       .finally(() => {
         setIsLoading(false);
