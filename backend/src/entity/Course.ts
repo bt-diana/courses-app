@@ -24,7 +24,7 @@ export class Course {
     @Column()
     duration: number;
 
-    @ManyToMany(() => Author, { cascade: true })
+    @ManyToMany(() => Author, (author) => author.courses, { cascade: true })
     @JoinTable()
     authors: Author[];
 }
