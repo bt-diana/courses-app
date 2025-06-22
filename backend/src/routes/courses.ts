@@ -1,22 +1,18 @@
 import express from 'express';
 import { Course } from '../entity/Course.js';
-import { readInstance, readInstanceAll } from '../crud/read.js';
+import { readInstance, readInstanceAll, getRelatedData } from '../crud/read.js';
 import { createInstance } from '../crud/create.js';
 import { updateInstance } from '../crud/update.js';
 import { deleteInstance } from '../crud/delete.js';
-import AppDataSource from '../dataSource.js';
 
 const router = express.Router();
 
 router.get('/', async (_, res) => {
     res.type('json');
-    const courses = await Promise.all(
-        (await readInstanceAll(Course)).map(async (course) => {
-            const authors = await AppDataSource.createQueryBuilder()
-                .relation(Course, 'authors')
-                .of(course)
-                .loadMany();
-            return { ...course, authors };
+    const courses = await readInstanceAll(Course);
+    await Promise.all(
+        courses.map(async (course) => {
+            course.authors = await getRelatedData(Course, 'authors', course);
         }),
     );
     res.send(courses);
@@ -26,6 +22,7 @@ router.get('/:id', async (req, res) => {
     const course = await readInstance(Course, req.params.id);
 
     if (course) {
+        course.authors = await getRelatedData(Course, 'authors', course);
         res.type('json');
         res.send(course);
     } else {
