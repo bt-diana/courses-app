@@ -15,6 +15,7 @@ const corsOptions = {
     origin: [appURL, appDevURL],
 };
 
+app.use(express.json());
 app.use(cors(corsOptions));
 app.use(coursesPath, coursesRouter);
 app.use(authorsPath, authorsRouter);
