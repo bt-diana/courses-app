@@ -7,17 +7,28 @@ const API_COURSES_PATH = process.env.VITE_API_COURSES_PATH!;
 const deleteCourse = (idToDelete: string) =>
   fetch(API_URL + API_COURSES_PATH + '/' + idToDelete, {
     method: 'DELETE',
-  }).then((res) => processResponse(res));
+  }).then((res) => {
+    return processResponse(res);
+  });
 
 const getCourse = (id: string) =>
   fetch(API_URL + API_COURSES_PATH + '/' + id, {
     method: 'GET',
-  }).then((res) => processResponse(res));
+  }).then(async (res) => {
+    const data = await processResponse(res);
+    return { ...data, creationDate: new Date(data.creationDate) };
+  });
 
 const getCourses = () =>
   fetch(API_URL + API_COURSES_PATH, {
     method: 'GET',
-  }).then((res) => processResponse(res));
+  }).then(async (res) => {
+    const data = await processResponse(res);
+    return data.map((element: CourseResource) => ({
+      ...element,
+      creationDate: new Date(element.creationDate),
+    }));
+  });
 
 const postCourse = (course: Omit<CourseResource, 'id'>) =>
   fetch(API_URL + API_COURSES_PATH, {
@@ -26,7 +37,10 @@ const postCourse = (course: Omit<CourseResource, 'id'>) =>
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(course),
-  }).then((res) => processResponse(res));
+  }).then(async (res) => {
+    const data = await processResponse(res);
+    return { ...data, creationDate: new Date(data.creationDate) };
+  });
 
 const putCourse = (id: string, course: Omit<CourseResource, 'id'>) =>
   fetch(API_URL + API_COURSES_PATH + '/' + id, {
@@ -35,11 +49,9 @@ const putCourse = (id: string, course: Omit<CourseResource, 'id'>) =>
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(course),
-  }).then((res) => {
-    if (!res.ok) {
-      throw Error(`${res.status}: ${res.statusText}`);
-    }
-    return res.json();
+  }).then(async (res) => {
+    const data = await processResponse(res);
+    return { ...data, creationDate: new Date(data.creationDate) };
   });
 
 export { putCourse, postCourse, getCourses, getCourse, deleteCourse };
