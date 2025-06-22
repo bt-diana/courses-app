@@ -53,9 +53,15 @@ router.put('/:id', async (req, res) => {
 });
 
 router.delete('/:id', async (req, res) => {
-    if (await deleteInstance(Author, req.params.id)) {
-        res.status(204);
-        res.end();
+    if (await readInstance(Author, req.params.id)) {
+        if (await deleteInstance(Author, req.params.id)) {
+            res.status(204);
+            res.end();
+        } else {
+            res.status(400);
+            res.type('text');
+            res.send('Could not delete author with id=' + req.params.id);
+        }
     } else {
         res.status(404);
         res.type('text');
