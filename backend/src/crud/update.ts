@@ -1,6 +1,6 @@
 import { EntityTarget, ObjectLiteral } from 'typeorm';
 import AppDataSource from '../dataSource.js';
-import { readInstance, readRelatedData } from './read.js';
+import { readInstance, readRelationData } from './read.js';
 
 const updateRelationData = async <T extends ObjectLiteral>(
     entity: EntityTarget<T>,
@@ -11,7 +11,7 @@ const updateRelationData = async <T extends ObjectLiteral>(
     await AppDataSource.createQueryBuilder()
         .relation(entity, relation)
         .of(instance)
-        .remove(await readRelatedData(entity, relation, instance));
+        .remove(await readRelationData(entity, relation, instance));
 
     return AppDataSource.createQueryBuilder()
         .relation(entity, relation)

@@ -3,7 +3,7 @@ import { Course } from '../entity/Course.js';
 import {
     readInstance,
     readInstanceAll,
-    readRelatedData,
+    readRelationData,
 } from '../crud/read.js';
 import { createInstance, createRelationData } from '../crud/create.js';
 import { updateInstance, updateRelationData } from '../crud/update.js';
@@ -17,7 +17,7 @@ router.get('/', async (_, res) => {
     const courses = await readInstanceAll(Course);
     await Promise.all(
         courses.map(async (course) => {
-            course.authors = await readRelatedData(Course, 'authors', course);
+            course.authors = await readRelationData(Course, 'authors', course);
         }),
     );
     res.send(courses);
@@ -27,7 +27,7 @@ router.get('/:id', async (req, res) => {
     const course = await readInstance(Course, req.params.id);
 
     if (course) {
-        course.authors = await readRelatedData(Course, 'authors', course);
+        course.authors = await readRelationData(Course, 'authors', course);
         res.type('json');
         res.send(course);
     } else {
@@ -42,7 +42,7 @@ router.post('/', async (req, res) => {
 
     if (course) {
         await createRelationData(Course, 'authors', course, req.body.authors);
-        course.authors = await readRelatedData(Course, 'authors', course);
+        course.authors = await readRelationData(Course, 'authors', course);
 
         res.status(201);
         res.type('json');
@@ -72,7 +72,7 @@ router.put('/:id', async (req, res) => {
             updatedCourse,
             req.body.authors,
         );
-        updatedCourse.authors = await readRelatedData(
+        updatedCourse.authors = await readRelationData(
             Course,
             'authors',
             updatedCourse,

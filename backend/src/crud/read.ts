@@ -1,7 +1,7 @@
 import { ObjectLiteral, EntityTarget } from 'typeorm';
 import AppDataSource from '../dataSource.js';
 
-const readRelatedData = <T extends ObjectLiteral>(
+const readRelationData = <T extends ObjectLiteral>(
     entity: EntityTarget<T>,
     relation: string,
     instance: T,
@@ -26,4 +26,4 @@ const readInstanceAll = <T extends ObjectLiteral>(entity: EntityTarget<T>) => {
     return AppDataSource.manager.find(entity);
 };
 
-export { readInstance, readInstanceAll, readRelatedData };
+export { readInstance, readInstanceAll, readRelationData };
