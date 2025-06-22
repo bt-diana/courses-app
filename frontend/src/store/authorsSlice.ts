@@ -1,12 +1,12 @@
 import { createSlice, createAsyncThunk, Action } from '@reduxjs/toolkit';
-import { AuthorResource } from '../types';
+import { Author } from '../types';
 import { DataState, Status } from '../types';
 import { deleteAuthor, getAuthors, postAuthor } from '../api/authors';
 import { UNKNOWN_ERROR_MESSAGE } from '../constants';
 
 type AuthorsState = {
-  authors: AuthorResource[];
-  courseAuthors: string[];
+  authors: Author[];
+  courseAuthors: Author[];
 } & DataState;
 
 enum authorsThunkType {
@@ -41,18 +41,18 @@ const authorsSlice = createSlice({
   name: 'authors',
   initialState,
   reducers: {
-    setCourseAuthors: (state, action: Action & { payload: string[] }) => {
+    setCourseAuthors: (state, action: Action & { payload: Author[] }) => {
       state.courseAuthors = action.payload;
     },
     clearCourseAuthors: (state) => {
       state.courseAuthors = [];
     },
-    addCourseAuthor: (state, action: Action & { payload: string }) => {
+    addCourseAuthor: (state, action: Action & { payload: Author }) => {
       state.courseAuthors.push(action.payload);
     },
     removeCourseAuthor: (state, action: Action & { payload: string }) => {
       state.courseAuthors = state.courseAuthors.filter(
-        (courseId) => courseId !== action.payload
+        ({ id }) => id !== action.payload
       );
     },
   },

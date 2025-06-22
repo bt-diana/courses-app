@@ -1,11 +1,8 @@
-import { Course, CourseResource, AuthorResource } from '../types';
+import { Course, CourseResource } from '../types';
 import normalizeCourse from './normalizeCourse';
 
-const normalizeCourses = (
-  courses: CourseResource[],
-  authors: AuthorResource[]
-): Course[] => {
-  return courses.map((course) => normalizeCourse(course, authors));
+const normalizeCourses = (courses: CourseResource[]): Course[] => {
+  return courses.map((course) => normalizeCourse(course));
 };
 
 export default normalizeCourses;

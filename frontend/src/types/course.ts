@@ -1,10 +1,12 @@
+import { Author } from './author';
+
 export type CourseResource = {
   id: string;
   title: string;
   description: string;
   creationDate: string;
   duration: number;
-  authors: string[];
+  authors: Author[];
 };
 
 export type Course = {

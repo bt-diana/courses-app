@@ -1,23 +1,15 @@
-'use client';
-
 import { Button, Card, Typography } from 'antd';
 import './AuthorsAddEdit.css';
-import { AuthorResource } from '../../types';
+import { Author } from '../../types';
 import { PlusOutlined, DeleteOutlined, CloseOutlined } from '@ant-design/icons';
-import { useMemo } from 'react';
 import CreateAuthor from '../CreateAuthor/CreateAuthor';
 import { AppDispatch, getAuthors, getCourseAuthors } from '../../store';
 import { useDispatch, useSelector } from 'react-redux';
-import { addCourseAuthor, removeAuthor, removeCourseAuthor } from '../../store/authorsSlice';
-
-const getAuthorsNames = (authors: AuthorResource[]): Record<string, string> =>
-  authors.reduce(
-    (acc, { id, name }) => ({
-      ...acc,
-      [id]: name,
-    }),
-    {}
-  );
+import {
+  addCourseAuthor,
+  removeAuthor,
+  removeCourseAuthor,
+} from '../../store/authorsSlice';
 
 interface AuthorsAddEditProps {
   error: boolean;
@@ -29,12 +21,8 @@ const AuthorsAddEdit = ({ error }: AuthorsAddEditProps) => {
   const authors = useSelector(getAuthors);
   const courseAuthors = useSelector(getCourseAuthors);
 
-  const authorsNames: Record<string, string> = useMemo(
-    () => getAuthorsNames(authors),
-    [authors]
-  );
-
-  const addAuthorHandler = (id: string) => () => dispatch(addCourseAuthor(id));
+  const addAuthorHandler = (author: Author) => () =>
+    dispatch(addCourseAuthor(author));
   const removeAuthorHandler = (id: string) => () =>
     dispatch(removeCourseAuthor(id));
   const deleteAuthor = (id: string) => () => dispatch(removeAuthor(id));
@@ -42,16 +30,16 @@ const AuthorsAddEdit = ({ error }: AuthorsAddEditProps) => {
   return (
     <div className="authors-container">
       <Card title="Authors List" className="authors-list">
-        {authors.map(({ id, name }) =>
-          courseAuthors.includes(id) ? null : (
-            <div key={id} className="author-container">
-              <div className="author-name">{name}</div>
+        {authors.map((author) =>
+          courseAuthors.find(({ id }) => id === author.id) ? null : (
+            <div key={author.id} className="author-container">
+              <div className="author-name">{author.name}</div>
               <div className="author-options">
-                <Button onClick={addAuthorHandler(id)}>
+                <Button onClick={addAuthorHandler(author)}>
                   <PlusOutlined />
                 </Button>
                 <Button>
-                  <DeleteOutlined onClick={deleteAuthor(id)} />
+                  <DeleteOutlined onClick={deleteAuthor(author.id)} />
                 </Button>
               </div>
             </div>
@@ -60,11 +48,11 @@ const AuthorsAddEdit = ({ error }: AuthorsAddEditProps) => {
         <CreateAuthor />
       </Card>
       <Card title="Course Authors" className="course-authors">
-        {courseAuthors.map((id) => (
-          <div key={id} className="author-container">
-            <div className="author-name">{authorsNames[id]}</div>
+        {courseAuthors.map((author) => (
+          <div key={author.id} className="author-container">
+            <div className="author-name">{author.name}</div>
             <div className="author-options">
-              <Button onClick={removeAuthorHandler(id)}>
+              <Button onClick={removeAuthorHandler(author.id)}>
                 <CloseOutlined />
               </Button>
             </div>
