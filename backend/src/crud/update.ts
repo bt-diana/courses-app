@@ -7,17 +7,17 @@ const updateAuthor = async <T extends ObjectLiteral>(
     id: string,
     data: Omit<EntityTarget<T>, 'id'>,
 ) => {
-    const authorId = (
-        await AppDataSource.manager
-            .createQueryBuilder()
-            .update(entity)
-            .set(data)
-            .where('id = :id', { id: id })
-            .execute()
-    ).generatedMaps[0]?.id;
-
-    if (authorId) {
-        return readById(entity, authorId);
+    if (
+        (
+            await AppDataSource.manager
+                .createQueryBuilder()
+                .update(entity)
+                .set(data)
+                .where('id = :id', { id: id })
+                .execute()
+        ).affected
+    ) {
+        return readById(entity, id);
     }
 };
 
