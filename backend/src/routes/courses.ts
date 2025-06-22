@@ -1,6 +1,10 @@
 import express from 'express';
 import { Course } from '../entity/Course.js';
-import { readInstance, readInstanceAll, getRelatedData } from '../crud/read.js';
+import {
+    readInstance,
+    readInstanceAll,
+    readRelatedData,
+} from '../crud/read.js';
 import { createInstance } from '../crud/create.js';
 import { updateInstance } from '../crud/update.js';
 import { deleteInstance } from '../crud/delete.js';
@@ -12,7 +16,7 @@ router.get('/', async (_, res) => {
     const courses = await readInstanceAll(Course);
     await Promise.all(
         courses.map(async (course) => {
-            course.authors = await getRelatedData(Course, 'authors', course);
+            course.authors = await readRelatedData(Course, 'authors', course);
         }),
     );
     res.send(courses);
@@ -22,7 +26,7 @@ router.get('/:id', async (req, res) => {
     const course = await readInstance(Course, req.params.id);
 
     if (course) {
-        course.authors = await getRelatedData(Course, 'authors', course);
+        course.authors = await readRelatedData(Course, 'authors', course);
         res.type('json');
         res.send(course);
     } else {
