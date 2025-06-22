@@ -1,7 +1,8 @@
 import express from 'express';
+import { Author } from '../entity/Author.js';
 import { readById, readAll } from '../crud/read.js';
 import { createAuthor } from '../crud/create.js';
-import { Author } from 'entity/Author.js';
+import { updateAuthor } from '../crud/update.js';
 
 const router = express.Router();
 
@@ -25,7 +26,20 @@ router.post('/', async (req, res) => {
     } else {
         res.status(400);
         res.type('text');
-        res.send('Could not create an author');
+        res.send('Wrong request body');
+    }
+});
+
+router.put('/:id', async (req, res) => {
+    const author = await updateAuthor(Author, req.params.id, req.body);
+
+    if (author) {
+        res.type('json');
+        res.send(author);
+    } else {
+        res.status(400);
+        res.type('text');
+        res.send('Could not find user with id' + req.params.id);
     }
 });
 
