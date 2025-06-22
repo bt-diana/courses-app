@@ -22,4 +22,6 @@ const AppDataSource = new DataSource({
     logging: false,
 });
 
+await AppDataSource.initialize();
+
 export default AppDataSource;

@@ -44,43 +44,31 @@ const courses = [
     },
 ];
 
-AppDataSource.initialize()
-    .then(async () => {
-        await Promise.all(
-            authors.map(async ({ name }) => {
-                console.log('Inserting a new author into the database...');
-                const author = new Author();
-                author.name = name;
-                await AppDataSource.manager.save(author);
-                console.log('Saved a new author' + name);
-            }),
-        );
+await Promise.all(
+    authors.map(async ({ name }) => {
+        console.log('Inserting a new author into the database...');
+        const author = new Author();
+        author.name = name;
+        await AppDataSource.manager.save(author);
+        console.log('Saved a new author' + name);
+    }),
+);
 
-        courses.forEach(
-            async ({
-                title,
-                description,
-                creationDate,
-                duration,
-                authorsIndexes,
-            }) => {
-                console.log('Inserting a new course into the database...');
-                const course = new Course();
-                course.title = title;
-                course.description = description;
-                course.creationDate = creationDate;
-                course.duration = duration;
-                course.authors = await Promise.all(
-                    authorsIndexes.map(
-                        async (index) =>
-                            (await AppDataSource.manager.find(Author))[index]!,
-                    ),
-                );
-                await AppDataSource.manager.save(course);
-                console.log('Saved a new course' + title);
-            },
+courses.forEach(
+    async ({ title, description, creationDate, duration, authorsIndexes }) => {
+        console.log('Inserting a new course into the database...');
+        const course = new Course();
+        course.title = title;
+        course.description = description;
+        course.creationDate = creationDate;
+        course.duration = duration;
+        course.authors = await Promise.all(
+            authorsIndexes.map(
+                async (index) =>
+                    (await AppDataSource.manager.find(Author))[index]!,
+            ),
         );
-    })
-    .catch((error) =>
-        console.error('An error occured during db initializaion:', error),
-    );
+        await AppDataSource.manager.save(course);
+        console.log('Saved a new course' + title);
+    },
+);
