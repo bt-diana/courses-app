@@ -1,8 +1,8 @@
 import { EntityTarget, ObjectLiteral } from 'typeorm';
 import AppDataSource from '../dataSource.js';
-import { readById } from './read.js';
+import { readInstance } from './read.js';
 
-const updateAuthor = async <T extends ObjectLiteral>(
+const updateInstance = async <T extends ObjectLiteral>(
     entity: EntityTarget<T>,
     id: string,
     data: Omit<EntityTarget<T>, 'id'>,
@@ -17,8 +17,8 @@ const updateAuthor = async <T extends ObjectLiteral>(
                 .execute()
         ).affected
     ) {
-        return readById(entity, id);
+        return readInstance(entity, id);
     }
 };
 
-export { updateAuthor };
+export { updateInstance };

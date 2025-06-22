@@ -1,8 +1,8 @@
 import { EntityTarget, ObjectLiteral } from 'typeorm';
 import AppDataSource from '../dataSource.js';
-import { readById } from './read.js';
+import { readInstance } from './read.js';
 
-const createAuthor = async <T extends ObjectLiteral>(
+const createInstance = async <T extends ObjectLiteral>(
     entity: EntityTarget<T>,
     data: Omit<EntityTarget<T>, 'id'>,
 ) => {
@@ -16,8 +16,8 @@ const createAuthor = async <T extends ObjectLiteral>(
     ).generatedMaps[0]?.id;
 
     if (newAuthorId) {
-        return readById(entity, newAuthorId);
+        return readInstance(entity, newAuthorId);
     }
 };
 
-export { createAuthor };
+export { createInstance };

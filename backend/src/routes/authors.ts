@@ -1,23 +1,23 @@
 import express from 'express';
 import { Author } from '../entity/Author.js';
-import { readById, readAll } from '../crud/read.js';
-import { createAuthor } from '../crud/create.js';
-import { updateAuthor } from '../crud/update.js';
+import { readInstance, readInstanceAll } from '../crud/read.js';
+import { createInstance } from '../crud/create.js';
+import { updateInstance } from '../crud/update.js';
 
 const router = express.Router();
 
 router.get('/', async (_, res) => {
     res.type('json');
-    res.send(await readAll());
+    res.send(await readInstanceAll());
 });
 
 router.get('/:id', async (req, res) => {
     res.type('json');
-    res.send(await readById(Author, req.params.id));
+    res.send(await readInstance(Author, req.params.id));
 });
 
 router.post('/', async (req, res) => {
-    const author = createAuthor(Author, req.body);
+    const author = createInstance(Author, req.body);
 
     if (author) {
         res.status(201);
@@ -31,7 +31,7 @@ router.post('/', async (req, res) => {
 });
 
 router.put('/:id', async (req, res) => {
-    const author = await updateAuthor(Author, req.params.id, req.body);
+    const author = await updateInstance(Author, req.params.id, req.body);
 
     if (author) {
         res.type('json');

@@ -1,7 +1,7 @@
 import { ObjectLiteral, EntityTarget } from 'typeorm';
 import AppDataSource from '../dataSource.js';
 
-const deleteAuthor = async <T extends ObjectLiteral>(
+const deleteInstance = async <T extends ObjectLiteral>(
     entity: EntityTarget<T>,
     id: string,
 ) => {
@@ -15,4 +15,4 @@ const deleteAuthor = async <T extends ObjectLiteral>(
     ).affected;
 };
 
-export { deleteAuthor };
+export { deleteInstance };

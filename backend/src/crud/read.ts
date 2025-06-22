@@ -2,7 +2,7 @@ import { ObjectLiteral, EntityTarget } from 'typeorm';
 import AppDataSource from '../dataSource.js';
 import { Author } from '../entity/Author.js';
 
-const readById = <T extends ObjectLiteral>(
+const readInstance = <T extends ObjectLiteral>(
     entity: EntityTarget<T>,
     id: string,
 ) => {
@@ -12,8 +12,8 @@ const readById = <T extends ObjectLiteral>(
         .getOne();
 };
 
-const readAll = () => {
+const readInstanceAll = () => {
     return AppDataSource.manager.find(Author);
 };
 
-export { readById, readAll };
+export { readInstance, readInstanceAll };
