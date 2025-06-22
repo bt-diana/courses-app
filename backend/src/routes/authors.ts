@@ -3,7 +3,7 @@ import { Author } from '../entity/Author.js';
 import { readInstance, readInstanceAll } from '../crud/read.js';
 import { createInstance } from '../crud/create.js';
 import { updateInstance } from '../crud/update.js';
-import { deleteInstance } from 'crud/delete.js';
+import { deleteInstance } from '../crud/delete.js';
 
 const router = express.Router();
 
@@ -13,12 +13,20 @@ router.get('/', async (_, res) => {
 });
 
 router.get('/:id', async (req, res) => {
-    res.type('json');
-    res.send(await readInstance(Author, req.params.id));
+    const author = await readInstance(Author, req.params.id);
+
+    if (author) {
+        res.type('json');
+        res.send(author);
+    } else {
+        res.status(404);
+        res.type('text');
+        res.send('Could not find author with id=' + req.params.id);
+    }
 });
 
 router.post('/', async (req, res) => {
-    const author = createInstance(Author, req.body);
+    const author = await createInstance(Author, req.body);
 
     if (author) {
         res.status(201);
@@ -40,7 +48,7 @@ router.put('/:id', async (req, res) => {
     } else {
         res.status(404);
         res.type('text');
-        res.send('Could not find author with id' + req.params.id);
+        res.send('Could not find author with id=' + req.params.id);
     }
 });
 
@@ -51,7 +59,7 @@ router.delete('/:id', async (req, res) => {
     } else {
         res.status(404);
         res.type('text');
-        res.send('Could not find author with id' + req.params.id);
+        res.send('Could not find author with id=' + req.params.id);
     }
 });
 
