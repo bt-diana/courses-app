@@ -12,8 +12,6 @@ const getRelatedData = <T extends ObjectLiteral>(
         .loadMany();
 };
 
-export { getRelatedData };
-
 const readInstance = <T extends ObjectLiteral>(
     entity: EntityTarget<T>,
     id: string,
