@@ -6,8 +6,9 @@ import {
     readRelatedData,
 } from '../crud/read.js';
 import { createInstance, createRelationData } from '../crud/create.js';
-import { updateInstance } from '../crud/update.js';
+import { updateInstance, updateRelationData } from '../crud/update.js';
 import { deleteInstance } from '../crud/delete.js';
+import { omit } from '../utils/omit.js';
 
 const router = express.Router();
 
@@ -37,7 +38,8 @@ router.get('/:id', async (req, res) => {
 });
 
 router.post('/', async (req, res) => {
-    const course = await createInstance(Course, req.body);
+    const course = await createInstance(Course, omit(req.body, 'authors'));
+
     if (course) {
         await createRelationData(Course, 'authors', course, req.body.authors);
         course.authors = await readRelatedData(Course, 'authors', course);
@@ -49,17 +51,43 @@ router.post('/', async (req, res) => {
         res.status(400);
         res.type('text');
         res.send(
-            'Request body does not contain required fields ro containg wrong data type',
+            'Request body does not contain required fields or containg wrong data type',
         );
     }
 });
 
 router.put('/:id', async (req, res) => {
-    const course = await updateInstance(Course, req.params.id, req.body);
+    const course = await readInstance(Course, req.params.id);
 
     if (course) {
-        res.type('json');
-        res.send(course);
+        const updatedCourse =
+            (await updateInstance(
+                Course,
+                req.params.id,
+                omit(req.body, 'authors'),
+            )) ?? course;
+        await updateRelationData(
+            Course,
+            'authors',
+            updatedCourse,
+            req.body.authors,
+        );
+        updatedCourse.authors = await readRelatedData(
+            Course,
+            'authors',
+            updatedCourse,
+        );
+
+        if (updatedCourse) {
+            res.type('json');
+            res.send(updatedCourse);
+        } else {
+            res.status(400);
+            res.type('text');
+            res.send(
+                'Request body does not contain required fields or containg wrong data type',
+            );
+        }
     } else {
         res.status(404);
         res.type('text');
