@@ -8,11 +8,10 @@ const port = process.env.PORT;
 const coursesPath = process.env.API_COURSES_PATH!;
 const authorsPath = process.env.API_AUTHORS_PATH!;
 const appURL = process.env.APP_URL!;
-const appDevURL = process.env.APP_DEV_URL!;
 
 const app = express();
 const corsOptions = {
-    origin: [appURL, appDevURL],
+    origin: appURL,
 };
 
 app.use(express.json());
