@@ -24,7 +24,7 @@ export class Course {
     @Column()
     duration: number;
 
-    @ManyToMany(() => Author)
+    @ManyToMany(() => Author, { cascade: true, onDelete: 'RESTRICT' })
     @JoinTable()
     authors: Author[];
 }
