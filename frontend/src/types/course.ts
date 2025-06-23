@@ -4,7 +4,7 @@ export type CourseResource = {
   id: string;
   title: string;
   description: string;
-  creationDate: string;
+  creationDate: Date;
   duration: number;
   authors: Author[];
 };
