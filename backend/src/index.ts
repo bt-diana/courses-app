@@ -1,6 +1,7 @@
 import express from 'express';
-import coursesRouter from './routes/courses.js';
-import authorsRouter from './routes/authors.js';
+import { getRouter } from './router.js';
+import { Author } from './entity/Author.js';
+import { Course } from './entity/Course.js';
 import cors from 'cors';
 import 'dotenv/config';
 
@@ -16,8 +17,8 @@ const corsOptions = {
 
 app.use(express.json());
 app.use(cors(corsOptions));
-app.use(coursesPath, coursesRouter);
-app.use(authorsPath, authorsRouter);
+app.use(coursesPath, getRouter(Course));
+app.use(authorsPath, getRouter(Author));
 
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
