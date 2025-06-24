@@ -119,6 +119,7 @@ By default, the backend will be available at https://localhost:4000
 - Context API
 - Ant Design (Antd)
 - Vite
+- Dotenv
 - Jest + React Testing Library
 
 ### Backend
@@ -126,6 +127,7 @@ By default, the backend will be available at https://localhost:4000
 - Express
 - TypeORM + PostgreSQL
 - Dotenv
+- Docker
 
 ## License
 
