@@ -1,5 +1,5 @@
-import { Course } from './entity/Course.js';
-import { Author } from './entity/Author.js';
+import { Course } from '../entity/Course.js';
+import { Author } from '../entity/Author.js';
 import AppDataSource from './dataSource.js';
 
 const authors = [

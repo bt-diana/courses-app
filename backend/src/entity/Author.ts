@@ -12,7 +12,7 @@ export class Author {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
+    @Column({ nullable: false })
     name: string;
 
     @ManyToMany(() => Course, (course) => course.authors, {

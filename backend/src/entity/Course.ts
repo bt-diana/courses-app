@@ -12,19 +12,22 @@ export class Course {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
+    @Column({ nullable: false })
     title: string;
 
-    @Column('text')
+    @Column('text', { nullable: false })
     description: string;
 
-    @Column()
+    @Column({ nullable: false })
     creationDate: Date;
 
-    @Column()
+    @Column({ nullable: false })
     duration: number;
 
-    @ManyToMany(() => Author, (author) => author.courses, { cascade: true })
+    @ManyToMany(() => Author, (author) => author.courses, {
+        nullable: false,
+        cascade: true,
+    })
     @JoinTable()
     authors: Author[];
 }

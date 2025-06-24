@@ -1,7 +1,7 @@
 import 'reflect-metadata';
 import { DataSource } from 'typeorm';
-import { Course } from './entity/Course.js';
-import { Author } from './entity/Author.js';
+import { Course } from '../entity/Course.js';
+import { Author } from '../entity/Author.js';
 import 'dotenv/config';
 
 const dbUser = process.env.DB_USER;
