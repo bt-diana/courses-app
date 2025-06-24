@@ -27,12 +27,17 @@ Password: `emilyspass`
 
 ## API Endpoints
 
-- `GET /api/courses` – Get all courses  
-- `POST /api/courses` – Create a new course  
-- `PUT /api/courses/:id` – Update a course  
-- `DELETE /api/courses/:id` – Delete a course  
-- `GET /api/authors` – Get all authors  
-- `POST /api/authors` – Add a new author
+| Method | Endpoint              | Description              |
+|--------|-----------------------|--------------------------|
+| GET    | /api/courses          | Get all courses          |
+| POST   | /api/courses          | Create a new course      |
+| PUT    | /api/courses/:id      | Update a course          |
+| DELETE | /api/courses/:id      | Delete a course          |
+| GET    | /api/authors          | Get all authors          |
+| POST   | /api/authors          | Add a new author         |
+| PUT    | /api/authors/:id      | Update an author         |
+| DELETE | /api/authors/:id      | Delete an author         |
+
 
 ## Getting Started
 
