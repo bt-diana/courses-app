@@ -22,7 +22,7 @@ const updateRelationData = async <T extends ObjectLiteral>(
 const updateInstance = async <T extends ObjectLiteral>(
     entity: ObjectType<T>,
     id: string,
-    data: Omit<EntityTarget<T>, 'id'>,
+    data: Omit<ObjectType<T>, 'id'>,
 ) => {
     if (
         (

@@ -16,7 +16,7 @@ const createRelationData = <T extends ObjectLiteral>(
 
 const createInstance = async <T extends ObjectLiteral>(
     entity: ObjectType<T>,
-    data: Omit<EntityTarget<T>, 'id'>,
+    data: Omit<ObjectType<T>, 'id'>,
 ) => {
     const newAuthorId = (
         await AppDataSource.manager
