@@ -1,3 +1,5 @@
+import https from 'https';
+import { readFileSync } from 'fs';
 import express from 'express';
 import { getRouter } from './router.js';
 import { Author } from './entity/Author.js';
@@ -11,6 +13,10 @@ const authorsPath = process.env.API_AUTHORS_PATH!;
 const appURL = process.env.APP_URL!;
 
 const app = express();
+const options = {
+    key: readFileSync('server.key'),
+    cert: readFileSync('server.cert'),
+};
 const corsOptions = {
     origin: appURL,
 };
@@ -20,6 +26,6 @@ app.use(cors(corsOptions));
 app.use(coursesPath, getRouter(Course));
 app.use(authorsPath, getRouter(Author));
 
-app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
+https.createServer(options, app).listen(port, () => {
+    console.log(`HTTPS Server running on port ${port}`);
 });
