@@ -1,14 +1,15 @@
 import type { ObjectLiteral, ObjectType } from 'typeorm';
 import AppDataSource from '../dataSource/dataSource.js';
+import { getEntityRelations } from '../utils/getEntityFileds.js';
 
 const readRelationData = <T extends ObjectLiteral>(
     entity: ObjectType<T>,
     relation: string,
-    instance: T,
+    id: string,
 ) => {
     return AppDataSource.createQueryBuilder()
         .relation(entity, relation)
-        .of(instance)
+        .of(id)
         .loadMany();
 };
 
@@ -16,14 +17,18 @@ const readInstance = <T extends ObjectLiteral>(
     entity: ObjectType<T>,
     id: string,
 ) => {
-    return AppDataSource.manager
-        .createQueryBuilder(entity, 'entity')
-        .where('entity.id = :id', { id: id })
-        .getOne();
+    return AppDataSource.getRepository(entity).findOne({
+        where: { id: id as T[keyof T] },
+        relations: getEntityRelations(entity),
+    });
 };
 
 const readInstanceAll = <T extends ObjectLiteral>(entity: ObjectType<T>) => {
-    return AppDataSource.manager.find(entity);
+    const relations = getEntityRelations(entity);
+
+    return AppDataSource.getRepository(entity).find({
+        relations,
+    });
 };
 
 export { readInstance, readInstanceAll, readRelationData };
