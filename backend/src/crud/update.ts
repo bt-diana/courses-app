@@ -1,4 +1,4 @@
-import { ObjectType, ObjectLiteral } from 'typeorm';
+import type { ObjectType, ObjectLiteral } from 'typeorm';
 import AppDataSource from '../dataSource/dataSource.js';
 import { readInstance, readRelationData } from './read.js';
 
