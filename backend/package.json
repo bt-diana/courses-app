@@ -7,7 +7,7 @@
    "scripts": {
       "start:dev": "nodemon -I --exec node --loader ts-node/esm ./src/index.ts",
       "start:prod": "npx tsc --project ./tsconfig.json && node ./dist/index.js",
-      "data:init": "node --loader ts-node/esm ./src/initData.ts",
+      "data:init": "node --loader ts-node/esm ./src/dataSource/initData.ts",
       "typeorm": "typeorm-ts-node-esm"
    },
    "repository": {

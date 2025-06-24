@@ -1,5 +1,5 @@
 import { EntityTarget, ObjectLiteral } from 'typeorm';
-import AppDataSource from '../dataSource.js';
+import AppDataSource from '../dataSource/dataSource.js';
 import { readInstance } from './read.js';
 
 const createRelationData = <T extends ObjectLiteral>(

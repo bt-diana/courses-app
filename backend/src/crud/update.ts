@@ -1,5 +1,5 @@
 import { EntityTarget, ObjectLiteral } from 'typeorm';
-import AppDataSource from '../dataSource.js';
+import AppDataSource from '../dataSource/dataSource.js';
 import { readInstance, readRelationData } from './read.js';
 
 const updateRelationData = async <T extends ObjectLiteral>(
