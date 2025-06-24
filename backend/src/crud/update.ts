@@ -1,9 +1,9 @@
-import { EntityTarget, ObjectLiteral } from 'typeorm';
+import { ObjectType, ObjectLiteral } from 'typeorm';
 import AppDataSource from '../dataSource/dataSource.js';
 import { readInstance, readRelationData } from './read.js';
 
 const updateRelationData = async <T extends ObjectLiteral>(
-    entity: EntityTarget<T>,
+    entity: ObjectType<T>,
     relation: string,
     instance: T,
     relationData: unknown,
@@ -20,7 +20,7 @@ const updateRelationData = async <T extends ObjectLiteral>(
 };
 
 const updateInstance = async <T extends ObjectLiteral>(
-    entity: EntityTarget<T>,
+    entity: ObjectType<T>,
     id: string,
     data: Omit<EntityTarget<T>, 'id'>,
 ) => {

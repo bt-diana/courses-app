@@ -1,8 +1,8 @@
-import { ObjectLiteral, EntityTarget } from 'typeorm';
+import { ObjectLiteral, ObjectType } from 'typeorm';
 import AppDataSource from '../dataSource/dataSource.js';
 
 const deleteInstance = async <T extends ObjectLiteral>(
-    entity: EntityTarget<T>,
+    entity: ObjectType<T>,
     id: string,
 ) => {
     return !!(
