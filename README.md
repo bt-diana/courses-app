@@ -1,10 +1,10 @@
-# Courses Web-Application
+# Courses Web-Application (Fullstack)
 
 This project is a **web application for searching, creating, and editing courses**.
 
-The main goal of the project was to gain practical experience in building a **React application** with modern tools and libraries, such as **Ant Design**, **Redux Toolkit**, and **asynchronous API handling** via `createAsyncThunk`. Users are fetched from [dummy json](https://dummyjson.com/docs/auth). All other data is fetched from a [mock API](https://mockapi.io/).
+The main goal of the project was to gain practical experience in building a **full-stack React + Node.js application**. The frontend is built with **React**, **Redux Toolkit**, and **Ant Design**, while the backend is a custom-built **Node.js** server built with **Express**, **TypeORM (PostgreSQL)** and **HTTPS** support for secure communication.
 
-This web app was developed as part of a training project during the [RS EPAM Short Track Course](https://pr755.rs.school/courses/short-track) by The Rolling Scopes School.
+The frontend part was developed as part of a training project during the [RS EPAM Short Track Course](https://pr755.rs.school/courses/short-track) by The Rolling Scopes School.
 
 [Demo](https://fanciful-wisp-7ee5e5.netlify.app/)  
 Login: `emilys`  
@@ -25,6 +25,15 @@ Password: `emilyspass`
 ### Course Info Page
 - **Course Details:** View full information about a selected course, including description, duration, authors, and creation date.
 
+## API Endpoints
+
+- `GET /api/courses` – Get all courses  
+- `POST /api/courses` – Create a new course  
+- `PUT /api/courses/:id` – Update a course  
+- `DELETE /api/courses/:id` – Delete a course  
+- `GET /api/authors` – Get all authors  
+- `POST /api/authors` – Add a new author
+
 ## Getting Started
 
 To run the app locally:
@@ -35,35 +44,83 @@ To run the app locally:
   git clone https://github.com/bt-diana/courses-app.git
   ```
 
-2. Navigate to the project directory:
+### Fronted Setup
+
+1. Navigate to the project directory:
 
   ```bash
   cd courses-app/frontend
   ```
 
-3. Install dependencies:
+2. Install dependencies:
 
   ```bash
   npm install
   ```
 
-4. To builds the project and start a local web server run the following commands:
+3. Create a .env file by copying the provided example:
+   
+  ```bash
+  cp .env.example .env
+  ```
+
+4. Adjust the `VITE_API_URL` in .env if necessary
+
+5. To builds the project and start a local web server run the following commands:
 
   ```bash
   npm run build
   npm run preview
   ```
 
-5. Open the app in your browser at http://localhost:5173
+4. Open the app in your browser at http://localhost:5173
+
+### Backend Setup
+
+1. Navigate to the project directory:
+
+  ```bash
+  cd cd courses-app/backend
+  ```
+
+2. Install dependencies:
+
+  ```bash
+  npm install
+  ```
+
+3. Create a .env file by copying the provided example:
+
+  ```bash
+  cp .env.example .env
+  ```
+
+4. Fill in your environment variables in .env.
+
+5. Build and start the backend server:
+
+  ```bash
+  npm run start:build
+  npm run start:prod
+  ```
+
+By default, the backend will be available at https://localhost:4000
 
 ## Technologies Used
 
+### Frontend
 - React + TypeScript
-- Context API
 - Redux Toolkit
+- Context API
 - Ant Design (Antd)
-- Jest + React Testing Library
 - Vite
+- Jest + React Testing Library
+
+### Backend
+- Node.js
+- Express
+- TypeORM + PostgreSQL
+- Dotenv
 
 ## License
 
