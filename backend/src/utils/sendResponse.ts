@@ -1,5 +1,5 @@
 import type { Response } from 'express';
-import { ObjectType, ObjectLiteral } from 'typeorm';
+import { ObjectLiteral } from 'typeorm';
 
 enum StatusCode {
     success = 200,
@@ -11,7 +11,7 @@ enum StatusCode {
 }
 
 enum Message {
-    invalidBody = 'Request body does not contain required fields or contain wrong data type',
+    invalidBody = 'Request body does not contain required fields',
     resourceNotFound = 'Resource does not exist',
     instanceNotFound = "Instance with provided id doesn't exist",
     deletionRestricted = 'Could not delete instance',
