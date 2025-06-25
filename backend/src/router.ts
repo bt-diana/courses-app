@@ -10,16 +10,21 @@ import {
     hasEntityRelations,
 } from './utils/hasEntityFileds.js';
 
+enum Endpoints {
+    root = '/',
+    id = '/:id',
+}
+
 const getRouter = <T extends ObjectLiteral>(entity: ObjectType<T>) => {
     const router = express.Router();
 
-    router.get('/', async (_, res) => {
+    router.get(Endpoints.root, async (_, res) => {
         res.type('json');
         const courses = await readInstanceAll(entity);
         sendResponse(res, StatusCode.success, courses);
     });
 
-    router.get('/:id', async (req, res) => {
+    router.get(Endpoints.id, async (req, res) => {
         const course = await readInstance(entity, req.params.id);
 
         if (course) {
@@ -29,7 +34,7 @@ const getRouter = <T extends ObjectLiteral>(entity: ObjectType<T>) => {
         }
     });
 
-    router.post('/', async (req, res) => {
+    router.post(Endpoints.root, async (req, res) => {
         if (
             hasEntityFileds(entity, req.body, true) &&
             hasEntityRelations(entity, req.body, true)
@@ -41,7 +46,7 @@ const getRouter = <T extends ObjectLiteral>(entity: ObjectType<T>) => {
         }
     });
 
-    router.put('/:id', async (req, res) => {
+    router.put(Endpoints.id, async (req, res) => {
         if (
             hasEntityFileds(entity, req.body, true) &&
             hasEntityRelations(entity, req.body, true)
@@ -66,7 +71,7 @@ const getRouter = <T extends ObjectLiteral>(entity: ObjectType<T>) => {
         }
     });
 
-    router.delete('/:id', async (req, res) => {
+    router.delete(Endpoints.id, async (req, res) => {
         if (await readInstance(entity, req.params.id)) {
             if (await deleteInstance(entity, req.params.id)) {
                 sendResponse(res, StatusCode.deleted);
